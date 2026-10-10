@@ -378,6 +378,20 @@ stärker als in der Kontrolle).** Die Lesart muss aber vorsichtig sein:
   2,93 → 2,90. Einschränkung: p liegt an der Untergrenze 1,0001, dort ist die Normalapproximation
   schlecht (23–27 % der Ziehungen an der Grenze); die Modellunsicherheit (tmax, Startjahr, siehe
   oben) ist viel größer als diese Parameterunsicherheit.
+* **Explorativ, Netzänderungen als Störgröße** (`h21_network_models.csv`,
+  `h21_network_covariates.csv`; Jahresdifferenz d_y = log µ_SE − log µ_Inner, OLS über 1995–2025).
+  Nur der Trend: +0,41 ± 0,09 pro Jahrzehnt (OLS-SE, ohne Faktor). Mit Δ Jahres-Mc als Kovariate:
+  +0,39 ± 0,09. Nur Jahre, in denen beide Kataloge bei Mc_ref vollständig sind (28 Jahre): +0,37 ± 0,10.
+  Mit Δ log(1 + Stationszahl), aus den FDSN-Metadaten von EarthScope:
+  * permanente Netze: +0,38 ± 0,10;
+  * alle Netze inkl. temporärer Arrays: **+0,25 ± 0,13** (z ≈ 1,9).
+
+  Die Kovariaten erklären den Trend also nur teilweise. Die Stationszahl ist ein grober Proxy: Die
+  FDSN-Metadaten enthalten vor 2000 kaum die damaligen Kurzperioden-Stationen des AEC (SE-Alaska 2
+  Stationen 1995–1998). Temporäre Netze speisten den Katalog nicht unbedingt. Das Jahres-Mc
+  (MAXC + 0,2) erfasst Lücken in der Vollständigkeit nur grob. Ein Netzartefakt ist damit
+  **weder bestätigt noch ausgeschlossen**. Die stärkere Evidenz bleibt der Zusammenbruch des Effekts
+  ab 2003 und bei tmax 3 a (siehe oben).
 * Fazit: Der präregistrierte H2.1-Test ist formal positiv (die Entscheidungsregel wurde korrekt
   ausgelöst). Der Effekt ist jedoch nicht robust gegen die Beschränkung auf die katalogisch
   homogenere Zeit ab 2003 und gegen einen längeren Triggerhorizont (tmax 3 a). Zusammen mit dem
@@ -432,7 +446,7 @@ eindeutig (Abschnitt 2 „Modell und Schätzer (H2, C2)“ nennt × 1,25; Abschn
 und `confirmatory_v02.py` enthalten ihn nicht). Außerdem vergleicht C2 ein Mittel jährlicher
 log µ_y (Baseline) mit dem log eines gepoolten µ-MLE (Fenster). Beides ist **nicht geändert**;
 ein datierter Nachtragsvorschlag und eine explorative Nullsimulation der eingefrorenen
-C2-Prozedur stehen in [`PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md`](PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md).
+C2-Prozedur stehen in [`PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md`](PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md).
 
 ## M3 – Körpergezeit (`m3_tides.csv`, Chart 20)
 

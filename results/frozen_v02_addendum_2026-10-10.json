@@ -1,0 +1,54 @@
+{
+ "frozen_on": "2026-10-10",
+ "type": "dated addendum to the v0.2 preregistration (PREREGISTRATION_v0.2.md section 8)",
+ "document": "PREREGISTRATION_v0.2_NACHTRAG.md",
+ "decided_by": "J. Roemer (GenesisAeon), 2026-10-10, after review round 1 of PR #1",
+ "package_version": "0.2.0",
+ "amends_files_sha256_unchanged": {
+  "results/frozen_v02_preregistration.json": "af7a5d02b6d81e37ba989058968f913e5e821876f98926dcca924560d3d927d3",
+  "results/frozen_v02_baselines.json": "e2fc568c93622c97607c122c210ed5fcccace0d2440b8cd420fddd931be9f401",
+  "PREREGISTRATION_v0.2.md": "122b1c754a912197776eb71d5c332dba93bef52524b3bf5a2118a02d0f71a404",
+  "results/frozen_confirmatory_parameters.json": "5bccd4cab0ba2d0143c4736c44355b24b6eb6356ca82ba0419fff22c71b4b3cb",
+  "results/frozen_monitoring_indicators.json": "8ae57131325eda3ffb855f0437a649eb5adb0a32ae4e2fd0ec35f515cb87fb0f"
+ },
+ "A1_C2_se_factor": {
+  "rule": "C2 uses the frozen JSON formula C2.se WITHOUT the H2 factor 1.25 (no change of the frozen statistic).",
+  "clarification": "The SE factor 1.25 in PREREGISTRATION_v0.2.md section 2 ('Modell und Schaetzer (H2, C2)') applies to the retrospective H2 standard errors only, not to C2 or M6.",
+  "evidence": "null simulations of the frozen C2 procedure (Claude Code 2x300, Grok Bot n=100): level held or conservative"
+ },
+ "A2_C2_reference": {
+  "rule": "mu_ref and sigma_year stay as frozen in results/frozen_v02_baselines.json (mean of yearly log mu 2016-2025).",
+  "considered_and_rejected": "symmetric mu_ref as constant-mu MLE 2016-2025 (mu_window_mle): rejected, because the null simulations show no offset of D (Jensen offset of ~0.05 expected for pure log-normal year-to-year scatter is not observed); readability alone does not justify a new baseline file."
+ },
+ "A3_C2_looks": {
+  "rule": "The look ends in the frozen JSON are inclusive last data days (2029-12-31, 2036-12-31); data windows are [2027-01-01, 2030-01-01) and [2027-01-01, 2037-01-01); in decimal years the exclusive ends 2030.0 and 2037.0. Any other look end is not a planned look (confirmatory_v02.resolve_look raises).",
+  "alpha": {
+   "2030.0": 0.01,
+   "2037.0": 0.04
+  }
+ },
+ "A4_operating_rules": {
+  "catalogue_snapshot": "At each look (and each yearly monitoring review) the catalogue extract of every region used is archived (Zenodo, with the retrieval date (UTC), query URL/parameters and SHA-256 of the file) before the statistic is computed; magnitudes are taken as reported at retrieval and documented by the archived file.",
+  "homogeneity_criteria": "Yearly Mc (MAXC+0.2 and EMR, dm 0.1) is reported for every window year and both regions of a pair. If any of them exceeds Mc_ref + 0.2 in any window year, the look is additionally computed with a common Mc raised to that value and flagged 'homogeneity questionable'; the decision remains the frozen statistic at Mc_ref. Known network changes (station lists of the networks feeding the catalogue, from FDSN station metadata) are reported.",
+  "serial_correlation": "The lag-1 autocorrelation of the reference-period yearly log mu (2016-2025) is reported with each look (descriptive).",
+  "history_events": "All events >= Mc_ref in [2026-01-01, 2027-01-01) (= tmax 1 yr before the window) are used as triggering history only; at later looks all events from 2026-01-01 on.",
+  "mu_window_mle_numerics": "Brent root finding with SciPy default tolerances on the bracket (1e-9, n/T + 1), as in the code of release v0.2.0.",
+  "software": "Code of release v0.2.0 (git tag v0.2.0 and its Zenodo DOI); the Python and package versions (pip freeze) of the run are archived with every look. A later code version may be used only if it reproduces the v0.2.0 result on the archived snapshot to within 1e-6 in D and SE."
+ },
+ "A5_H2_se_factor_erratum": {
+  "rule": "The frozen H2 SE factor 1.25 stays unchanged. Erratum E1 (calibration windows/geometry; production-faithful recalibration 1.18-1.30 for the window ratio, up to 1.42 as 90 % upper bound; trend <= 1.11) is published with v0.2.0; the H2.2 intervals are to be read as somewhat too narrow.",
+  "no_decision_changes_below_factor": 1.56
+ },
+ "A6_M7_tides": {
+  "rule": "From 2027-01-01, M7 uses the Tanaka phase of the degree-2 body-tide areal strain with IERS Conventions 2010 nominal Love numbers h = 0.6078, l = 0.0847 (2h - 6l = 0.7074), extremum search window +-20 h, 5-min grid (confirmatory_v02.m7_tidal_flag). Flag rule unchanged: Schuster p < 0.01 with N >= 200 declustered events.",
+  "ocean_loading": "not part of M7; may be reported descriptively next to M7.",
+  "H3": "the retrospective H3 (body tide, frozen Love numbers, +-14 h as run) is not re-decided."
+ },
+ "A7_reading_notes": {
+  "mu_y": "mu_y is the ETAS residual background rate, not an identified forcing rate ('statt durch sinkenden Antrieb' in section 4 reads 'statt durch einen sinkenden ETAS-Residual-Hintergrund').",
+  "kumazawa_ogata": "'Idee: Kumazawa & Ogata 2013' = inspired by; not a reimplementation (there: smooth mu(t) and K0(t), ABIC, change points).",
+  "H3_scope": "H3 tests correlation with the phase of the degree-2 body-tide areal strain only.",
+  "stage1_uncertainty": "H2 standard errors are conditional on the stage-1 triggering parameters (exploratory propagation: +1-2 %); no change."
+ },
+ "change_rules": "This addendum is frozen with its SHA-256 in PREREGISTRATION_v0.2_NACHTRAG.md and archived on Zenodo with v0.2.0 before 2027-01-01. After 2027-01-01 no C2 rule is changed."
+}

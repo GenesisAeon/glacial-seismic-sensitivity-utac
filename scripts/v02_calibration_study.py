@@ -4,7 +4,7 @@
 preregistered, H2.2 windows WIN_A / WIN_B. All geometry constants are imported from ``v02`` so the
 calibration cannot drift from production again (tests/test_v02_scripts.py checks this).
 
-Erratum history (see docs/PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md, E1):
+Erratum history (see docs/PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md, E1):
 * first run (results/v02/calibration_study.csv): windows passed as (2008, 2019)/(2020, 2025) to the
   half-open ``window_ratio`` (= 2008-2018 vs 2020-2024), fit 1995-2024, no history, true p 1.15
   (Codex review; Claude Code review B1);

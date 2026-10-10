@@ -17,6 +17,7 @@ import pandas as pd
 from scipy import stats
 
 from . import etas_nonstat as E
+from . import tides as T
 
 WINDOW_START = 2027.0
 LOOKS = ((2030.0, 0.01), (2037.0, 0.04))  # exclusive ends: data to 2029-12-31 / 2036-12-31
@@ -106,4 +107,38 @@ def evaluate_pair(
         p_one=p,
         alpha=alpha,
         reject=bool(np.isfinite(alpha) and p < alpha),
+    )
+
+
+# ---------------------------------------------------------------------------
+# M7 (monitoring, from 2027-01-01) - settings frozen by the addendum of 2026-10-10
+# (PREREGISTRATION_v0.2_NACHTRAG.md, results/frozen_v02_addendum.json, item A6)
+# ---------------------------------------------------------------------------
+M7_HALF_WINDOW_H = 20.0
+M7_STEP_MIN = 5.0
+M7_MIN_EVENTS = 200
+M7_P_FLAG = 0.01
+
+
+def m7_tidal_flag(t_decyr: np.ndarray, lat: np.ndarray, lon: np.ndarray) -> dict[str, float]:
+    """M7: Schuster test on the Tanaka phase of the degree-2 body-tide areal strain with IERS 2010
+    nominal Love numbers, +-20 h extremum search, 5-min grid; flag if N >= 200 and p < 0.01.
+    Input: declustered events (frozen v0.1 NN threshold) of one test region in the new window."""
+    ph, _ = T.tidal_phase(
+        t_decyr,
+        lat,
+        lon,
+        half_window_h=M7_HALF_WINDOW_H,
+        step_min=M7_STEP_MIN,
+        strain_factor=T.STRAIN_FACTOR_IERS2010,
+    )
+    sch = T.schuster(ph)
+    n = sch["n"]
+    flag = bool(n >= M7_MIN_EVENTS and sch["p"] < M7_P_FLAG)
+    return dict(
+        n=n,
+        p=sch["p"],
+        a_hat=sch["a_hat"],
+        nan_frac=float(np.mean(~np.isfinite(ph))),
+        flag=float(flag),
     )

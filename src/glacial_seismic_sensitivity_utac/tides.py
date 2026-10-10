@@ -22,6 +22,8 @@ Scope and limitations (also in docs/METHODS_v02.md):
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import numpy as np
 from scipy import stats
 
@@ -180,9 +182,14 @@ def tidal_potential_w2(jd: np.ndarray, lat: np.ndarray, lon: np.ndarray) -> np.n
     return out
 
 
-def areal_strain(jd: np.ndarray, lat: np.ndarray, lon: np.ndarray) -> np.ndarray:
-    """Horizontal areal body-tide strain at the surface (dimensionless, tension positive)."""
-    return np.asarray(STRAIN_FACTOR * tidal_potential_w2(jd, lat, lon) / (G_SURF * A_EARTH))
+def areal_strain(
+    jd: np.ndarray, lat: np.ndarray, lon: np.ndarray, strain_factor: float = STRAIN_FACTOR
+) -> np.ndarray:
+    """Horizontal areal body-tide strain at the surface (dimensionless, tension positive).
+
+    ``strain_factor`` = 2h - 6l; default: frozen v0.2 H3 values (h 0.6114, l 0.0832, the SPOTL
+    ``loadcomb`` body-tide values); M7 from 2027 uses IERS 2010 (addendum 2026-10-10)."""
+    return np.asarray(strain_factor * tidal_potential_w2(jd, lat, lon) / (G_SURF * A_EARTH))
 
 
 def tidal_phase(
@@ -192,13 +199,19 @@ def tidal_phase(
     half_window_h: float = 14.0,
     step_min: float = 5.0,
     chunk: int = 2000,
+    extra_strain: Callable[[np.ndarray, np.ndarray], np.ndarray] | None = None,
+    strain_factor: float = STRAIN_FACTOR,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Tanaka-type phase [deg, -180..180] and strain amplitude at each event (local site).
 
     The search window ``half_window_h`` (+-14 h, used for the v0.2 H3 run) is a code default, not
     part of the frozen preregistration. With +-14 h, 1-3 % of events get no phase (NaN) because the
     bracketing extrema of the diurnal-dominated strain at high latitude lie outside the window
-    (review K1, Claude Code); +-20 h leaves none (``scripts/v02_m3_window20.py``)."""
+    (review K1, Claude Code); +-20 h leaves none (``scripts/v02_m3_window20.py``).
+
+    ``extra_strain(jd_grid, idx)`` (optional, exploratory) returns an additional areal strain
+    (dimensionless, tension positive) on the time grid ``jd_grid`` (shape n_idx x n_offsets) for
+    the events ``idx``, e.g. the ocean-load strain; the phase is then that of body + extra."""
     jd = decyear_to_jd(np.asarray(t_decyr, float))
     lat = np.broadcast_to(np.asarray(lat, float), jd.shape)
     lon = np.broadcast_to(np.asarray(lon, float), jd.shape)
@@ -209,30 +222,41 @@ def tidal_phase(
     for s in range(0, len(jd), chunk):
         sl = slice(s, s + chunk)
         J = jd[sl, None] + off[None, :]
-        E = areal_strain(J, lat[sl, None], lon[sl, None])
-        amp[sl] = areal_strain(jd[sl], lat[sl], lon[sl])
-        d = np.diff(E, axis=1)
-        sgn = np.sign(d)
-        # extremum at sample k if slope changes sign between k-1 and k
-        ext = np.zeros_like(E, dtype=int)
-        ext[:, 1:-1] = np.where(
-            (sgn[:, :-1] > 0) & (sgn[:, 1:] <= 0),
-            1,
-            np.where((sgn[:, :-1] < 0) & (sgn[:, 1:] >= 0), -1, 0),
-        )
-        for r in range(E.shape[0]):
-            ks = np.nonzero(ext[r])[0]
-            prev = ks[ks <= k0]
-            nxt = ks[ks > k0]
-            if len(prev) == 0 or len(nxt) == 0:
-                continue
-            a, b = prev[-1], nxt[0]
-            frac = (off[k0] - off[a]) / (off[b] - off[a])
-            if ext[r, a] == 1 and ext[r, b] == -1:
-                phase[s + r] = 180.0 * frac
-            elif ext[r, a] == -1 and ext[r, b] == 1:
-                phase[s + r] = -180.0 + 180.0 * frac
+        E = areal_strain(J, lat[sl, None], lon[sl, None], strain_factor)
+        if extra_strain is not None:
+            E = E + extra_strain(J, np.arange(len(jd))[sl])
+        amp[sl] = E[:, k0]
+        phase[sl] = phase_from_series(E, off, k0)
     return phase, amp
+
+
+def phase_from_series(E: np.ndarray, off: np.ndarray, k0: int) -> np.ndarray:
+    """Tanaka phase at sample ``k0`` of each row of ``E`` (0 deg = maximum extension,
+    +-180 deg = maximum compression, negative while strain is rising); NaN if an extremum is
+    missing on either side."""
+    d = np.diff(E, axis=1)
+    sgn = np.sign(d)
+    # extremum at sample k if slope changes sign between k-1 and k
+    ext = np.zeros_like(E, dtype=int)
+    ext[:, 1:-1] = np.where(
+        (sgn[:, :-1] > 0) & (sgn[:, 1:] <= 0),
+        1,
+        np.where((sgn[:, :-1] < 0) & (sgn[:, 1:] >= 0), -1, 0),
+    )
+    out = np.full(E.shape[0], np.nan)
+    for r in range(E.shape[0]):
+        ks = np.nonzero(ext[r])[0]
+        prev = ks[ks <= k0]
+        nxt = ks[ks > k0]
+        if len(prev) == 0 or len(nxt) == 0:
+            continue
+        a, b = prev[-1], nxt[0]
+        frac = (off[k0] - off[a]) / (off[b] - off[a])
+        if ext[r, a] == 1 and ext[r, b] == -1:
+            out[r] = 180.0 * frac
+        elif ext[r, a] == -1 and ext[r, b] == 1:
+            out[r] = -180.0 + 180.0 * frac
+    return out
 
 
 def schuster(phase_deg: np.ndarray) -> dict[str, float]:

@@ -135,3 +135,35 @@ def test_c2_evaluate_pair_same_decision_for_equivalent_looks() -> None:
         C2.evaluate_pair(cat_g, cat_c, bl, 2029.0)
     m = C2.evaluate_pair(cat_g, cat_c, bl, 2029.0, allow_unplanned=True)
     assert not m["reject"] and np.isnan(m["alpha"])
+
+
+ADDENDUM = ROOT / "results" / "frozen_v02_addendum_2026-10-10.json"
+
+
+def test_addendum_hash_matches_document_and_earlier_files_unchanged() -> None:
+    text = (ROOT / "PREREGISTRATION_v0.2_NACHTRAG.md").read_text(encoding="utf-8")
+    m = re.search(r"SHA-256 `([0-9a-f]{64})`", text)
+    assert m is not None and m.group(1) == _sha(ADDENDUM)
+    d = json.loads(ADDENDUM.read_text(encoding="utf-8"))
+    for rel, h in d["amends_files_sha256_unchanged"].items():
+        assert _sha(ROOT / rel) == h, f"{rel} changed after the addendum"
+
+
+def test_addendum_rules_match_code() -> None:
+    d = json.loads(ADDENDUM.read_text(encoding="utf-8"))
+    assert {float(k): v for k, v in d["A3_C2_looks"]["alpha"].items()} == dict(C2.LOOKS)
+    assert "WITHOUT" in d["A1_C2_se_factor"]["rule"]
+    assert C2.M7_HALF_WINDOW_H == 20.0 and C2.M7_MIN_EVENTS == 200 and C2.M7_P_FLAG == 0.01
+    assert "0.6078" in d["A6_M7_tides"]["rule"] and "0.0847" in d["A6_M7_tides"]["rule"]
+
+
+def test_m7_uses_iers_love_numbers_and_flags_only_with_enough_events() -> None:
+    from glacial_seismic_sensitivity_utac import tides as T
+
+    rng = np.random.default_rng(3)
+    t = 2027 + rng.uniform(0, 1, 150)
+    r = C2.m7_tidal_flag(t, 59.5, -139.0)
+    assert r["nan_frac"] == 0.0 and r["flag"] == 0.0  # N < 200 never flags
+    ph_i, amp_i = T.tidal_phase(t[:5], 59.5, -139.0, 20.0, strain_factor=T.STRAIN_FACTOR_IERS2010)
+    ph_f, amp_f = T.tidal_phase(t[:5], 59.5, -139.0, 20.0)
+    assert np.allclose(ph_i, ph_f) and np.allclose(amp_i / amp_f, 0.7074 / 0.7236, atol=1e-3)

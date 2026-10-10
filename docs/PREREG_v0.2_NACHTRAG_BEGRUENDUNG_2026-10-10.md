@@ -1,13 +1,13 @@
-# ENTWURF – Nachtrag/Abweichungsnotiz zur Präregistrierung v0.2 (Stand 2026-10-10)
+# Begründung zum Nachtrag der Präregistrierung v0.2 (2026-10-10)
 
-> **Status: ENTWURF, NICHT IN KRAFT, NICHT EINGEFROREN.** Diese Datei ändert weder
-> `results/frozen_v02_preregistration.json` (SHA-256 `af7a5d02…d927d3`) noch
-> `results/frozen_v02_baselines.json` (SHA-256 `e2fc568c…be9f401`) noch irgendeine v0.1.0-Datei.
-> Sie sammelt die Punkte aus den Reviews zu PR #1, die **nur über einen datierten Nachtrag**
-> (Präregistrierung Abschnitt 8) umgesetzt werden könnten, mit Belegen und Empfehlung.
-> **Entscheidung: J. Römer.** Ein angenommener Nachtrag muss als eigene Datei mit eigenem
-> JSON-Hash **vor dem 2027-01-01** eingefroren und (mit v0.2.0) auf Zenodo archiviert werden.
-> Danach werden C2-Regeln nicht mehr geändert.
+> **Status:** Belege und Abwägungen zu den Review-Punkten von PR #1. Diese Datei war bis zum
+> 2026-10-10 der *Entwurf*. **Verbindlich** ist allein der in Kraft gesetzte Nachtrag
+> [`../PREREGISTRATION_v0.2_NACHTRAG.md`](../PREREGISTRATION_v0.2_NACHTRAG.md) mit
+> `results/frozen_v02_addendum_2026-10-10.json` (SHA-256 dort). J. Römer hat am 2026-10-10 alle
+> Empfehlungen angenommen: E1 (Erratum, 1,25 bleibt), E2 (C2 ohne Faktor, klargestellt), E3
+> (symmetrisches µ_ref erwogen und verworfen), E5/E6 (Betriebsregeln), E7/E9 (M7: IERS 2010,
+> ±20 h). Unverändert bleiben `results/frozen_v02_preregistration.json`,
+> `results/frozen_v02_baselines.json`, `PREREGISTRATION_v0.2.md` und alle v0.1.0-Dateien.
 
 Explorative Rechnungen hierzu (nicht präregistriert): `scripts/v02_review_sims.py`,
 `scripts/v02_calibration_study.py` (korrigiert, Produktionsgeometrie), `scripts/v02_calibration_summary.py`,
@@ -104,8 +104,8 @@ J. Römer, nicht im Repo; die Kalibrierzahlen wurden hier mit Claudes Auswertesk
   gegenläufige Verzerrung der Jahres-MLE bei kleinen Zahlen) ist nicht geklärt.
 * Vorschlag: µ_ref als konstanter µ-MLE über 2016–2025 mit den eingefrorenen Auslöserparametern
   (`mu_window_mle`, dasselbe Funktional wie im Fenster) – erfordert eine **neue** Baseline-Datei
-  mit neuem Hash. **Empfehlung (abgeschwächt): optional, nur der Lesbarkeit/Symmetrie wegen; kein
-  nachgewiesener Bias.**
+  mit neuem Hash. **Entscheidung: erwogen und verworfen** (kein nachgewiesener Bias; Lesbarkeit allein
+  rechtfertigt keine neue Baseline-Datei).
 
 ## E4 – Serielle Korrelation und Abhängigkeit der Regionen (Deep-Research-Review, teilweise)
 

@@ -73,3 +73,10 @@
 - Potin, B. et al. (2024): A Revised Chilean Seismic Catalog from 1982 to Mid-2020. SRL 96(1), 484–498. doi:10.1785/0220240047
 - Potin, B., Aden-Antoniow, F., Ruiz, S. (2024): Chilean Seismic Catalogue – 1982 – mid-2020 [Datensatz]. Zenodo. doi:10.5281/zenodo.13146436 (CC BY 4.0)
 - Blewitt, G., Hammond, W.C., Kreemer, C. (2018): Harnessing the GPS data explosion for interdisciplinary science. Eos 99. doi:10.1029/2018EO104623
+
+## Ergänzungen v0.2.0 (Review-Runde, explorative Prüfungen) – DOIs per Crossref geprüft (2026-10-10)
+- Agnew, D.C. (1997): NLOADF: A program for computing ocean-tide loading. JGR Solid Earth 102(B3), 5109–5110. doi:10.1029/96JB03458
+  - SPOTL-Paket (Programme, Green-Funktionen, Ozeanmodelle): https://igppweb.ucsd.edu/~agnew/Spotl/spotlmain.html. In der SPOTL-Manpage `loadcomb` stehen für die Körpergezeit h = 0,6114 und l = 0,0832 – das sind genau die präregistrierten Werte; damit ist ihre Herkunft geklärt.
+- Egbert, G.D., Erofeeva, S.Y. (2002): Efficient Inverse Modeling of Barotropic Ocean Tides. J. Atmos. Oceanic Technol. 19(2), 183–204. doi:10.1175/1520-0426(2002)019<0183:EIMOBO>2.0.CO;2 (TPXO; hier TPXO 7.2 aus der SPOTL-Distribution).
+- Choi, S.-H., Kim, Y., Kang, H. et al. (2026): Complex Upper-Mantle Anisotropy Beneath the Pacific Triangle Revealed by Shear-Wave Splitting. Seismological Research Letters. doi:10.1785/0220260089 *(Abstract; nur Kontext, siehe LAG_MODEL.md)*.
+- EarthScope (vormals IRIS) FDSN-Stationsdienst: https://service.earthscope.org/fdsnws/station/1/ (Stationsmetadaten für die explorative Netzprüfung zu H2.1; Abruf 2026-10-10).

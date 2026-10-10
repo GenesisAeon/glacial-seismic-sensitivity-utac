@@ -96,3 +96,10 @@ Die Spanne reicht also von Jahrzehnten (Patagonien, Amundsen) bis Jahrtausenden 
 - **Was das Modell nicht beschreibt:**
   - Einzelne große Brüche nahe dem Versagen (Pärvie-artig; „clock advance“) beschreibt das Modell **nicht**. Es behandelt Raten, keine Einzelereignisse.
   - Vulkanische Effekte (Dekompressionsschmelzen) sind nicht enthalten.
+
+## Kontext: laterale Heterogenität des Mantels (nur Einordnung)
+
+- Choi, Kim, Kang et al. (2026), „Complex Upper-Mantle Anisotropy Beneath the Pacific Triangle Revealed by Shear-Wave Splitting“, *Seismological Research Letters*, https://doi.org/10.1785/0220260089. Datengrundlage sind 128 Scherwellen-Splitting-Messungen des Oldest-1-Ozeanboden-Arrays über der ältesten Pazifischen Platte.
+- Befund: Die schnellen Richtungen variieren regional stark. Sie lassen sich weder allein durch die heutige Plattenbewegung noch durch die alten Spreizungsrichtungen erklären. Um einen hochgeschwindigen, mechanisch festen Lithosphärenblock herum drehen sie systematisch. Die Autoren deuten das als Kopplung der Manteldeformation an diesen Block.
+- Bezug hier: ein Beleg aus einem ganz anderen tektonischen Umfeld, dass Mantelstruktur und -deformation lateral stark variieren. Das stützt den Ansatz, Viskositäten regionsspezifisch (Sasgen et al. 2026) statt global einheitlich anzusetzen. Für die glazialen Regionen liefert die Arbeit **keine** Viskositätswerte.
+- Hinweis zur Zitierung: Erstautor laut Crossref ist S.-H. Choi, nicht „Kim“.

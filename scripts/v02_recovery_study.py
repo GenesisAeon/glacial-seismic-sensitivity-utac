@@ -1,7 +1,7 @@
 """Synthetic recovery study for the nonstationary-background ETAS (v0.2, M2).
 
 Compares the joint MLE (rw_sd 1.0 and 0.2) with the two-stage estimator on three scenarios.
-Writes results/v02/recovery_study.csv (resumable: finished rows are skipped)."""
+Writes results/v02/recovery_study_v2.csv (resumable: finished rows are skipped)."""
 
 from __future__ import annotations
 
@@ -15,7 +15,9 @@ import pandas as pd
 from glacial_seismic_sensitivity_utac import etas_nonstat as E
 from glacial_seismic_sensitivity_utac.v02 import WIN_A, WIN_B
 
-OUT = os.path.join(os.environ.get("GSS_OUT", "results"), "v02", "recovery_study.csv")
+# v2 (2026-10-10): re-run with the K2-corrected magnitude simulator and production H2.2 windows;
+# the original run (old simulator, shifted windows) stays in recovery_study.csv for the record.
+OUT = os.path.join(os.environ.get("GSS_OUT", "results"), "v02", "recovery_study_v2.csv")
 TRUE = dict(K=0.0276, alpha=1.0, c=0.002, p=1.15)
 T0, T1 = 1995.0, 2025.0
 SCEN = {

@@ -1,6 +1,6 @@
 # v0.2 – M0 Benchmark und synthetische Prüfung des ETAS-Hintergrundmodells
 
-Alle Zahlen aus `results/v02/m0_benchmark.csv`, `recovery_study.csv`, `calibration_study.csv`
+Alle Zahlen aus `results/v02/m0_benchmark.csv`, `recovery_study_v2.csv` (vorher `recovery_study.csv`), `calibration_study.csv` / `calibration_prod_p*.csv`
 (reproduzierbar mit `glacial-sensitivity v02 m0` bzw. `scripts/v02_recovery_study.py`,
 `scripts/v02_calibration_study.py`). Gemeinsam genutzte Maschine, ~3 GB freier Arbeitsspeicher.
 
@@ -30,13 +30,19 @@ M7 im Jahr 2010).
 
 | Szenario | Schätzer | p (wahr 1,15) | Verzw. (≈0,5) | µ-Fehler | Trend/Jahrzehnt (wahr) | sd(z) |
 |---|---|---|---|---|---|---|
-| konstant | gemeinsam, σ_rw 1 | 1,70 | 0,33 | +31 % | 0,002 (0) | 1,66 |
-| konstant | gemeinsam, σ_rw 0,2 | 1,59 | 0,36 | +26 % | 0,001 (0) | 1,87 |
-| konstant | **zweistufig** | 1,16 | 0,52 | −4 % | −0,002 (0) | 1,42 |
-| linear | gemeinsam, σ_rw 1 | 1,69 | 0,33 | +29 % | 0,236 (0,227) | 1,51 |
-| linear | **zweistufig** | 1,03 | 0,68 | −34 % | 0,205 (0,227) | 0,82 |
-| maskiert | gemeinsam, σ_rw 1 | 1,48 | 0,36 | +24 % | 0,128 (0,130) | 1,10 |
-| maskiert | **zweistufig** | 1,09 | 0,58 | −16 % | 0,119 (0,130) | 0,80 |
+| konstant | gemeinsam, σ_rw 1 | 1,83 | 0,33 | +28 % | 0,006 (0) | 1,29 |
+| konstant | gemeinsam, σ_rw 0,2 | 1,70 | 0,36 | +24 % | 0,005 (0) | 1,46 |
+| konstant | **zweistufig** | 1,16 | 0,53 | −6 % | −0,000 (0) | 1,11 |
+| linear | gemeinsam, σ_rw 1 | 1,78 | 0,32 | +28 % | 0,237 (0,227) | 1,28 |
+| linear | **zweistufig** | 1,02 | 0,70 | −35 % | 0,210 (0,227) | 0,61 |
+| maskiert | gemeinsam, σ_rw 1 | 1,48 | 0,38 | +19 % | 0,137 (0,130) | 1,04 |
+| maskiert | **zweistufig** | 1,05 | 0,61 | −22 % | 0,120 (0,130) | 0,89 |
+
+*Neu gerechnet am 2026-10-10* (`recovery_study_v2.csv`) mit dem korrigierten Magnituden-Simulator
+(Review K2) und den Produktionsfenstern für das Verhältnis (E1). Die ursprünglichen Zahlen
+(`recovery_study.csv`, alter Simulator) waren qualitativ gleich: gemeinsamer Schätzer p 1,48–1,70,
+Verzweigung 0,33–0,36, sd(z) 1,10–1,87; zweistufig p 1,03–1,16, sd(z) 0,80–1,42. Die Lesart
+unten gilt unverändert.
 
 Lesart: Mit freien Jahres-µ verschiebt der gemeinsame Schätzer den langen Omori-Schwanz in den
 Hintergrund (p zu hoch, Verzweigung zu klein) und unterschätzt die Unsicherheit des Trends. Der
@@ -52,7 +58,7 @@ Zweistufig, σ_rw = 1: sd(Trend) = 0,034 bei mittlerem SE 0,032 (40 Kataloge); z
 (Trend und Fensterverhältnis). *Korrektur 2026-10-10:* Die frühere Formulierung „auf alle
 H2-/C2-Standardfehler“ war falsch; die eingefrorene C2-Formel (JSON, Präregistrierung Abschnitt 5,
 `confirmatory_v02.py`) enthält den Faktor nicht. Die Mehrdeutigkeit mit Abschnitt 2 der
-Präregistrierung ist im Nachtragsentwurf `PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md` gelistet.
+Präregistrierung ist im Nachtragsentwurf `PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md` gelistet.
 
 **Erratum 2026-10-10 (Codex-Review zu PR #1; Claude-Code-Review B1).**
 `scripts/v02_calibration_study.py` und `v02_recovery_study.py` übergaben die H2.2-Fenster als

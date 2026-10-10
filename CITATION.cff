@@ -1,0 +1,76 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Römer
+    given-names: Johann
+    affiliation: "MOR Research Collective"
+title: "glacial-seismic-sensitivity-utac"
+version: "0.1.0"
+url: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
+repository-code: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
+license: MIT
+abstract: "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions (year-fixed-effect Poisson models of seasonal modulation and of the response per kPa of GRACE-derived unloading, rain-vs-load comparison with ERA5), a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately no UTAC/CREP/AFET bridge. GenesisAeon P133 (provisional number)."
+keywords:
+  - GenesisAeon
+  - P133
+  - climate
+  - glacier
+  - seismology
+  - glacial-isostatic-adjustment
+  - seasonal-seismicity
+  - preregistration
+  - open-science
+references:
+  - type: article
+    title: "Hydrospheric modulation of stress and seismicity on shallow faults in southern Alaska"
+    authors:
+      - name: "Johnson, C.W."
+      - name: "Fu, Y."
+      - name: "Bürgmann, R."
+    year: 2020
+    journal: "Earth and Planetary Science Letters"
+    volume: 530
+    doi: "10.1016/j.epsl.2019.115904"
+  - type: article
+    title: "Seismic rhythms: Earthquake response to tectonic, hydrological, and tidal forcing in California"
+    authors:
+      - name: "Sirorattanakul, K."
+      - name: "Avouac, J.-P."
+    year: 2026
+    journal: "Science Advances"
+    doi: "10.1126/sciadv.adz5711"
+  - type: article
+    title: "A constitutive law for rate of earthquake production and its application to earthquake clustering"
+    authors:
+      - name: "Dieterich, J."
+    year: 1994
+    journal: "Journal of Geophysical Research"
+    volume: 99
+    doi: "10.1029/93JB02581"
+  - type: article
+    title: "Observed rapid bedrock uplift in Amundsen Sea Embayment promotes ice-sheet stability"
+    authors:
+      - name: "Barletta, V.R."
+    year: 2018
+    journal: "Science"
+    volume: 360
+    doi: "10.1126/science.aao1447"
+  - type: article
+    title: "Accelerated global glacier mass loss in the early twenty-first century"
+    authors:
+      - name: "Hugonnet, R."
+    year: 2021
+    journal: "Nature"
+    volume: 592
+    doi: "10.1038/s41586-021-03436-z"
+  - type: article
+    title: "Regularization and error characterization of GRACE mascons"
+    authors:
+      - name: "Loomis, B.D."
+      - name: "Luthcke, S.B."
+      - name: "Sabaka, T.J."
+    year: 2019
+    journal: "Journal of Geodesy"
+    volume: 93
+    doi: "10.1007/s00190-019-01252-y"

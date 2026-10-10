@@ -1,0 +1,33 @@
+# Grenzen – was ausgeschlossen ist und was offen bleibt
+
+## Was die Daten ausschließen (im Rahmen der Power)
+
+- **Starker Anstieg der saisonalen Empfindlichkeit:** In SE-Alaska (AEC, M ≥ 2,1) hat sich die saisonale Modulation 1990–2025 **nicht** um mehr als ~0,08 pro Jahrzehnt erhöht (obere 95-%-KI-Grenze von β1).
+  - Das ist eine Aussage über **kleine bis mittlere Beben, die saisonal reagieren**, nicht über einzelne große Brüche.
+  - Für die Empfindlichkeit pro kPa (γ1) ist die obere 95-%-Grenze ≈ +0,009 pro kPa und Jahrzehnt.
+- **Gletscherspezifischer Trend in den Kritikalitätsindikatoren:** 16 von 544 Einzeltests sind nach BH-Korrektur signifikant, aber überwiegend Netz-/Mc-, b-Wert- und Varianzeffekte, 4 davon in Kontrollregionen. Kein Gruppenvergleich Gletscher vs. Kontrolle ist signifikant (0 von 180), AR1 und Erholungsrate nirgends. Details in [`RESULTS.md`](RESULTS.md).
+
+## Was die Daten nicht ausschließen
+
+- **Verzögerte viskose Antworten** über Jahrzehnte bis Jahrtausende (Lag-Modell). Über Ratentrends sind sie mit heutigen Katalogen praktisch nicht nachweisbar.
+- **Einzelne große Beben** auf kritisch gespannten Verwerfungen (Pärvie-, Fairweather-artig). Zählstatistik kleiner Beben sagt darüber wenig.
+- **Moderates Empfindlichkeitswachstum** unterhalb der Nachweisgrenze. Der finale konfirmatorische Look 2036 hat für den retrospektiven Punktschätzer nur ~50 % Power.
+- **Effekte in Regionen ohne brauchbaren Katalog:** Westantarktis, Patagonien (zu dünn), Himalaya unterhalb M 4,7.
+- **Vulkanische Effekte** (Dekompressionsschmelzen). Sie sind nicht Gegenstand der Tests.
+
+## Methodische Grenzen
+
+1. **Retrospektiv ≠ präregistriert:** Die Tests 1990–2025 berühren Daten, die in Phase 2 explorativ gesehen wurden. Nur C1 (ab 2026-11-01) ist sauber präregistriert.
+2. **Saisonale Detektionsartefakte:** Jahres-Fixed-Effects beseitigen Netzstufen, aber keine *saisonal* schwankende Detektion (Sturmrauschen, Meereis, Stationen nur im Sommer).
+   - Wir arbeiten konservativ über Mc_ref und prüfen Mc nach Monat. Die Kontrollregionen desselben Netzes sind die wichtigste Absicherung.
+   - Grönland (GEUS) ist hier am verdächtigsten: November-Mc 2,4, wenige Daten vor ~2008.
+3. **Regen vs. Eis nicht trennbar** (SE-Alaska): GRACE-Entlastung und ERA5-Regen- bzw. Schneeanomalien korrelieren mit r ≈ 0,68.
+   - Die QAIC-Unterschiede sind klein, die Koeffizienten im gemeinsamen Modell instabil.
+   - GRACE misst *Gesamtmasse* (Schnee, Eis, Grundwasser), also kein reines „Eis“-Signal.
+4. **GRACE-Auflösung:** Mascons haben ~1°, die regionalen Mittel verschmieren die Last. Die Empfindlichkeit „pro kPa“ ist deshalb pro *regional gemitteltem* kPa zu lesen.
+   - Die Übereinstimmung mit Johnson et al. 2020 (3,5 %/kPa, modellierte Spannung) ist teils Zufall der Normierung.
+   - Vatnajökull hat nur einen Mascon.
+5. **Declustering:** Die NN-Methode mit festen Parametern (d_f = 1,6, b = 1) ist eine Wahl. ETAS-Declustering wäre eine Alternative (nicht umgesetzt).
+6. **Mehrfachtests:** BH je Testfamilie. Die Gruppen-Meta-Analysen sind explorativ, weil sich Regionen innerhalb eines Tiers teils überlappen und die Kontrollen heterogen sind.
+7. **Lag-Modell:** κ ist unbestimmt, λ angenommen, Halbraum + Platte, keine 3-D-Viskosität. Ergebnisse sind Größenordnungen. Details in [`LAG_MODEL.md`](LAG_MODEL.md).
+8. **Kausalität:** Eine Korrelation von Seismizität und Last ist kein Beweis für eine Last-Ursache, denn hydrologische Prozesse sind miteinander verkoppelt.

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+.uv/
+
+# Testing
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Docs
+site/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Data: downloaded raw data and derived caches are NOT committed (re-create with
+# `glacial-sensitivity fetch` / `run`). Small result CSVs in results/ ARE committed.
+data/raw/*
+!data/raw/.gitkeep
+data/derived/
+logs/
+fetch.log

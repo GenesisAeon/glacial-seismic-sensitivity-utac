@@ -1,0 +1,4 @@
+region,subset,n,amp,p,peak_month
+Interior_AK_ctrl,all,6995,0.0233111,0.386632,3.67442
+Interior_AK_ctrl,kantishna,2830,0.029329,0.54412,4.92528
+Interior_AK_ctrl,without_kantishna,4165,0.0263129,0.4863,2.75867

@@ -1,0 +1,545 @@
+{
+ "version": "0.1.0",
+ "config": {
+  "ALPHA": 0.05,
+  "BIN_YEARS": 2,
+  "BLOCK_LEN": 2,
+  "B_MIN_EVENTS": 50,
+  "CHARTS": "/workspace/repos/glacial-seismic-sensitivity-utac/charts",
+  "CITY_POP": 100000,
+  "CITY_RADIUS_KM": 100.0,
+  "CONFIRMATORY_START": "2026-11-01",
+  "CONFIRM_ALPHA_FINAL": 0.04,
+  "CONFIRM_ALPHA_INTERIM": 0.01,
+  "DETREND_BANDWIDTH_MONTHS": 24,
+  "DM": 0.1,
+  "END": "2026-10-10T23:59:59",
+  "GROUP_LABEL": {
+   "mountain": "Gebirgsgletscher",
+   "icesheet": "Eisschild",
+   "control": "Kontrolle"
+  },
+  "G_ACC": 9.81,
+  "MAX_EVENTS_DECLUSTER": 60000,
+  "MC_CORRECTION": 0.2,
+  "MC_REF_QUANTILE": 0.9,
+  "NN_B": 1.0,
+  "NN_DF": 1.6,
+  "NN_MAX_PARENTS": 5000,
+  "NN_W": 0.5,
+  "N_BLOCK_PERM": 10000,
+  "N_SURROGATES": 2000,
+  "OUT": "/workspace/repos/glacial-seismic-sensitivity-utac/results",
+  "PRECIP_POINTS": {
+   "SE_Alaska_AK": [
+    [
+     59.55,
+     -139.7
+    ],
+    [
+     58.8,
+     -136.5
+    ],
+    [
+     58.6,
+     -134.3
+    ],
+    [
+     60.0,
+     -141.5
+    ],
+    [
+     60.5,
+     -145.0
+    ],
+    [
+     59.2,
+     -137.5
+    ]
+   ],
+   "Interior_AK_ctrl": [
+    [
+     64.8,
+     -147.7
+    ],
+    [
+     63.7,
+     -149.0
+    ],
+    [
+     64.0,
+     -151.0
+    ],
+    [
+     65.5,
+     -148.0
+    ],
+    [
+     64.5,
+     -145.5
+    ]
+   ],
+   "Alps_SED": [
+    [
+     46.5,
+     8.0
+    ],
+    [
+     46.0,
+     7.5
+    ],
+    [
+     46.6,
+     9.8
+    ],
+    [
+     45.9,
+     6.9
+    ],
+    [
+     46.8,
+     8.6
+    ]
+   ],
+   "N_Switzerland_ctrl": [
+    [
+     47.4,
+     7.5
+    ],
+    [
+     47.5,
+     8.5
+    ],
+    [
+     47.2,
+     7.0
+    ],
+    [
+     47.6,
+     9.3
+    ]
+   ],
+   "NZ_Southern_Alps": [
+    [
+     -43.5,
+     170.2
+    ],
+    [
+     -44.0,
+     169.5
+    ],
+    [
+     -43.0,
+     171.0
+    ],
+    [
+     -44.7,
+     168.5
+    ]
+   ],
+   "NZ_Wellington_ctrl": [
+    [
+     -41.2,
+     174.9
+    ],
+    [
+     -40.4,
+     175.6
+    ],
+    [
+     -39.9,
+     176.3
+    ],
+    [
+     -41.0,
+     175.5
+    ]
+   ]
+  },
+  "RAW": "/workspace/repos/glacial-seismic-sensitivity-utac/data/raw",
+  "RHO_WATER": 1000.0,
+  "ROLL_FRACTION": 0.5,
+  "ROOT": "/workspace/repos/glacial-seismic-sensitivity-utac",
+  "SEED": 20261010,
+  "SENS_LAGS_EXPLORATORY": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6
+  ],
+  "SENS_LAG_MONTHS_PRIMARY": 3,
+  "SENS_MIN_EVENTS": 300,
+  "SENS_N_PERM": 2000,
+  "SENS_REF_YEAR": 2008.0,
+  "START": "1990-01-01",
+  "SWARM_MIN_SIZE": 5,
+  "TEST_END_YEAR": 2025,
+  "_R": [
+   "Region(name='SE_Alaska', box=(57.0, 61.5, -145.0, -133.0), group='mountain', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='SE_Alaska_AK', box=(57.0, 61.5, -145.0, -133.0), group='mountain', source='comcat_ak', minmag=1.5, maxdepth=40.0, pair='AK', exclude=None, note='Alaska Earthquake Center (net=ak) contributions via ComCat', grace=True)",
+   "Region(name='Alps', box=(43.5, 48.5, 5.0, 16.5), group='mountain', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Alps_SED', box=(45.4, 47.0, 6.0, 10.5), group='mountain', source='sed', minmag=1.0, maxdepth=40.0, pair='SED', exclude=None, note='Swiss Seismological Service FDSN; glaciated Swiss/Western Alps', grace=True)",
+   "Region(name='Patagonia', box=(-56.0, -45.0, -77.0, -66.0), group='mountain', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Himalaya_Karakoram', box=(27.0, 37.0, 72.0, 92.0), group='mountain', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='NZ_Southern_Alps', box=(-45.5, -42.0, 168.0, 172.5), group='mountain', source='geonet', minmag=1.5, maxdepth=40.0, pair='GEONET', exclude=None, note='GeoNet FDSN', grace=True)",
+   "Region(name='Iceland', box=(62.5, 67.5, -25.5, -12.5), group='mountain', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='Iceland ice caps; volcanic seismicity dominates', grace=True)",
+   "Region(name='Iceland_Vatnajokull_IMO', box=(63.9, 64.9, -18.5, -15.3), group='mountain', source='imo', minmag=0.5, maxdepth=40.0, pair=None, exclude=None, note='IMO API; record available only from mid-2010s (see results)', grace=True)",
+   "Region(name='Greenland', box=(59.0, 84.0, -75.0, -20.0), group='icesheet', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude='lon>-36&lat<66', note='', grace=True)",
+   "Region(name='Greenland_GEUS', box=(59.0, 84.0, -75.0, -10.0), group='icesheet', source='geus', minmag=0.0, maxdepth=None, pair=None, exclude='lon>-36&lat<66', note='GEUS GeoJSON catalogue', grace=True)",
+   "Region(name='West_Antarctica', box=(-80.0, -70.0, -130.0, -85.0), group='icesheet', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Philippines', box=(4.0, 21.0, 116.0, 128.0), group='control', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Indonesia', box=(-11.0, 6.0, 94.0, 141.0), group='control', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Japan', box=(30.0, 46.0, 128.0, 147.0), group='control', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Central_America', box=(7.0, 18.0, -93.0, -82.0), group='control', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Central_Andes', box=(-35.0, -15.0, -76.0, -66.0), group='control', source='comcat', minmag=3.0, maxdepth=None, pair=None, exclude=None, note='', grace=True)",
+   "Region(name='Interior_AK_ctrl', box=(63.0, 66.0, -152.0, -144.0), group='control', source='comcat_ak', minmag=1.5, maxdepth=40.0, pair='AK', exclude=None, note='', grace=True)",
+   "Region(name='N_Switzerland_ctrl', box=(47.0, 48.0, 6.0, 10.0), group='control', source='sed', minmag=1.0, maxdepth=40.0, pair='SED', exclude=None, note='Jura/Molasse, same SED network, not glaciated', grace=True)",
+   "Region(name='NZ_Wellington_ctrl', box=(-41.8, -39.5, 174.3, 176.8), group='control', source='geonet', minmag=1.5, maxdepth=40.0, pair='GEONET', exclude=None, note='lower North Island, same GeoNet network, not glaciated', grace=True)"
+  ]
+ },
+ "regions": {
+  "SE_Alaska": {
+   "name": "SE_Alaska",
+   "box": [
+    57.0,
+    61.5,
+    -145.0,
+    -133.0
+   ],
+   "group": "mountain",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "SE_Alaska_AK": {
+   "name": "SE_Alaska_AK",
+   "box": [
+    57.0,
+    61.5,
+    -145.0,
+    -133.0
+   ],
+   "group": "mountain",
+   "source": "comcat_ak",
+   "minmag": 1.5,
+   "maxdepth": 40.0,
+   "pair": "AK",
+   "exclude": null,
+   "note": "Alaska Earthquake Center (net=ak) contributions via ComCat",
+   "grace": true
+  },
+  "Alps": {
+   "name": "Alps",
+   "box": [
+    43.5,
+    48.5,
+    5.0,
+    16.5
+   ],
+   "group": "mountain",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Alps_SED": {
+   "name": "Alps_SED",
+   "box": [
+    45.4,
+    47.0,
+    6.0,
+    10.5
+   ],
+   "group": "mountain",
+   "source": "sed",
+   "minmag": 1.0,
+   "maxdepth": 40.0,
+   "pair": "SED",
+   "exclude": null,
+   "note": "Swiss Seismological Service FDSN; glaciated Swiss/Western Alps",
+   "grace": true
+  },
+  "Patagonia": {
+   "name": "Patagonia",
+   "box": [
+    -56.0,
+    -45.0,
+    -77.0,
+    -66.0
+   ],
+   "group": "mountain",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Himalaya_Karakoram": {
+   "name": "Himalaya_Karakoram",
+   "box": [
+    27.0,
+    37.0,
+    72.0,
+    92.0
+   ],
+   "group": "mountain",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "NZ_Southern_Alps": {
+   "name": "NZ_Southern_Alps",
+   "box": [
+    -45.5,
+    -42.0,
+    168.0,
+    172.5
+   ],
+   "group": "mountain",
+   "source": "geonet",
+   "minmag": 1.5,
+   "maxdepth": 40.0,
+   "pair": "GEONET",
+   "exclude": null,
+   "note": "GeoNet FDSN",
+   "grace": true
+  },
+  "Iceland": {
+   "name": "Iceland",
+   "box": [
+    62.5,
+    67.5,
+    -25.5,
+    -12.5
+   ],
+   "group": "mountain",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "Iceland ice caps; volcanic seismicity dominates",
+   "grace": true
+  },
+  "Iceland_Vatnajokull_IMO": {
+   "name": "Iceland_Vatnajokull_IMO",
+   "box": [
+    63.9,
+    64.9,
+    -18.5,
+    -15.3
+   ],
+   "group": "mountain",
+   "source": "imo",
+   "minmag": 0.5,
+   "maxdepth": 40.0,
+   "pair": null,
+   "exclude": null,
+   "note": "IMO API; record available only from mid-2010s (see results)",
+   "grace": true
+  },
+  "Greenland": {
+   "name": "Greenland",
+   "box": [
+    59.0,
+    84.0,
+    -75.0,
+    -20.0
+   ],
+   "group": "icesheet",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": "lon>-36&lat<66",
+   "note": "",
+   "grace": true
+  },
+  "Greenland_GEUS": {
+   "name": "Greenland_GEUS",
+   "box": [
+    59.0,
+    84.0,
+    -75.0,
+    -10.0
+   ],
+   "group": "icesheet",
+   "source": "geus",
+   "minmag": 0.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": "lon>-36&lat<66",
+   "note": "GEUS GeoJSON catalogue",
+   "grace": true
+  },
+  "West_Antarctica": {
+   "name": "West_Antarctica",
+   "box": [
+    -80.0,
+    -70.0,
+    -130.0,
+    -85.0
+   ],
+   "group": "icesheet",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Philippines": {
+   "name": "Philippines",
+   "box": [
+    4.0,
+    21.0,
+    116.0,
+    128.0
+   ],
+   "group": "control",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Indonesia": {
+   "name": "Indonesia",
+   "box": [
+    -11.0,
+    6.0,
+    94.0,
+    141.0
+   ],
+   "group": "control",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Japan": {
+   "name": "Japan",
+   "box": [
+    30.0,
+    46.0,
+    128.0,
+    147.0
+   ],
+   "group": "control",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Central_America": {
+   "name": "Central_America",
+   "box": [
+    7.0,
+    18.0,
+    -93.0,
+    -82.0
+   ],
+   "group": "control",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Central_Andes": {
+   "name": "Central_Andes",
+   "box": [
+    -35.0,
+    -15.0,
+    -76.0,
+    -66.0
+   ],
+   "group": "control",
+   "source": "comcat",
+   "minmag": 3.0,
+   "maxdepth": null,
+   "pair": null,
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "Interior_AK_ctrl": {
+   "name": "Interior_AK_ctrl",
+   "box": [
+    63.0,
+    66.0,
+    -152.0,
+    -144.0
+   ],
+   "group": "control",
+   "source": "comcat_ak",
+   "minmag": 1.5,
+   "maxdepth": 40.0,
+   "pair": "AK",
+   "exclude": null,
+   "note": "",
+   "grace": true
+  },
+  "N_Switzerland_ctrl": {
+   "name": "N_Switzerland_ctrl",
+   "box": [
+    47.0,
+    48.0,
+    6.0,
+    10.0
+   ],
+   "group": "control",
+   "source": "sed",
+   "minmag": 1.0,
+   "maxdepth": 40.0,
+   "pair": "SED",
+   "exclude": null,
+   "note": "Jura/Molasse, same SED network, not glaciated",
+   "grace": true
+  },
+  "NZ_Wellington_ctrl": {
+   "name": "NZ_Wellington_ctrl",
+   "box": [
+    -41.8,
+    -39.5,
+    174.3,
+    176.8
+   ],
+   "group": "control",
+   "source": "geonet",
+   "minmag": 1.5,
+   "maxdepth": 40.0,
+   "pair": "GEONET",
+   "exclude": null,
+   "note": "lower North Island, same GeoNet network, not glaciated",
+   "grace": true
+  }
+ },
+ "note_criticality": "criticality_* results recomputed 2026-10-10 with GSS_N_PERM=10000, GSS_N_SURROGATES=2000 (first run 2000/500 had a p-value resolution floor); all other results from the full run with defaults at that time"
+}

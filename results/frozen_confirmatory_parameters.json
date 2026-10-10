@@ -1,0 +1,280 @@
+{
+ "frozen_on": "2026-10-10",
+ "package_version": "0.1.0",
+ "confirmatory_data_start": "2026-11-01",
+ "looks": {
+  "look1_2029-10-31": {
+   "years": 3.0,
+   "alpha": 0.01
+  },
+  "final_2036-10-31": {
+   "years": 10.0,
+   "alpha": 0.04
+  }
+ },
+ "primary_region": "SE_Alaska_AK",
+ "ref_year": 2008.0,
+ "primary_load_lag_months": 3,
+ "declustering": {
+  "df": 1.6,
+  "b": 1.0,
+  "max_parents": 5000
+ },
+ "regions": {
+  "SE_Alaska": {
+   "mc": 3.4,
+   "log_eta0": -4.182962836911641,
+   "phase_peak_month": 9.11094083100448,
+   "b_ref": 0.18303433505179403,
+   "b_ref_se": 0.06603271920721025,
+   "b1_per_decade": -0.030748942765294433,
+   "rate_decl_per_yr_2016_2025": 13.9,
+   "box": [
+    57.0,
+    61.5,
+    -145.0,
+    -133.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "SE_Alaska_AK": {
+   "mc": 2.1,
+   "log_eta0": -4.029432301460178,
+   "phase_peak_month": 11.725166935871592,
+   "b_ref": 0.1036452384517547,
+   "b_ref_se": 0.023593791151834433,
+   "b1_per_decade": 0.03484327238528512,
+   "rate_decl_per_yr_2016_2025": 178.4,
+   "box": [
+    57.0,
+    61.5,
+    -145.0,
+    -133.0
+   ],
+   "source": "comcat_ak",
+   "maxdepth": 40.0
+  },
+  "Alps_SED": {
+   "mc": 2.1,
+   "log_eta0": -3.16590384753132,
+   "phase_peak_month": 8.808754392399115,
+   "b_ref": 0.03276852133034457,
+   "b_ref_se": 0.04077204230921564,
+   "b1_per_decade": 0.058147013728565414,
+   "rate_decl_per_yr_2016_2025": 25.9,
+   "box": [
+    45.4,
+    47.0,
+    6.0,
+    10.5
+   ],
+   "source": "sed",
+   "maxdepth": 40.0
+  },
+  "Himalaya_Karakoram": {
+   "mc": 4.7,
+   "log_eta0": -4.545752743527499,
+   "phase_peak_month": 1.177432693260066,
+   "b_ref": 0.14005550996415833,
+   "b_ref_se": 0.06453526201424101,
+   "b1_per_decade": -0.04478670606188056,
+   "rate_decl_per_yr_2016_2025": 13.8,
+   "box": [
+    27.0,
+    37.0,
+    72.0,
+    92.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "NZ_Southern_Alps": {
+   "mc": 2.8,
+   "log_eta0": -4.4377337910363135,
+   "phase_peak_month": 7.492435826040099,
+   "b_ref": 0.05354066200391758,
+   "b_ref_se": 0.02269821238052111,
+   "b1_per_decade": 0.03834051292332679,
+   "rate_decl_per_yr_2016_2025": 91.7,
+   "box": [
+    -45.5,
+    -42.0,
+    168.0,
+    172.5
+   ],
+   "source": "geonet",
+   "maxdepth": 40.0
+  },
+  "Iceland_Vatnajokull_IMO": {
+   "mc": 2.5,
+   "log_eta0": -5.628782557831774,
+   "phase_peak_month": 12.259137253674318,
+   "b_ref": 0.2998033016652751,
+   "b_ref_se": 0.06202508271489941,
+   "b1_per_decade": -0.09574432256715351,
+   "rate_decl_per_yr_2016_2025": 36.8,
+   "box": [
+    63.9,
+    64.9,
+    -18.5,
+    -15.3
+   ],
+   "source": "imo",
+   "maxdepth": 40.0
+  },
+  "Greenland_GEUS": {
+   "mc": 2.7,
+   "log_eta0": -2.5948849970376253,
+   "phase_peak_month": 10.09861797756152,
+   "b_ref": 0.022449233809633495,
+   "b_ref_se": 0.08754149191604635,
+   "b1_per_decade": 0.1458096181396875,
+   "rate_decl_per_yr_2016_2025": 21.5,
+   "box": [
+    59.0,
+    84.0,
+    -75.0,
+    -10.0
+   ],
+   "source": "geus",
+   "maxdepth": null
+  },
+  "Philippines": {
+   "mc": 4.9,
+   "log_eta0": -5.302488578897702,
+   "phase_peak_month": 11.532693496059427,
+   "b_ref": 0.09417687243258648,
+   "b_ref_se": 0.03040137717315744,
+   "b1_per_decade": 0.024512639020037988,
+   "rate_decl_per_yr_2016_2025": 64.5,
+   "box": [
+    4.0,
+    21.0,
+    116.0,
+    128.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "Indonesia": {
+   "mc": 5.0,
+   "log_eta0": -5.349899347848114,
+   "phase_peak_month": 12.076179651780432,
+   "b_ref": 0.06599297412986317,
+   "b_ref_se": 0.019676776832433483,
+   "b1_per_decade": -0.0026901885915974,
+   "rate_decl_per_yr_2016_2025": 149.0,
+   "box": [
+    -11.0,
+    6.0,
+    94.0,
+    141.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "Japan": {
+   "mc": 4.8,
+   "log_eta0": -5.387368954586865,
+   "phase_peak_month": 11.791048461663301,
+   "b_ref": 0.07015907624460246,
+   "b_ref_se": 0.028175879369760723,
+   "b1_per_decade": 0.030652048321436424,
+   "rate_decl_per_yr_2016_2025": 85.4,
+   "box": [
+    30.0,
+    46.0,
+    128.0,
+    147.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "Central_America": {
+   "mc": 4.6,
+   "log_eta0": -5.265382723392796,
+   "phase_peak_month": 12.636410119293256,
+   "b_ref": 0.07942508835316787,
+   "b_ref_se": 0.030302176424358635,
+   "b1_per_decade": -0.0007870139430110481,
+   "rate_decl_per_yr_2016_2025": 77.5,
+   "box": [
+    7.0,
+    18.0,
+    -93.0,
+    -82.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "Central_Andes": {
+   "mc": 4.6,
+   "log_eta0": -5.286657879990209,
+   "phase_peak_month": 1.7312464823431055,
+   "b_ref": 0.058794273677964665,
+   "b_ref_se": 0.020735721813143024,
+   "b1_per_decade": 0.015909925568651666,
+   "rate_decl_per_yr_2016_2025": 157.5,
+   "box": [
+    -35.0,
+    -15.0,
+    -76.0,
+    -66.0
+   ],
+   "source": "comcat",
+   "maxdepth": null
+  },
+  "Interior_AK_ctrl": {
+   "mc": 2.1,
+   "log_eta0": -4.565633883129053,
+   "phase_peak_month": 3.674416238553243,
+   "b_ref": 0.007795178528088163,
+   "b_ref_se": 0.01978484724103545,
+   "b1_per_decade": -0.004680791615643692,
+   "rate_decl_per_yr_2016_2025": 172.0,
+   "box": [
+    63.0,
+    66.0,
+    -152.0,
+    -144.0
+   ],
+   "source": "comcat_ak",
+   "maxdepth": 40.0
+  },
+  "N_Switzerland_ctrl": {
+   "mc": 2.3,
+   "log_eta0": -2.990168177732544,
+   "phase_peak_month": 2.13796166296635,
+   "b_ref": 0.09017398603308342,
+   "b_ref_se": 0.08162115029834617,
+   "b1_per_decade": 0.09188316673156541,
+   "rate_decl_per_yr_2016_2025": 8.6,
+   "box": [
+    47.0,
+    48.0,
+    6.0,
+    10.0
+   ],
+   "source": "sed",
+   "maxdepth": 40.0
+  },
+  "NZ_Wellington_ctrl": {
+   "mc": 2.7,
+   "log_eta0": -4.867349801497764,
+   "phase_peak_month": 2.776440608648196,
+   "b_ref": -0.00796342089518516,
+   "b_ref_se": 0.015897935211113212,
+   "b1_per_decade": -0.00818718763469724,
+   "rate_decl_per_yr_2016_2025": 196.8,
+   "box": [
+    -41.8,
+    -39.5,
+    174.3,
+    176.8
+   ],
+   "source": "geonet",
+   "maxdepth": 40.0
+  }
+ }
+}

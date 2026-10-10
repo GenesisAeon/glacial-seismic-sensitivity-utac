@@ -5,12 +5,16 @@ Stand 2026-10-10 (v0.1.0):
 - **Erledigt:**
   - P133 ist als KLIMA-KRYO-13 in `PACKAGE_REGISTRY.md` eingetragen.
   - Zenodo-GitHub-Integration ist eingeschaltet (Johann).
-  - `PYPI_API_TOKEN` liegt im Environment `pypi`.
+  - `PYPI_API_TOKEN` lag im Environment `pypi` (genutzt bis 0.2.0; danach Trusted Publishing).
   - Tag `v0.1.0` → `.github/workflows/release.yml` baut, testet, lädt auf PyPI hoch und erstellt das
     GitHub-Release. Zenodo archiviert das Release.
 - **Ergebnis:** GitHub-Release v0.1.0 am 2026-10-10. Zenodo: doi:10.5281/zenodo.23281091 (Version),
   doi:10.5281/zenodo.23281090 (Konzept). Damit ist der Einfrierzeitpunkt der Präregistrierung vor
   dem 2026-11-01 unabhängig belegt.
+- **v0.2.0:** GitHub-Release am 2026-10-10 (Merge-Commit 7d61dbc, Tag v0.2.0). Zenodo:
+  doi:10.5281/zenodo.23286492 (Version). Damit sind die v0.2-Präregistrierung und der Nachtrag
+  (SHA-256 bc2d2af3…) vor dem C2-Beginn am 2027-01-01 belegt. 0.2.0 wurde noch per API-Token auf
+  PyPI hochgeladen; ab v0.2.1 nutzt `release.yml` PyPI Trusted Publishing (OIDC, Environment `pypi`).
 - **Danach:**
   - DOI in `CITATION.cff` und in die READMEs eintragen: erledigt (Folgecommit, kein neuer Tag).
   - Auf Trusted Publishing umstellen (Johann).
@@ -39,7 +43,7 @@ Stand 2026-10-10 (v0.1.0):
 ## 3. PyPI (optional)
 
 - [ ] Paketname `glacial-seismic-sensitivity-utac` auf PyPI prüfen.
-- [ ] Secret `PYPI_API_TOKEN` im GitHub-Environment `pypi` anlegen (oder Trusted Publishing einrichten).
+- [x] PyPI Trusted Publishing für `release.yml` (Environment `pypi`) eingerichtet; das frühere `PYPI_API_TOKEN` wird nicht mehr verwendet.
 - [ ] Für Pre-Releases (`-rc`, `-alpha`, `-beta`): Secret `TEST_PYPI_API_TOKEN` im Environment `testpypi`.
 - [ ] Hinweis: Das sdist schließt `data/`, `logs/`, `results/series/` aus. Rohdaten werden nie
       veröffentlicht, sie werden mit `glacial-sensitivity fetch` neu geladen.

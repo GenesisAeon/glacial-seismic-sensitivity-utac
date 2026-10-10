@@ -14,8 +14,11 @@ identifiers:
     value: "10.5281/zenodo.23281090"
     description: "Concept DOI (all versions)"
   - type: doi
+    value: "10.5281/zenodo.23286492"
+    description: "Version 0.2.0"
+  - type: doi
     value: "10.5281/zenodo.23281091"
-    description: "Version 0.1.0 (previous version; the version DOI of 0.2.0 is assigned by Zenodo at release)"
+    description: "Version 0.1.0 (previous version)"
 url: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 repository-code: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 license: MIT

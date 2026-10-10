@@ -21,9 +21,11 @@ https://www.iers.org/IERS/EN/Publications/TechnicalNotes/tn36.html). Rechnungen 
 
 **Nicht geändert:** v0.1.0-Dateien, `results/frozen_v02_preregistration.json` (`af7a5d02…`),
 `results/frozen_v02_baselines.json` (`e2fc568c…`), `PREREGISTRATION_v0.2.md`. Alles, was die
-Präregistrierung berühren würde, steht als **Entwurf** in
-[`../PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md`](../PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md)
-(E1–E8) zur Entscheidung durch J. Römer.
+Präregistrierung berührt, wurde in
+[`../PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md`](../PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md)
+(E1–E10) begründet; J. Römer hat am 2026-10-10 alle Empfehlungen angenommen. In Kraft ist
+[`../../PREREGISTRATION_v0.2_NACHTRAG.md`](../../PREREGISTRATION_v0.2_NACHTRAG.md)
+(`results/frozen_v02_addendum_2026-10-10.json`, SHA-256 `bc2d2af3…7ff49`).
 
 ## Tabelle
 
@@ -109,16 +111,32 @@ und Simulationen; Rohfassung und Daten bei J. Römer, nicht im Repo). Kernaussag
 * **Ohne Befund:** Likelihood/Kompensator, Gradient (auch an der p-Untergrenze), Simulator-Verteilung,
   Phasenkonvention, Gardner–Knopoff, Unverändertheit von v0.1.0, Speicherbedarf, Lint.
 
-## Was offen bleibt / Entscheidungen für J. Römer
+## Entscheidungen (2026-10-10) und was offen bleibt
 
-1. **E1** Erratum zum Faktor 1,25 mit v0.2.0 veröffentlichen (Wert bleibt).
-2. **E2** SE-Faktor bei C2 – Empfehlung jetzt: wie JSON (ohne Faktor) und per Nachtrag
-   klarstellen; simulationskalibrierter kritischer Wert optional.
-3. **E3** symmetrisches µ_ref – nur optional (kein Versatz in den Simulationen).
-4. **E5/E6** Betriebsregeln für C2 (Kataloghomogenität, Archivierung, Software-Stand).
-5. **E7/E9** Love-Zahlen und Suchfenster ±20 h für M7 ab 2027 (H3 bleibt).
-6. Release v0.2.0 + Zenodo **vor 2027-01-01** (inkl. eines angenommenen Nachtrags).
-7. Rohfassungen der Reviews (inkl. Claude-Code-Prüfskripte/-daten): nicht committet
-   (Entscheidung, ob sie unter `docs/reviews/` sollen).
-8. Offen ohne Lösung im Code: Ozeanauflast (H3), Netzänderungen als Störgröße (H2.1),
-   Wiedergewinnungsstudie und ältere Simulationen nicht mit dem korrigierten Simulator wiederholt.
+Entschieden (J. Römer, umgesetzt im Nachtrag A1–A7):
+
+1. **E1** Erratum zum Faktor 1,25 erscheint mit v0.2.0; der Wert bleibt eingefroren (A5).
+2. **E2** C2-Standardfehler ohne SE-Faktor, wie in der JSON; klargestellt (A1).
+3. **E3** symmetrisches µ_ref erwogen und verworfen (A2).
+4. **E5/E6** Betriebsregeln für C2: Kataloghomogenität, archivierte Katalog-Schnappschüsse mit
+   SHA-256, festgelegter Software-Stand v0.2.0 (A4).
+5. **E7/E9** M7 ab 2027 mit ±20-h-Fenster und IERS-2010-Love-Zahlen (A6); H3 bleibt unverändert.
+   Herkunft der eingefrorenen H3-Werte h = 0,6114, l = 0,0832 geklärt: Es sind die
+   Körpergezeiten-Werte von SPOTL (`loadcomb`, Agnew 1997/2012).
+6. Rohfassungen der Reviews (Deep Research, Grok als PDF, Claude Code) unter
+   [`raw/`](raw/); der Gemini-Bericht nicht (nur als Ideenquelle zitiert).
+
+Explorativ bearbeitet (nicht präregistriert; Zahlen in RESULTS):
+
+7. **Ozeanauflast (H3, Punkt 11):** SPOTL mit TPXO 7.2 (8 Partialtiden) – siehe RESULTS M3.
+8. **Netzänderungen (H2.1):** Stationszahlen (EarthScope-FDSN) und jährliches Mc als Kovariaten –
+   der Trend wird teilweise, nicht vollständig erklärt; ein Netzartefakt ist weder belegt noch
+   ausgeschlossen.
+9. **Wiedergewinnungsstudie** mit korrigiertem Simulator wiederholt (`recovery_study_v2.csv`):
+   qualitativ unverändert.
+
+Offen:
+
+10. Release v0.2.0 + Zenodo **vor 2027-01-01**.
+11. Ozeanauflast im Nahfeld (Fjorde) mit feinerem Gezeitenmodell; störungsflächen-aufgelöste
+    Spannung; Netzgeschichte vor ~2000 (alte AEC-Kurzperiodenstationen fehlen in FDSN-Metadaten).

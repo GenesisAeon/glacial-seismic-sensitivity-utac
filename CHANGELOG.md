@@ -3,7 +3,34 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
-## [Unreleased] – 0.2.0.dev0 (branch `v0.2-dev`)
+## [0.2.0] – unreleased (prepared on branch `v0.2-dev`)
+
+### Addendum and review round 2 (2026-10-10)
+
+- In-force addendum `PREREGISTRATION_v0.2_NACHTRAG.md`, frozen in
+  `results/frozen_v02_addendum_2026-10-10.json` (SHA-256
+  bc2d2af32192ae5f31312c0609ee850223f23470637350df9795ee18f6e7ff49). Clarifies only; earlier frozen
+  files unchanged (hashes tested). A1 C2 standard error without the H2 factor (as in the frozen
+  JSON); A2 symmetric µ_ref considered and rejected; A3 C2 looks as exclusive ends 2030.0 / 2037.0;
+  A4 operating rules (catalogue snapshots archived with SHA-256, Mc homogeneity rule, pinned
+  software version v0.2.0); A5 erratum E1 (1.25 stays frozen); A6 M7 tides from 2027 with a ±20 h
+  window and IERS 2010 Love numbers (ocean loading descriptive only); A7 reading notes.
+  Rationale: `docs/PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md` (renamed from the draft).
+- `confirmatory_v02.m7_tidal_flag` (M7 helper per A6); `tides.areal_strain`/`tidal_phase` accept a
+  strain factor and an additional strain series; `tides.phase_from_series`.
+- Raw reviews under `docs/reviews/raw/` (Deep Research, Grok as PDF with rendered pages, Claude Code);
+  Gemini report not included (cited only as a source of ideas).
+- Exploratory (not preregistered): (a) ocean tidal loading for H3 with SPOTL/TPXO 7.2
+  (`scripts/v02_m3_ocean_load.py`, `m3_tides_ocean_load.csv`); (b) network changes as a confounder
+  for H2.1 (`scripts/v02_h21_network.py`, EarthScope FDSN station counts and yearly Mc);
+  (c) recovery study re-run with the corrected simulator (`recovery_study_v2.csv`; conclusions
+  unchanged).
+- Docs: Love-number provenance (frozen h 0.6114 / l 0.0832 are SPOTL's body-tide values), sources
+  (Agnew 1997, Egbert & Erofeeva 2002, Choi et al. 2026), lateral mantle heterogeneity context in
+  `docs/LAG_MODEL.md`.
+- CI/release workflows: actions bumped to Node-24 versions (checkout, setup-python, upload/download
+  artifact v7); `softprops/action-gh-release` stays at v2.
+- Version 0.2.0 (pyproject, CITATION.cff, .zenodo.json).
 
 ### Review round 1 (2026-10-10; see docs/reviews/REVIEW_RESPONSE_v0.2.md)
 
@@ -36,7 +63,7 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
 - Exploratory (not preregistered): H2 null calibration in the p ≈ 1 regime; null simulation of the
   frozen C2 procedure; H3 with a +-20 h phase search window (no H3 conclusion changes;
   `m3_tides_window20.csv`); stage-1 uncertainty propagation for the H2.1 primary pair
-  (`stage1_propagation_*.csv`). Draft addendum (not in force): docs/PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md.
+  (`stage1_propagation_*.csv`). Addendum rationale: docs/PREREG_v0.2_NACHTRAG_BEGRUENDUNG_2026-10-10.md.
 
 ### Added
 - `etas_nonstat`: temporal ETAS with piecewise-constant yearly background (two-stage estimator,
@@ -63,6 +90,9 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
   M6/M7; frozen in `results/frozen_v02_preregistration.json` (SHA-256 af7a5d02…d927d3). C2 baselines
   frozen in `results/frozen_v02_baselines.json` (SHA-256 e2fc568c…be9f401). C1, M1–M5 and all v0.1.0
   frozen parameters unchanged (hashes tested).
+- 2026-10-10 (after review round 1, before any prospective data): addendum
+  `PREREGISTRATION_v0.2_NACHTRAG.md` (clarifications A1–A7, see above); frozen in
+  `results/frozen_v02_addendum_2026-10-10.json` (SHA-256 bc2d2af3…7ff49). No change to frozen values.
 
 ## [0.1.0] – 2026-10-10
 

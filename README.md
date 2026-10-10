@@ -38,11 +38,14 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
-## v0.2 (in development, branch `v0.2-dev`; not released)
+## v0.2.0 (prepared on branch `v0.2-dev`; not yet released)
 
 Pre-registered addendum [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (frozen 2026-10-10,
 before the analyses; v0.1.0 unchanged). Details: [docs/RESULTS.md](docs/RESULTS.md) (v0.2 section),
 [docs/METHODS_v02.md](docs/METHODS_v02.md), [docs/v02_benchmarks.md](docs/v02_benchmarks.md).
+In-force addendum [PREREGISTRATION_v0.2_NACHTRAG.md](PREREGISTRATION_v0.2_NACHTRAG.md) (2026-10-10; frozen JSON
+`results/frozen_v02_addendum_2026-10-10.json`, SHA-256 `bc2d2af3…7ff49`; clarifications only, earlier
+frozen files unchanged). Raw reviews: [docs/reviews/raw/](docs/reviews/raw/).
 Run: `glacial-sensitivity v02` (stages m0 m1 m2 m3 m4 base plot; resumable).
 
 | Milestone | Result |

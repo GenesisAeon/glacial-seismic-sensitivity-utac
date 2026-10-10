@@ -39,11 +39,14 @@ starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE
 unwahrscheinlich. Verzögerte viskose Antworten, einzelne große Brüche und vulkanische Effekte sind
 *nicht* ausgeschlossen.
 
-## v0.2 (in Entwicklung, Branch `v0.2-dev`; nicht veröffentlicht)
+## v0.2.0 (vorbereitet auf Branch `v0.2-dev`; noch nicht veröffentlicht)
 
 Präregistrierte Ergänzung [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (eingefroren am
 2026-10-10, vor den Auswertungen; v0.1.0 unverändert). Details: [docs/RESULTS.md](docs/RESULTS.md)
 (Abschnitt v0.2), [docs/METHODS_v02.md](docs/METHODS_v02.md), [docs/v02_benchmarks.md](docs/v02_benchmarks.md).
+Gültiger Nachtrag [PREREGISTRATION_v0.2_NACHTRAG.md](PREREGISTRATION_v0.2_NACHTRAG.md) (2026-10-10; eingefrorene JSON
+`results/frozen_v02_addendum_2026-10-10.json`, SHA-256 `bc2d2af3…7ff49`; nur Klarstellungen, frühere
+eingefrorene Dateien unverändert). Rohfassungen der Reviews: [docs/reviews/raw/](docs/reviews/raw/).
 Aufruf: `glacial-sensitivity v02` (Stufen m0 m1 m2 m3 m4 base plot; wiederaufnehmbar).
 
 | Meilenstein | Ergebnis |

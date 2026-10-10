@@ -30,6 +30,8 @@ def main(argv: list[str] | None = None) -> int:
     a = sub.add_parser("all", help="fetch + run + plot")
     a.add_argument("--no-criticality", action="store_true")
     sub.add_parser("info", help="regions and paths")
+    v = sub.add_parser("v02", help="v0.2 milestones (resumable): m0 m1 m2 m3 m4 base plot")
+    v.add_argument("stages", nargs="*", default=["m0", "m1", "m4", "m2", "m3", "base", "plot"])
     args = ap.parse_args(argv)
 
     if args.cmd == "fetch":
@@ -67,6 +69,11 @@ def main(argv: list[str] | None = None) -> int:
         run_all(criticality_battery=not args.no_criticality)
         run_extensions()
         all_charts()
+        return 0
+    if args.cmd == "v02":
+        from . import v02
+
+        v02.main(args.stages)
         return 0
     if args.cmd == "info":
         print(f"raw: {C.RAW}\nout: {C.OUT}\ncharts: {C.CHARTS}")

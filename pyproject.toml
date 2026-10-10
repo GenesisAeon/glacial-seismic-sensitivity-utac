@@ -1,6 +1,6 @@
 [project]
 name = "glacial-seismic-sensitivity-utac"
-version = "0.1.0"
+version = "0.2.0.dev0"
 description = "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered sensitivity ('early-stage') tests, distribution/dynamics indicators and a viscoelastic lag/detectability model for seismicity near shrinking glaciers vs. controls -- no UTAC/CREP/AFET bridge"
 readme = "README.md"
 license = { text = "MIT" }

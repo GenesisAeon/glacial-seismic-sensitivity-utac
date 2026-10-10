@@ -31,3 +31,6 @@ data/raw/*
 data/derived/
 logs/
 fetch.log
+
+# v0.2 run log (local)
+results/v02/v02_run.log

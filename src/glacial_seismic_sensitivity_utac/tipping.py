@@ -40,6 +40,7 @@ as the confirmatory test C1).
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -195,12 +196,17 @@ def run_scenarios(
     sdot0s: tuple[float, ...] = (10.0, 30.0),
     shadow_fracs: tuple[float, ...] = (0.0, 0.6),
     a_sigma: float = 1.5,
+    rheologies: Mapping[str, lagmodel.Rheology] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Summary table (one row per scenario) and yearly curves (for charts)."""
+    """Summary table (one row per scenario) and yearly curves (for charts).
+
+    ``rheologies`` (v0.2) overrides lagmodel.RHEOLOGIES for a sensitivity run; default None
+    reproduces v0.1.0 exactly."""
     rows, curves = [], []
     t = YEARS
+    rheo = lagmodel.RHEOLOGIES if rheologies is None else rheologies
     for reg in regions:
-        rh = lagmodel.RHEOLOGIES[reg.rheology]
+        rh = rheo[reg.rheology]
         tau = lagmodel.relaxation_time_yr(rh.eta, reg.lambda_km, rh.te_km)
         comp = lagmodel.compensation(reg.lambda_km, rh.te_km)
         for tr in reg.trajectories:

@@ -66,3 +66,29 @@ def test_c2_baselines_frozen_against_this_prereg() -> None:
     assert b["prereg_sha256"] == _sha(PREREG)
     assert {"SE_Alaska_AK", "Interior_AK_ctrl"} <= set(b["regions"])
     assert _sha(f) == "e2fc568c93622c97607c122c210ed5fcccace0d2440b8cd420fddd931be9f401"
+
+
+def test_c2_se_formula_is_the_frozen_json_formula_without_factor() -> None:
+    # Pins the implemented C2 SE to the frozen JSON formula (no 1.25 factor). The ambiguity with
+    # section 2 of PREREGISTRATION_v0.2.md is listed in the dated addendum draft (docs/);
+    # if Johann decides otherwise, that goes into a dated, hashed addendum and this test changes.
+    d = json.loads(PREREG.read_text())
+    assert "1.25" not in d["C2"]["se"] and "factor" not in d["C2"]["se"]
+    rng = np.random.default_rng(3)
+    t = np.sort(rng.uniform(2026.0, 2030.0, 400))
+    cat = pd.DataFrame(dict(t=t, mag=np.full(len(t), 2.5)))
+    base = dict(
+        mc_ref=2.0,
+        K=1e-9,
+        alpha=1.0,
+        c_yr=1e-3,
+        p=1.1,
+        tmax_yr=1.0,
+        log_mu_ref=np.log(100.0),
+        sigma_year=0.3,
+        n_ref_years=10,
+    )
+    r = C2.region_change(cat, base, 2030.0)
+    se_new = 1.0 / np.sqrt(r["n_new"])  # Poisson limit for negligible triggering
+    expect = np.sqrt(se_new**2 + 0.3**2 / 3 + 0.3**2 / 10)
+    assert r["se"] == pytest.approx(expect, rel=1e-3)

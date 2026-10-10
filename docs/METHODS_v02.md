@@ -24,8 +24,18 @@ alle Zahlen hier stammen aus den zitierten Originalarbeiten oder aus eigenen Rec
 ## M2 – ETAS mit zeitlich veränderlichem Hintergrund
 
 λ(t) = µ_y(t) + Σ K·e^{α(m_j−Mc)}·(t−t_j+c)^{−p}, Kern bei tmax = 1 a abgeschnitten, ein µ je
-Kalenderjahr 1995–2025, Ereignisse 1990–1994 nur als Auslöser. Idee: nichtstationäres ETAS
-(Kumazawa & Ogata 2013, https://doi.org/10.1002/2013JB010259), hier in der einfachsten Form.
+Kalenderjahr 1995–2025, Ereignisse 1990–1994 nur als Auslöser. Angeregt durch das nichtstationäre
+ETAS von Kumazawa & Ogata 2013 (https://doi.org/10.1002/2013JB010259), aber **keine
+Nachimplementierung**: Dort werden Hintergrundrate µ(t) *und* Produktivität K0(t) als glatt
+veränderliche Funktionen geschätzt, die Glättungsgewichte objektiv per ABIC gewählt und bei Bedarf
+Bruchpunkte zugelassen. Hier: feste Jahresbins, fester schwacher Random-Walk-Strafterm (nicht per
+ABIC), konstante Produktivität und gemeinsame (K, α, c, p).
+
+**Estimand.** µ_y ist die ETAS-Residual-Hintergrundrate – der Teil der Rate, den das stationäre
+zeitliche ETAS (tmax 1 a, kein Raumkern) nicht als Auslösung erklärt. Der zweistufige Schätzer
+schreibt jede echte Zeitvariation von Produktivität oder Nachbebenphysik, von Vollständigkeit,
+Magnitudenskala oder räumlicher Mischung der aktiven Störungen bevorzugt µ_y zu. µ_y ist daher
+keine identifizierte Forcing-Rate; glaziales Forcing ist nur eine mögliche Deutung neben anderen.
 Likelihood mit analytischem Gradienten (geprüft gegen finite Differenzen), Paarsummen blockweise.
 Schätzer und Kalibrierung: [`v02_benchmarks.md`](v02_benchmarks.md). Konsistenzprüfung: mit einem
 einzigen Bin ist das Ergebnis identisch mit dem stationären ETAS aus v0.1.0 (`quiescence.fit_etas`).
@@ -40,9 +50,11 @@ Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Ko
   Test gegen Beispiel 47.a (Mond, 1992-04-12) und 25.a (Sonne, 1992-10-13): Abweichung < 0,01° bzw.
   < 30 km.
 * Grad-2-Potential W2 = Σ GM·a²/r³·P2(cos ψ); Flächendehnung an der Oberfläche (2h − 6l)·W2/(g·a),
-  h = 0,6114, l = 0,0832 (Herkunft noch zu belegen; die Nominalwerte der IERS Conventions 2010,
-  h = 0,6078, l = 0,0847, ergeben 2 % weniger Dehnung und **identische Phasen** – Schuster-Test und
-  b-Wert-Aufteilung hängen nicht davon ab). Typisch 20 nstrain (Median), 31 nstrain (95-%-Quantil) an den
+  h = 0,6114, l = 0,0832 (präregistriert; eine zitierbare Quelle für dieses Paar wurde nicht
+  gefunden). Die Nominalwerte der IERS Conventions 2010 (Petit & Luzum 2010, IERS TN 36, Kap. 7,
+  Gl. 7.5, https://www.iers.org/IERS/EN/Publications/TechnicalNotes/tn36.html: h = 0,6078,
+  l = 0,0847) ergeben 2,2 % weniger Dehnung und **identische Phasen** – Schuster-Test und
+  b-Wert-Aufteilung hängen nicht davon ab; Amplituden werden zusätzlich mit IERS-Werten angegeben. Typisch 20 nstrain (Median), 31 nstrain (95-%-Quantil) an den
   Bebenorten – grob 1–3 kPa (E = 70 GPa, ν = 0,25). Dominante Periode am Äquator 12,42 h (M2);
   in hohen Breiten überwiegt der eintägige Anteil.
 * Phase nach Tanaka, Ohtake & Sato 2002 (JGR 107(B10):2211, https://doi.org/10.1029/2001JB001577),
@@ -50,8 +62,11 @@ Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Ko
 * Schuster-Test; b-Wert-Vergleich Dehnungs- vs. Kompressionshälfte (Richtung wie Tan et al. 2019,
   EPSL 512:39, https://doi.org/10.1016/j.epsl.2019.01.047). Power per Simulation.
 * **Ozeanauflast fehlt.** Für SE-Alaska, Neuseeland, Island und Grönland kann die Auflastgezeit
-  größer sein als die Körpergezeit und eine andere Phase haben (Modellierung z. B. mit SPOTL wäre
-  der nächste Schritt). Ein Nullbefund ist daher nur ein Nullbefund für die Körpergezeit.
+  größer sein als die Körpergezeit und eine andere Phase haben (Tsuruoka, Ohtake & Sato 1995, GJI
+  122:183, https://doi.org/10.1111/j.1365-246X.1995.tb03546.x, rechneten deshalb Körper- und
+  Ozeangezeit am Hypozentrum; Modellierung z. B. mit SPOTL wäre der nächste Schritt). Auch die auf
+  Störungsflächen aufgelöste (Coulomb-)Spannung fehlt. Getestet wird genau die **Korrelation mit
+  der Phase der Grad-2-Körpergezeiten-Flächendehnung**; ein Nullbefund ist nur dafür ein Nullbefund.
 
 ## M4 – Lag-Modell mit Sasgen et al. 2026
 
@@ -59,8 +74,16 @@ Sasgen et al. 2026, Commun. Earth Environ. 7:518, https://doi.org/10.1038/s43247
 Alaska, tomographisch bevorzugt, Asthenosphärenviskosität 3×10¹⁸ Pa·s, Lithosphärendicke 30 km;
 Island 1×10¹⁸ Pa·s, 30 km (GNSS-Anpassung 40 km); Ensemble 1×10¹⁸–3×10¹⁹ Pa·s, 30–90 km.
 Die Werte stehen in `lag_sensitivity.SENSITIVITY_RHEOLOGIES`; `lagmodel.RHEOLOGIES` (v0.1.0)
-bleibt unverändert. Die Lithosphärendicke eines GIA-Modells wird hier als elastische Dicke Te des
-Plattenfilters verwendet – eine Vereinfachung. η-Scan 10¹⁸–10²⁰ Pa·s für Te = 30 und 60 km.
+bleibt unverändert. Genauer handelt es sich um eine **Dünnplatten-/Halbraum-Sensitivität,
+angelehnt an Sasgen et al.**: Sasgen et al. rechnen mit VILMA (selbstgravitierendes,
+inkompressibles Maxwell-Kontinuum; vier Schichten: elastische Lithosphäre der Dicke LT,
+Asthenosphäre bis 400 km mit Viskosität AV, oberer Restmantel 5×10²⁰, unterer Mantel 3×10²¹ Pa·s).
+Hier wird LT als effektive elastische Dicke Te des Plattenfilters und AV als Viskosität eines
+homogenen Halbraums eingesetzt – zwei Modellannahmen, keine Parametertransformationen. Sasgen et al.
+finden LT nur schwach, AV scharf durch GNSS eingegrenzt; im vereinfachten Modell ist es umgekehrt
+(Te dominiert), weil Te sowohl die Aufteilung in sofortigen (1 − C) und verzögerten (C) Kanal als
+auch τ = τ_Halbraum·C steuert. Diese Aufteilung ist eine Eigenschaft des Szenariomodells
+(`tipping.py`), keine Aussage über die reale Antwort. η-Scan 10¹⁸–10²⁰ Pa·s für Te = 30 und 60 km.
 
 ## Meeresspiegel als Last (Notiz)
 

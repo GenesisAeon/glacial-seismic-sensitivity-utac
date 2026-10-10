@@ -319,17 +319,27 @@ Regeln: [`../PREREGISTRATION_v0.2.md`](../PREREGISTRATION_v0.2.md) (eingefroren 
 den Läufen M2/M3). Methoden: [`METHODS_v02.md`](METHODS_v02.md), Prüfung der Schätzer:
 [`v02_benchmarks.md`](v02_benchmarks.md). Dateien in `results/v02/`, Charts 18–23.
 Explorative (nicht präregistrierte) Zusatzrechnungen sind als solche markiert.
+Antwort auf die Reviews zu PR #1: [`reviews/REVIEW_RESPONSE_v0.2.md`](reviews/REVIEW_RESPONSE_v0.2.md).
+
+**Begriff.** µ_y ist die **ETAS-Residual-Hintergrundrate**: der Teil der Rate, den das stationäre
+zeitliche ETAS-Modell (tmax 1 a, ohne Raumkern) nicht als Auslösung erklärt. Sie nimmt alles auf,
+was das Modell nicht abbildet (Katalog-/Netzänderungen, Schwärme, langsame Transienten, Auslösung
+jenseits von 1 a, äußere Spannungen) und ist **keine identifizierte Forcing-Rate**; eine glaziale
+Ursache wäre nur eine mögliche Deutung.
 
 **Kurzfassung:** Der präregistrierte Haupttest H2.1 (Trend des ETAS-Hintergrunds SE-Alaska minus
 Inner-Alaska) ist formal signifikant, hängt aber vollständig an den Jahren 1995–2002 mit sehr
-niedrigen Katalogzahlen in beiden Regionen; ab 2003 bleibt nichts übrig. Ein „maskierter
-Hintergrundanstieg“ (Muster der trügerischen Ruhe) zeigt sich in keiner Region. Die
-Körpergezeit moduliert die Seismizität nirgends nachweisbar. Die Sasgen-Viskositäten verschieben
-das früheste Nachweisjahr in SE-Alaska kaum (2045,8 → 2047,3).
+niedrigen Katalogzahlen in beiden Regionen; ab 2003 bleibt nichts übrig. Keine Region erfüllt
+das vorab definierte Kriterium „maskierter Hintergrundanstieg“ (Muster der trügerischen Ruhe);
+moderate Effekte sind – besonders in Island und Grönland – nicht ausgeschlossen. Mit der Phase der
+modellierten Grad-2-**Körpergezeiten**-Flächendehnung korreliert die Seismizität nirgends
+nachweisbar (volle Gezeitenspannung mit Ozeanauflast nicht getestet). Im vereinfachten Lagmodell
+verschieben die Sasgen-informierten Parameter das früheste Nachweisjahr in SE-Alaska kaum
+(2045,8 → 2047,3).
 
 ## M2 / H2.1 – Trend des Hintergrunds 1995–2025 (`m2_etas_background.csv`, `m2_H21_did.csv`, Chart 18)
 
-| Region | Mc | Ereignisse | p (Stufe 1) | Verzw. | Anteil Hintergrund | Trend log µ / Jahrzehnt (SE × 1,25) |
+| Region | Mc | Ereignisse | p (Stufe 1) | Verzw.¹ | Anteil Hintergrund | Trend log µ / Jahrzehnt (SE × 1,25) |
 |---|---|---|---|---|---|---|
 | **SE_Alaska_AK** | 2,1 | 9 340 | 1,000* | 0,84 | 17 % | **+0,325 ± 0,114** |
 | Interior_AK_ctrl | 2,1 | 12 597 | 1,000* | 0,64 | 27 % | −0,079 ± 0,079 |
@@ -341,6 +351,8 @@ das früheste Nachweisjahr in SE-Alaska kaum (2045,8 → 2047,3).
 | Greenland_GEUS (beschr.) | 2,7 | 840 | 1,000* | 0,89 | 30 % | +1,047 ± 0,207 |
 
 \* an der Untergrenze 1,0001 (siehe Überraschungen).
+¹ Verzweigungsverhältnis **innerhalb des 1-Jahres-Kerns**; bei p ≈ 1 stark vom Cutoff abhängig und
+nicht als vollständige Reproduktionszahl eines unbegrenzten ETAS-Prozesses zu lesen.
 
 | Paar (Gletscher − Kontrolle) | Differenz / Jahrzehnt | z | p einseitig | p (BH) |
 |---|---|---|---|---|
@@ -359,28 +371,41 @@ stärker als in der Kontrolle).** Die Lesart muss aber vorsichtig sein:
   (z 0,71); ohne 2025: +0,41 ± 0,15 (z 2,82); gemeinsamer Schätzer: +0,43 ± 0,13 (z 3,29), ab 2003
   +0,16 ± 0,14 (z 1,11); p frei (> 0,3): +0,39 ± 0,15 (z 2,56), ab 2003 z 0,34; tmax 3 a:
   +0,23 ± 0,21 (z 1,09), ab 2003 z −1,65.
-* Fazit: kein belastbarer Hinweis auf einen gletscherbedingten Anstieg des Hintergrunds; das
-  formal positive Ergebnis ist am wahrscheinlichsten ein Artefakt der Netzgeschichte vor 2003.
+* Fazit: Der präregistrierte H2.1-Test ist formal positiv (die Entscheidungsregel wurde korrekt
+  ausgelöst). Der Effekt ist jedoch nicht robust gegen die Beschränkung auf die katalogisch
+  homogenere Zeit ab 2003 und gegen einen längeren Triggerhorizont (tmax 3 a). Zusammen mit dem
+  zeitvariablen Mc spricht das klar stärker für ein Katalog-/Modellartefakt als für einen glazial
+  verursachten Hintergrundtrend; die physikalische Deutung scheitert an einer nicht vorab
+  abgesicherten Störgröße. Ein glazialer Beitrag ist damit nicht ausgeschlossen, aber H2.1 liefert
+  keinen Beleg dafür.
   Die Präregistrierung verlangte keinen Startjahr-Test – das ist eine Lücke, die C2 (ab 2027,
   homogenes Netz) nicht hat.
 * Grönland (+1,05/Jahrzehnt) spiegelt den Netzausbau (GLISN) – nur beschreibend.
 
 ## M2 / H2.2 – trügerische Ruhe? (Chart 19)
 
-| Region | µ-Verhältnis 2020–25 / 2008–19 (95 %) | Gesamtverhältnis | Klasse |
-|---|---|---|---|
-| SE_Alaska_AK | 1,41 (1,07–1,85) | 2,33 | Hintergrundanstieg (nicht maskiert) |
-| Interior_AK_ctrl | 0,87 (0,71–1,07) | 0,91 | keine auflösbare Änderung |
-| NZ_Southern_Alps | 0,62 (0,45–0,86) | 0,32 | Hintergrundabnahme (echte Ruhe) |
-| NZ_Wellington_ctrl | 0,99 (0,67–1,47) | 0,71 | keine auflösbare Änderung |
-| Alps_SED | 1,22 (0,96–1,56) | 1,30 | keine auflösbare Änderung |
-| N_Switzerland_ctrl | 1,94 (1,29–2,91) | 2,04 | Hintergrundanstieg (nicht maskiert) |
-| Iceland_Vatnajokull_IMO | 1,56 (0,85–2,86) | 0,19 | keine auflösbare Änderung |
-| Greenland_GEUS | 1,12 (0,75–1,67) | 1,68 | keine auflösbare Änderung |
+| Region | µ-Verhältnis 2020–25 / 2008–19 (95 %) | Gesamtverhältnis | Klasse | µ-Verhältnis für 80 % Power² |
+|---|---|---|---|---|
+| SE_Alaska_AK | 1,41 (1,07–1,85) | 2,33 | Hintergrundanstieg (nicht maskiert) | ≈ 1,5 |
+| Interior_AK_ctrl | 0,87 (0,71–1,07) | 0,91 | keine auflösbare Änderung | ≈ 1,3 |
+| NZ_Southern_Alps | 0,62 (0,45–0,86) | 0,32 | Hintergrundabnahme (echte Ruhe) | ≈ 1,6 |
+| NZ_Wellington_ctrl | 0,99 (0,67–1,47) | 0,71 | keine auflösbare Änderung | ≈ 1,8 |
+| Alps_SED | 1,22 (0,96–1,56) | 1,30 | keine auflösbare Änderung | ≈ 1,4 |
+| N_Switzerland_ctrl | 1,94 (1,29–2,91) | 2,04 | Hintergrundanstieg (nicht maskiert) | ≈ 1,8 |
+| Iceland_Vatnajokull_IMO | 1,56 (0,85–2,86) | 0,19 | keine auflösbare Änderung | ≈ 2,4 |
+| Greenland_GEUS | 1,12 (0,75–1,67) | 1,68 | keine auflösbare Änderung | ≈ 1,8 |
 
-* **Kein „maskierter Hintergrundanstieg“** in irgendeiner Region. Die v0.1.0-Ruhe in den NZ-Südalpen
-  ist im ETAS-Modell eine echte Abnahme des Hintergrunds, kein Nachbebenabklingen über einem
-  steigenden Antrieb. Sie hängt aber am Mc (M1: mit EMR-Mc 3,2 verschwindet sie) und fällt mit
+² Grobe Näherung exp(2,8·SE_log) aus den berichteten Intervallen (Kriterium „untere 95-%-Grenze
+> 1“); ohne Unsicherheit des Gesamtverhältnisses und ohne die Abhängigkeit zwischen µ- und
+Rohzählstatistik (beide aus denselben Ereignissen). Vorgeschlagen im Deep-Research-Review.
+
+* **Keine Region erfüllt das vorab definierte Kriterium „maskierter Hintergrundanstieg“.** Das ist
+  mäßig informativ gegen große maskierte Anstiege in gut beobachteten Regionen (SE-Alaska ab etwa
+  Faktor 1,5), aber keine Evidenz gegen moderate Effekte, in Island und Grönland klar schwach. Die
+  Klassifikation ist deskriptiv (Punktschätzer beim Gesamtverhältnis, keine gemeinsame
+  Fehlerwahrscheinlichkeit), kein kalibrierter Test. Die v0.1.0-Ruhe in den NZ-Südalpen
+  ist im ETAS-Modell eine Abnahme des Residual-Hintergrunds, kein Nachbebenabklingen über
+  steigendem Hintergrund. Sie hängt aber am Mc (M1: mit EMR-Mc 3,2 verschwindet sie) und fällt mit
   einem gemeinsamen Sprung beider NZ-Regionen 2012 zusammen (Chart 18) – Netzeffekt wahrscheinlich.
 * Island kommt dem Muster am nächsten (Gesamtrate −81 %, µ +56 %), aber das Intervall schließt 1 ein
   und α ≈ 0,02 zeigt, dass ETAS die Schwärme nicht beschreibt.
@@ -395,7 +420,17 @@ zum ersten Blick (2029) unempfindlich: grob SE(D) ≈ √(0,36²/3 + 0,36²/10 +
 + 2·0,1²) ≈ 0,3; die Ablehnungsgrenze (α 0,01) liegt damit bei einem relativen Anstieg um etwa
 Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulation).
 
+**Offene Punkte vor 2027-01-01 (Review):** Die Präregistrierung ist beim SE-Faktor für C2 nicht
+eindeutig (Abschnitt 2 „Modell und Schätzer (H2, C2)“ nennt × 1,25; Abschnitt 5, die JSON-Formel
+und `confirmatory_v02.py` enthalten ihn nicht). Außerdem vergleicht C2 ein Mittel jährlicher
+log µ_y (Baseline) mit dem log eines gepoolten µ-MLE (Fenster). Beides ist **nicht geändert**;
+ein datierter Nachtragsvorschlag und eine explorative Nullsimulation der eingefrorenen
+C2-Prozedur stehen in [`PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md`](PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md).
+
 ## M3 – Körpergezeit (`m3_tides.csv`, Chart 20)
+
+Genau getestet wird die **Korrelation mit der Phase der Grad-2-Körpergezeiten-Flächendehnung**
+(skalarer Proxy), nicht „Gezeitenauslösung“ allgemein.
 
 | Region | N (entcl.) | a = 2R/N | Schuster-p | p (BH) | MDE a | Δb (Dehnung − Kompr.) | p einseitig | MDE Δb |
 |---|---|---|---|---|---|---|---|---|
@@ -409,8 +444,12 @@ Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulat
 * Weder H3.1 noch H3.2 ist nach BH signifikant (kleinstes q 0,10, Grönland-b-Wert).
 * Power: In SE-Alaska wäre eine Modulation von ≥ 6,8 % (Rate ∝ 1 + a·cos Phase) mit 80 % Power
   entdeckt worden; beobachtet 4,2 % ± Rauschen. Ein b-Unterschied von ≥ 0,07 wäre sichtbar.
-* Die Körpergezeit erreicht an den Bebenorten typisch 20 nstrain (≈ 1–3 kPa). **Ozeanauflast fehlt**;
-  die Ergebnisse schließen Auslösung durch die volle Gezeit nicht aus.
+* Die Körpergezeit erreicht an den Bebenorten typisch 20 nstrain (≈ 1–3 kPa). **Ozeanauflast fehlt**,
+  ebenso die auf Störungsflächen aufgelöste (Coulomb-)Spannung. Ozeanauflast kann Amplitude und
+  Phase lokal deutlich ändern (Tsuruoka et al. 1995 rechneten deshalb Körper- und Ozeangezeit am
+  Hypozentrum, doi:10.1111/j.1365-246X.1995.tb03546.x); gerade in SE-Alaska, NZ, Island und
+  Grönland. Die MDE gelten nur relativ zur Körpergezeitenphase, nicht für die volle
+  Gezeitenspannung; der Nullbefund schließt Auslösung durch die volle Gezeit nicht aus.
 
 ## M1 – Katalog-Robustheit (`m1_catalogue_robustness.csv`, Chart 22)
 
@@ -436,6 +475,13 @@ Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulat
 
 ## M4 – Lag-Modell mit Sasgen et al. 2026 (`m4_lag_*.csv`, `m4_eta_scan*.csv`, Chart 21)
 
+Genauer: **Dünnplatten-/Halbraum-Sensitivität, angelehnt an Sasgen et al. 2026** – keine
+Reproduktion der Sasgen-Rheologie. Sasgen et al. rechnen mit VILMA (selbstgravitierend,
+Maxwell-viskoelastisch, vier Schichten: elastische Lithosphäre, Asthenosphäre bis 400 km, oberer
+Restmantel 5e20, unterer Mantel 3e21 Pa·s). Hier wird ihre Lithosphärendicke als effektive
+elastische Dicke Te und ihre Asthenosphärenviskosität als Halbraumviskosität eingesetzt – beides
+Modellannahmen, keine Parametertransformationen.
+
 | Variante | SE-Alaska τ (λ 300 km) | Kompensation C | frühestes Nachweisjahr Oberfläche / GRACE | Island τ (λ 200 km) | Island Oberfläche / GRACE |
 |---|---|---|---|---|---|
 | v0.1.0 (η 1,4e19, Te 60; Island 8e18, Te 15) | 64 a | 0,11 | **2045,8** / 2061,3 | 302 a | 2070,3 / 2183,3 |
@@ -445,8 +491,12 @@ Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulat
 | Ensemble-Obergrenze (3e19, Te 90) | 44 a | 0,04 | 2045,8 / 2060,8 | 13 a | 2061,8 / 2106,3 |
 
 * η-Scan 10¹⁸–10²⁰ Pa·s (SE-Alaska, Oberfläche): Te 60 km → 2045,8–2046,3; Te 30 km → 2046,3–2050,8.
-* Lesart: Das früheste Nachweisjahr hängt im Modell fast nur am **elastischen** Anteil (1 − C) der
-  Antwort, kaum an der Viskosität. Niedrigere Viskosität verkürzt τ (64 → 14 a bei gleichem Te),
+* Lesart (Eigenschaft des Szenariomodells, keine geophysikalische Feststellung über Alaska): Das
+  Modell teilt die Antwort per Konstruktion in einen sofortigen Kanal (1 − C) und einen mit τ
+  verzögerten Kanal (C); C ist ein flexuraler Kompensationsfaktor, dessen Gleichsetzung mit dem
+  verzögerten Anteil der Coulomb-Spannung eine zusätzliche Annahme ist. Te ändert zugleich C und
+  τ (τ = τ_Halbraum·C). Im Modell hängt das früheste Nachweisjahr in SE-Alaska daher fast nur an
+  (1 − C), kaum an der Viskosität. Niedrigere Viskosität verkürzt τ (64 → 14 a bei gleichem Te),
   ändert aber das Nachweisjahr nicht; die dünnere Platte (Te 30 km) macht mehr der Antwort viskos
   und verschiebt es leicht nach hinten. Für Island verkürzt sich τ von ~300 auf ~10 Jahre und das
   früheste Nachweisjahr rückt um ~8 Jahre vor (2070 → 2062).
@@ -456,9 +506,13 @@ Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulat
 ## Überraschungen
 
 1. **p an der Untergrenze:** In 7 von 8 Regionen läuft der Omori-Exponent der stationären Stufe auf
-   1,0001; Verzweigungsverhältnisse 0,6–0,9, Hintergrundanteil teils < 20 %. Mit tmax = 1 a fehlt dem
-   Modell der lange Schwanz; ein Teil der Langzeit-Clusterung wird zur Auslösung. Trends sind davon
-   explorativ wenig berührt (p frei: gleiche Größenordnung), Niveaus schon.
+   1,0001; Verzweigungsverhältnisse (im 1-a-Kern) 0,6–0,9, Hintergrundanteil teils < 20 %. Das ist
+   ein ernstes Diagnosezeichen (Fehlanpassung durch Raum-Heterogenität, Schwärme oder Katalogeffekte
+   wird durch einen langen Zeitschwanz kompensiert). Bei p = 1 enthält das erste Jahr nur rund
+   79 % der Omori-Masse von 5 Jahren (Beispiel c = 0,002 a); Auslösung jenseits von 1 a landet im
+   Hintergrund oder bei jüngeren Auslösern. Niveaus und – wie tmax 3 a für Alaska zeigt – auch
+   Trends sind daher modellabhängig. Eine explorative Nullsimulation im Randregime steht im
+   Nachtragsentwurf.
 2. **H2.1 formal positiv, aber nicht robust** (siehe oben) – ein Lehrstück dafür, dass ein
    präregistrierter Test ohne Startjahr-Prüfung an einer Netzphase hängen kann.
 3. **NZ-Ruhe** aus v0.1.0: im ETAS-Hintergrund echt, aber Mc-abhängig und netzweit (Sprung 2012).
@@ -466,12 +520,16 @@ Faktor 2, für 80 % Power bei etwa Faktor 2,5 (grobe Abschätzung, keine Simulat
 ## English summary (v0.2 development run)
 
 Preregistered H2.1 (ETAS background trend, SE Alaska minus Interior Alaska): +0.41 ± 0.14 per decade,
-z = 2.93, p = 0.0017 (BH 0.005) – formally significant, but it comes entirely from 1995–2002, a period
-of very low catalogue counts in both Alaska regions; from 2003 on the difference is +0.11 ± 0.16
-(exploratory). Most likely a network-history artefact, not a glacial signal. No region shows the
-"masked background rise" (deceptive-quiet) pattern; the v0.1.0 NZ Southern Alps quiet is a genuine
-background decrease in the ETAS model but is Mc-dependent and network-wide. Body tides: no significant
-Schuster or b-value effect (BH); SE Alaska MDE 6.8 % modulation, Δb 0.07; ocean loading not modelled.
-Lag model with Sasgen et al. 2026: SE Alaska earliest detection 2045.8 → 2047.3 (insensitive to
-viscosity, governed by the elastic fraction); Iceland τ ~300 → ~10 yr, earliest detection 2070 → 2062.
+z = 2.93, p = 0.0017 (BH 0.005) – the preregistered decision rule fired, but the effect is not robust
+to starting in 2003 (+0.11 ± 0.16, exploratory) or to a 3-yr triggering horizon; together with the
+time-varying Mc this points to a catalogue/model artefact rather than a glacially driven background
+trend. mu_y is the ETAS *residual* background (whatever the stationary temporal ETAS does not
+explain), not an identified forcing rate. No region meets the predefined "masked background rise"
+(deceptive-quiet) criterion; moderate effects are not excluded, especially in Iceland/Greenland; the v0.1.0 NZ Southern Alps quiet is a genuine
+background decrease in the ETAS model but is Mc-dependent and network-wide. No significant correlation with the
+phase of the degree-2 body-tide areal strain (Schuster, b-value; BH); SE Alaska MDE 6.8 % modulation
+relative to that phase, Δb 0.07; ocean loading and fault-resolved stress not modelled, so full tidal
+triggering is not tested. Thin-plate/half-space lag sensitivity informed by Sasgen et al. 2026: SE
+Alaska earliest detection 2045.8 → 2047.3 (within this reduced model governed by the instantaneous
+fraction 1 − C rather than viscosity – a property of the model architecture); Iceland τ ~300 → ~10 yr, earliest detection 2070 → 2062.
 C2 baselines frozen (SHA-256 e2fc568c…). Surprise: Omori p hits its lower bound almost everywhere.

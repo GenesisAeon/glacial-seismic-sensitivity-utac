@@ -1,0 +1,3 @@
+# Hashed, frozen preregistration files: never convert line endings on checkout
+# (Windows autocrlf would change their SHA-256; finding from the Claude Code review of PR #1).
+results/frozen_*.json -text

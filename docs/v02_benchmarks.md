@@ -48,7 +48,20 @@ schreibt einen Teil des Anstiegs der Auslösung zu). Für H2/C2 zählen nur Tren
 
 Zweistufig, σ_rw = 1: sd(Trend) = 0,034 bei mittlerem SE 0,032 (40 Kataloge); zusammen mit den
 8 Katalogen der Wiedergewinnung sd(z) = 1,11 (Trend) und 1,18 (Fensterverhältnis), Bootstrap-
-90-%-Obergrenze ≈ 1,25. Daher der vorab festgelegte Faktor 1,25 auf alle H2-/C2-Standardfehler.
+90-%-Obergrenze ≈ 1,25. Daher der vorab festgelegte Faktor 1,25 auf die H2-Standardfehler
+(Trend und Fensterverhältnis). *Korrektur 2026-10-10:* Die frühere Formulierung „auf alle
+H2-/C2-Standardfehler“ war falsch; die eingefrorene C2-Formel (JSON, Präregistrierung Abschnitt 5,
+`confirmatory_v02.py`) enthält den Faktor nicht. Die Mehrdeutigkeit mit Abschnitt 2 der
+Präregistrierung ist im Nachtragsentwurf `PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md` gelistet.
+
+**Erratum 2026-10-10 (Codex-Review zu PR #1).** `scripts/v02_calibration_study.py` und
+`v02_recovery_study.py` übergaben die H2.2-Fenster als (2008, 2019)/(2020, 2025); `window_ratio()`
+nimmt halboffene Fenster, verglichen wurden also 2008–2018 mit 2020–2024, und die
+Kalibrierkataloge endeten 2025,0 (30 statt 31 Jahresbins). Der echte Lauf (`v02.py`, WIN_A/WIN_B)
+war korrekt. Die Skripte sind korrigiert; der korrigierte Lauf steht in
+`results/v02/calibration_study_v2.csv`, die Gegenüberstellung in `calibration_summary.csv`
+(Zahlen und Folgen: siehe Nachtragsentwurf). Der Faktor 1,25 bleibt als eingefrorener Wert
+unverändert.
 Ohne Strafterm (σ_rw = 100) ändern sich die Zahlen kaum (sd 0,034).
 
 ## English summary

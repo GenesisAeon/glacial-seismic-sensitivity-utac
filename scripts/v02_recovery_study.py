@@ -57,7 +57,9 @@ def main(seeds: int) -> None:
                         t, m, 2.0, T0, T1, rw_sd=1.0 if method == "joint_rw1" else 0.2
                     )
                 tr = E.log_mu_trend(f, (T0, T1))
-                wr = E.window_ratio(f, (2008, 2019), (2020, 2025))
+                wr = E.window_ratio(
+                    f, (2008.0, 2020.0), (2020.0, T1)
+                )  # exclusive ends (erratum 2026-10-10)
                 true_wr = float(
                     np.log(np.mean(fn(np.linspace(2020, 2025, 501))))
                     - np.log(np.mean(fn(np.linspace(2008, 2019, 501))))

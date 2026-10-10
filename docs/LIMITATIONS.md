@@ -59,4 +59,12 @@
 * Lag-Modell: Die Lithosphärendicke aus GIA-Modellen (Sasgen et al. 2026) wird als elastische Dicke
   eines Plattenfilters verwendet; Viskositäten aus Alaska/Island werden auf Halbraum-Relaxation
   übertragen. Ergebnisse sind Szenarien, keine Vorhersagen.
+* µ_y ist ein ETAS-Residual-Hintergrund, keine identifizierte Forcing-Rate (Netz, Schwärme,
+  Produktivitätsänderungen, Auslösung jenseits 1 a landen ebenfalls darin). Verzweigungsverhältnisse
+  gelten nur innerhalb des 1-a-Kerns.
+* H2.2 ist eine deskriptive Klassifikation ohne kalibrierte Fehlerwahrscheinlichkeit; der Nullbefund
+  schließt nur große maskierte Anstiege in gut beobachteten Regionen aus (SE-Alaska ab ≈ Faktor 1,5),
+  in Island/Grönland erst ab ≈ 1,8–2,4.
+* C2 ist ein bedingter Test unter dem eingefrorenen ETAS-Modell (Unsicherheit von K, α, c, p nicht
+  enthalten; p an der Untergrenze). Er schützt nicht gegen differentielle Netzänderungen ab 2027.
 * Die Gemini-Recherche, die v0.2 anregte, ist keine Quelle; zitiert werden nur Originalarbeiten.

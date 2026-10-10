@@ -77,3 +77,12 @@ def test_b_split_detects_lower_b_in_tensile_half() -> None:
     assert r["p_one"] < 0.01 and r["p_two"] < 0.01
     r0 = T.b_split_test(np.round(m2 / 0.1) * 0.1, rng.uniform(-180, 180, n), 2.0)
     assert r0["p_two"] > 0.001
+
+
+def test_iers2010_love_numbers_only_rescale_the_strain() -> None:
+    # IERS Conventions 2010 (TN 36, ch. 7) nominal h2 = 0.6078, l2 = 0.0847: positive factor, so
+    # the Tanaka phases (and hence Schuster / b-value split) are identical to the frozen values.
+    assert T.STRAIN_FACTOR_IERS2010 == pytest.approx(0.7074, abs=1e-4)
+    assert T.STRAIN_FACTOR == pytest.approx(0.7236, abs=1e-4)
+    ratio = T.STRAIN_FACTOR_IERS2010 / T.STRAIN_FACTOR
+    assert 0.97 < ratio < 0.98

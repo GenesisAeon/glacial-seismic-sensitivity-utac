@@ -126,3 +126,62 @@ def test_classification_rules() -> None:
     assert E.classify_background(1.2, 1.1, 1.5).startswith("background rise")
     assert E.classify_background(0.8, 0.5, 0.9).startswith("background decrease")
     assert E.classify_background(1.0, 0.8, 1.2).startswith("no resolvable")
+
+
+def test_window_ratio_uses_half_open_windows() -> None:
+    # Regression for the Codex review on PR #1: (2008, 2020) must mean calendar years 2008-2019.
+    edges = np.arange(1995.0, 2027.0)
+    B = len(edges) - 1
+    log_mu = np.where(edges[:-1] >= 2020, np.log(2.0), 0.0)
+    f = E.NSFit(
+        edges=edges,
+        mu=np.exp(log_mu),
+        log_mu_se=np.full(B, 0.1),
+        K=0.0,
+        alpha=1.0,
+        c_yr=0.01,
+        p=1.1,
+        loglik=0.0,
+        n_target=0,
+        n_per_bin=np.zeros(B, int),
+        converged=True,
+        branching_ratio=0.0,
+        cov=np.eye(B + 4),
+    )
+    tab = f.table()
+    sel_a = (tab.t_start >= 2008.0) & (tab.t_end <= 2020.0)
+    sel_b = (tab.t_start >= 2020.0) & (tab.t_end <= 2026.0)
+    assert sel_a.sum() == 12 and sel_b.sum() == 6
+    jitter = np.random.default_rng(0).normal(0, 1e-3, B)
+    f.mu = np.exp(log_mu + jitter)
+    wr = E.window_ratio(f, (2008.0, 2020.0), (2020.0, 2026.0))
+    assert wr["ratio"] == pytest.approx(2.0, rel=0.01)
+    # the old call (2008, 2019), (2020, 2025) silently dropped 2019 and 2025
+    old = E.window_ratio(f, (2008, 2019), (2020, 2025))
+    assert np.isfinite(old["ratio"])
+
+
+def test_simulate_handles_p_equal_one_and_boundary() -> None:
+    # p at the fit's lower bound (1.0001) occurs in 7 of 8 real regions; p = 1 exactly must not
+    # divide by zero in the inverse CDF, and offspring delays must stay within (0, tmax].
+    for p in (1.0, 1.0001):
+        cat = E.simulate(
+            lambda x: 50.0 + 0 * x,
+            0.0,
+            20.0,
+            K=0.04,
+            alpha=1.0,
+            c=1e-4,
+            p=p,
+            rng=np.random.default_rng(1),
+        )
+        assert np.isfinite(cat.t).all() and len(cat) > 1000
+        assert (cat.t >= 0).all() and (cat.t < 20.0).all()
+    # Omori inverse CDF at p = 1 matches the analytic CDF log((x+c)/c)/log((tmax+c)/c)
+    c, tmax = 1e-3, 1.0
+    u = np.random.default_rng(2).uniform(0, 1, 200_000)
+    dt = c * ((tmax + c) / c) ** u - c
+    q = 0.1
+    assert (dt <= q).mean() == pytest.approx(
+        np.log((q + c) / c) / np.log((tmax + c) / c), abs=0.005
+    )

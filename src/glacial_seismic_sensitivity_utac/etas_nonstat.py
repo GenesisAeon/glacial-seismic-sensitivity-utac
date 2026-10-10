@@ -4,17 +4,23 @@ Model (all times in decimal years, events >= Mc):
 
     lambda(t) = mu(t) + sum_{t_j < t, t - t_j <= tmax} K exp(alpha (m_j - Mc)) (t - t_j + c)^(-p)
 
-with mu(t) piecewise constant on fixed bins (default: calendar years). This is the
-non-stationary ETAS idea of Kumazawa & Ogata 2013 (JGR 118:6165, doi:10.1002/2013JB010259;
-see also Hainzl & Ogata 2005, doi:10.1029/2004JB003247, and Marsan et al. 2013,
-doi:10.1785/0120110304) in its simplest form: instead of a smoothing spline, one background
-level per bin plus a weak random-walk penalty on log mu (keeps bins without events finite).
-Triggering parameters (K, alpha, c, p) are common to the whole period. Joint maximum
+with mu(t) piecewise constant on fixed bins (default: calendar years). This is a strongly
+simplified variant *inspired by* the non-stationary ETAS of Kumazawa & Ogata 2013 (JGR 118:6165,
+doi:10.1002/2013JB010259; see also Hainzl & Ogata 2005, doi:10.1029/2004JB003247, and Marsan et
+al. 2013, doi:10.1785/0120110304), not a reimplementation: Kumazawa & Ogata estimate *both* a
+time-dependent background mu(t) and a time-dependent productivity K0(t) as smoothly varying
+functions, with the smoothness weights chosen objectively by ABIC and optional change points.
+Here: one background level per fixed bin, a fixed weak random-walk penalty on log mu (keeps bins
+without events finite, sd not tuned by ABIC), and triggering parameters (K, alpha, c, p) common
+to the whole period (constant productivity). Joint maximum
 likelihood with an analytic gradient; pair sums are evaluated in chunks so memory stays
 bounded (shared machine).
 
 Why: a stationary ETAS (v0.1.0 ``quiescence``) cannot separate a change of the background
-(forcing) from the decay of earlier aftershock sequences. A falling total rate with a rising
+from the decay of earlier aftershock sequences. mu(t) is the ETAS *residual* background: it
+absorbs everything the temporal model does not explain as triggering (catalogue/network changes,
+swarms, triggering beyond tmax, productivity changes, external stresses); it is not an identified
+forcing rate. A falling total rate with a rising
 mu(t) is the pattern behind the 'deceptive quiet' question (hypothesis H2.2 in
 PREREGISTRATION_v0.2.md).
 
@@ -422,7 +428,10 @@ def did_test(g: dict[str, float], c: dict[str, float]) -> dict[str, float]:
 
 
 def window_ratio(fit: NSFit, a: tuple[float, float], b: tuple[float, float]) -> dict[str, float]:
-    """mu ratio (later window b vs earlier window a) from yearly log mu, Welch-type SE."""
+    """mu ratio (later window b vs earlier window a) from yearly log mu, Welch-type SE.
+
+    Windows are half-open [start, end): full bins with t_start >= start and t_end <= end are
+    used, so calendar years 2008-2019 are passed as (2008.0, 2020.0)."""
     tab = fit.table()
 
     def pick(w: tuple[float, float]) -> np.ndarray:
@@ -533,7 +542,10 @@ def simulate(
             break
         parent_t = np.repeat(gen_t, nk)
         u = rng.uniform(0, 1, int(nk.sum()))
-        dt = (a1 - u * (a1 - a2)) ** (1 / (1 - p)) - c
+        if abs(p - 1.0) < 1e-9:  # p = 1: inverse CDF of a log-uniform shifted variable
+            dt = c * ((tmax + c) / c) ** u - c
+        else:
+            dt = (a1 - u * (a1 - a2)) ** (1 / (1 - p)) - c
         ct = parent_t + dt
         cm = mags(len(ct))
         keep = ct < t1

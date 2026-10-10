@@ -5,6 +5,23 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
 
 ## [Unreleased] – 0.2.0.dev0 (branch `v0.2-dev`)
 
+### Review round 1 (2026-10-10; see docs/reviews/REVIEW_RESPONSE_v0.2.md)
+
+- Wording: mu_y is the ETAS *residual* background (not an identified forcing rate); H2.1
+  conclusion, H2.2 "criterion not met" with per-region 80 %-power ratios, H3 named as correlation
+  with the degree-2 body-tide areal-strain phase (ocean loading, Tsuruoka et al. 1995), M4 as
+  thin-plate/half-space sensitivity informed by Sasgen et al. 2026; Kumazawa & Ogata 2013
+  described faithfully (inspired by, not a reimplementation).
+- Erratum: H2.2 windows in the null-calibration/recovery scripts were off by one year
+  (half-open `window_ratio`); scripts fixed, calibration re-run (`calibration_study_v2.csv`,
+  90 % upper bound ~1.30 vs frozen 1.25; no H2.1/H2.2 decision changes). Frozen value unchanged.
+- `etas_nonstat.simulate`: p = 1 handled in the Omori inverse CDF.
+- `tides`: IERS 2010 nominal Love numbers as reference constants (frozen H3 values unchanged).
+- `.gitattributes`: frozen JSON files are never line-ending converted (Windows CRLF hash failures).
+- Tests: half-open windows, simulator at p = 1, IERS rescaling, C2 SE formula pinned to frozen JSON.
+- Exploratory (not preregistered): H2 null calibration in the p ≈ 1 regime; null simulation of the
+  frozen C2 procedure. Draft addendum (not in force): docs/PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md.
+
 ### Added
 - `etas_nonstat`: temporal ETAS with piecewise-constant yearly background (two-stage estimator,
   analytic gradient, chunked pair sums), DiD/BH helpers, H2.2 classification, `mu_window_mle` for C2,

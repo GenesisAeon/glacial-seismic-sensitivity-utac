@@ -48,11 +48,11 @@ Aufruf: `glacial-sensitivity v02` (Stufen m0 m1 m2 m3 m4 base plot; wiederaufneh
 
 | Meilenstein | Ergebnis |
 |---|---|
-| M2 ETAS mit Jahres-Hintergrund (H2.1) | SE-Alaska minus Inner-Alaska: +0,41 ± 0,14 pro Jahrzehnt, p = 0,0017 – formal signifikant, aber getragen von 1995–2002 (niedrige Katalogzahlen in beiden Regionen); ab 2003 +0,11 ± 0,16 (explorativ). Nicht als Gletschersignal gelesen. |
-| M2 trügerische Ruhe (H2.2) | Kein maskierter Hintergrundanstieg in irgendeiner Region. Die v0.1.0-Ruhe der NZ-Südalpen ist im Modell eine echte Abnahme, aber Mc-abhängig und netzweit. |
-| M3 Körpergezeit (H3) | Keine signifikante Modulation, kein Gezeiten-b-Wert-Effekt (BH). SE-Alaska hätte ≥ 6,8 % Modulation erkannt. Ozeanauflast nicht modelliert. |
+| M2 ETAS mit Jahres-Hintergrund (H2.1) | SE-Alaska minus Inner-Alaska: +0,41 ± 0,14 pro Jahrzehnt, p = 0,0017 – formal signifikant, aber getragen von 1995–2002 (niedrige Katalogzahlen in beiden Regionen); ab 2003 +0,11 ± 0,16 (explorativ). Vorab-Regel ausgelöst, aber nicht robust (ab 2003; tmax 3 a): am ehesten Katalog-/Modellartefakt, kein Gletschersignal. µ ist der ETAS-*Residual*-Hintergrund, keine identifizierte Forcing-Rate. |
+| M2 trügerische Ruhe (H2.2) | Keine Region erfüllt das vorab definierte Kriterium „maskierter Hintergrundanstieg“ (moderate Effekte, v. a. Island/Grönland, nicht ausgeschlossen). Die v0.1.0-Ruhe der NZ-Südalpen ist im Modell eine echte Abnahme, aber Mc-abhängig und netzweit. |
+| M3 Körpergezeit (H3) | Keine signifikante Korrelation mit der Phase der Grad-2-Körpergezeiten-Flächendehnung, kein b-Wert-Effekt (BH). SE-Alaska-MDE 6,8 % relativ zu dieser Phase. Ozeanauflast und Störungsflächen-Spannung nicht modelliert. |
 | M1 Katalog-Robustheit | F1 in SE-Alaska robust gegenüber der Entclusterung; die NZ-Ruhe verschwindet mit EMR-artigem Mc. |
-| M4 Lag (Sasgen et al. 2026) | SE-Alaska frühestes Nachweisjahr 2045,8 → 2047,3 (kaum viskositätsabhängig); Island τ ~300 → ~10 a, 2070 → 2062. |
+| M4 Lag (Dünnplatten-/Halbraum-Sensitivität, angelehnt an Sasgen et al. 2026) | SE-Alaska frühestes Nachweisjahr 2045,8 → 2047,3 (im reduzierten Modell kaum viskositätsabhängig – Modelleigenschaft); Island τ ~300 → ~10 a, 2070 → 2062. |
 | C2 (prospektiv, ab 2027-01-01) | Hintergrundänderung Gletscher vs. Kontrolle mit eingefrorenen ETAS-Parametern; Blicke 2029-12-31 (α 0,01) und 2036-12-31 (α 0,04). Baselines in `results/frozen_v02_baselines.json`. |
 
 ## Schnellstart

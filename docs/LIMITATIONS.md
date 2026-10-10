@@ -47,3 +47,16 @@
 12. **Geodäsie:** ξ hängt vom Zeitfenster ab. Kurzfristige Schwankungen (z. B. NAO, Bevis et al. 2019) können ein Flag auslösen oder verdecken.
     - GNSS-Beschleunigungen enthalten elastische Antworten auf Laständerungen und lokale Effekte.
     - Sprünge werden nur an NGL-gelisteten Daten modelliert.
+
+## Ergänzung v0.2
+
+* Das ETAS-Hintergrundmodell ist rein zeitlich, mit tmax = 1 Jahr; der Omori-Exponent landet fast
+  überall an der Untergrenze. µ-Niveaus sind modellabhängig, Trends und Verhältnisse weniger.
+* H2.1 kann – wie gezeigt – an einer Netzphase hängen (1995–2002 in Alaska). Netzinterne Kontrollen
+  helfen nur, wenn die Netzänderung beide Regionen gleich trifft.
+* Gezeiten: nur Körpergezeit, keine Ozeanauflast; ein Nullbefund schließt Gezeitenauslösung durch
+  die volle Gezeit nicht aus.
+* Lag-Modell: Die Lithosphärendicke aus GIA-Modellen (Sasgen et al. 2026) wird als elastische Dicke
+  eines Plattenfilters verwendet; Viskositäten aus Alaska/Island werden auf Halbraum-Relaxation
+  übertragen. Ergebnisse sind Szenarien, keine Vorhersagen.
+* Die Gemini-Recherche, die v0.2 anregte, ist keine Quelle; zitiert werden nur Originalarbeiten.

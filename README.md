@@ -38,6 +38,22 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.2 (in development, branch `v0.2-dev`; not released)
+
+Pre-registered addendum [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (frozen 2026-10-10,
+before the analyses; v0.1.0 unchanged). Details: [docs/RESULTS.md](docs/RESULTS.md) (v0.2 section),
+[docs/METHODS_v02.md](docs/METHODS_v02.md), [docs/v02_benchmarks.md](docs/v02_benchmarks.md).
+Run: `glacial-sensitivity v02` (stages m0 m1 m2 m3 m4 base plot; resumable).
+
+| Milestone | Result |
+|---|---|
+| M2 ETAS with yearly background (H2.1) | SE Alaska minus Interior Alaska: +0.41 ± 0.14 per decade, p = 0.0017 – formally significant, but driven by 1995–2002 (low catalogue counts in both regions); from 2003 on +0.11 ± 0.16 (exploratory). Not read as a glacial signal. |
+| M2 deceptive quiet (H2.2) | No region shows a masked background rise. The v0.1.0 NZ Southern Alps quiet is a genuine background decrease in the model, but Mc-dependent and network-wide. |
+| M3 body tides (H3) | No significant modulation or tidal b-value split (BH). SE Alaska would have detected ≥ 6.8 % modulation. Ocean loading not modelled. |
+| M1 catalogue robustness | F1 in SE Alaska robust to declustering; NZ quiet disappears with an EMR-type Mc. |
+| M4 lag (Sasgen et al. 2026) | SE Alaska earliest detection year 2045.8 → 2047.3 (insensitive to viscosity); Iceland τ ~300 → ~10 yr, 2070 → 2062. |
+| C2 (prospective, from 2027-01-01) | Background change glacier vs control with frozen ETAS parameters; looks 2029-12-31 (α 0.01) and 2036-12-31 (α 0.04). Baselines frozen in `results/frozen_v02_baselines.json`. |
+
 ## Quickstart
 
 ```bash

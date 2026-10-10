@@ -58,3 +58,11 @@ def test_c2_null_and_alternative_on_synthetic_data() -> None:
     alt = C2.evaluate_pair(cat(100, 3), cat(50, 4), bl, 2030.0)
     assert alt["D"] == pytest.approx(np.log(2), abs=3 * alt["se"])
     assert alt["reject"]
+
+
+def test_c2_baselines_frozen_against_this_prereg() -> None:
+    f = ROOT / "results" / "frozen_v02_baselines.json"
+    b = json.loads(f.read_text())
+    assert b["prereg_sha256"] == _sha(PREREG)
+    assert {"SE_Alaska_AK", "Interior_AK_ctrl"} <= set(b["regions"])
+    assert _sha(f) == "e2fc568c93622c97607c122c210ed5fcccace0d2440b8cd420fddd931be9f401"

@@ -39,6 +39,22 @@ starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE
 unwahrscheinlich. Verzögerte viskose Antworten, einzelne große Brüche und vulkanische Effekte sind
 *nicht* ausgeschlossen.
 
+## v0.2 (in Entwicklung, Branch `v0.2-dev`; nicht veröffentlicht)
+
+Präregistrierte Ergänzung [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (eingefroren am
+2026-10-10, vor den Auswertungen; v0.1.0 unverändert). Details: [docs/RESULTS.md](docs/RESULTS.md)
+(Abschnitt v0.2), [docs/METHODS_v02.md](docs/METHODS_v02.md), [docs/v02_benchmarks.md](docs/v02_benchmarks.md).
+Aufruf: `glacial-sensitivity v02` (Stufen m0 m1 m2 m3 m4 base plot; wiederaufnehmbar).
+
+| Meilenstein | Ergebnis |
+|---|---|
+| M2 ETAS mit Jahres-Hintergrund (H2.1) | SE-Alaska minus Inner-Alaska: +0,41 ± 0,14 pro Jahrzehnt, p = 0,0017 – formal signifikant, aber getragen von 1995–2002 (niedrige Katalogzahlen in beiden Regionen); ab 2003 +0,11 ± 0,16 (explorativ). Nicht als Gletschersignal gelesen. |
+| M2 trügerische Ruhe (H2.2) | Kein maskierter Hintergrundanstieg in irgendeiner Region. Die v0.1.0-Ruhe der NZ-Südalpen ist im Modell eine echte Abnahme, aber Mc-abhängig und netzweit. |
+| M3 Körpergezeit (H3) | Keine signifikante Modulation, kein Gezeiten-b-Wert-Effekt (BH). SE-Alaska hätte ≥ 6,8 % Modulation erkannt. Ozeanauflast nicht modelliert. |
+| M1 Katalog-Robustheit | F1 in SE-Alaska robust gegenüber der Entclusterung; die NZ-Ruhe verschwindet mit EMR-artigem Mc. |
+| M4 Lag (Sasgen et al. 2026) | SE-Alaska frühestes Nachweisjahr 2045,8 → 2047,3 (kaum viskositätsabhängig); Island τ ~300 → ~10 a, 2070 → 2062. |
+| C2 (prospektiv, ab 2027-01-01) | Hintergrundänderung Gletscher vs. Kontrolle mit eingefrorenen ETAS-Parametern; Blicke 2029-12-31 (α 0,01) und 2036-12-31 (α 0,04). Baselines in `results/frozen_v02_baselines.json`. |
+
 ## Schnellstart
 
 ```bash

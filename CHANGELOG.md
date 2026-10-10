@@ -3,6 +3,34 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
+## [Unreleased] – 0.2.0.dev0 (branch `v0.2-dev`)
+
+### Added
+- `etas_nonstat`: temporal ETAS with piecewise-constant yearly background (two-stage estimator,
+  analytic gradient, chunked pair sums), DiD/BH helpers, H2.2 classification, `mu_window_mle` for C2,
+  branching simulator; synthetic recovery and null-calibration studies (`scripts/v02_*_study.py`).
+- `tides`: low-precision Moon/Sun ephemeris (Meeus), degree-2 body-tide areal strain, Tanaka phase,
+  Schuster test, tidal b-value split, simulation MDEs.
+- `robustness_mc`: Ogata–Katsura (EMR-type) Mc, Mc bootstrap, Gardner–Knopoff declustering.
+- `lag_sensitivity`: Sasgen et al. 2026 rheologies as a separate sensitivity set; η scan.
+- `confirmatory_v02` (C2), `v02` orchestrator (resumable, per-region checkpoints), `plots_v02`
+  (charts 18–23), CLI `glacial-sensitivity v02`.
+- Docs: `PREREGISTRATION_v0.2.md`, `docs/METHODS_v02.md`, `docs/v02_benchmarks.md`, v0.2 section in
+  `docs/RESULTS.md`, `docs/REVIEW_PROMPTS.md`; README v0.2 sections (EN/DE).
+- Tests: 30 new offline tests (ETAS recovery incl. masked-rise scenario, ephemeris against Meeus
+  examples, EMR/GK, lag variants, preregistration hashes).
+
+### Changed
+- `tipping.run_scenarios` accepts an optional `rheologies` mapping (default reproduces v0.1.0 exactly).
+- Version 0.2.0.dev0.
+
+### Pre-registration amendments
+- 2026-10-10 (before the v0.2 analyses and before any prospective data): **additions only**.
+  H2.1/H2.2/H3 (retrospective), prospective test C2 with its own window from 2027-01-01, monitoring
+  M6/M7; frozen in `results/frozen_v02_preregistration.json` (SHA-256 af7a5d02…d927d3). C2 baselines
+  frozen in `results/frozen_v02_baselines.json` (SHA-256 e2fc568c…be9f401). C1, M1–M5 and all v0.1.0
+  frozen parameters unchanged (hashes tested).
+
 ## [0.1.0] – 2026-10-10
 
 ### Added

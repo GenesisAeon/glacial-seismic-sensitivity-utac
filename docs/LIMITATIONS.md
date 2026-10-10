@@ -54,8 +54,12 @@
   überall an der Untergrenze. µ-Niveaus sind modellabhängig, Trends und Verhältnisse weniger.
 * H2.1 kann – wie gezeigt – an einer Netzphase hängen (1995–2002 in Alaska). Netzinterne Kontrollen
   helfen nur, wenn die Netzänderung beide Regionen gleich trifft.
-* Gezeiten: nur Körpergezeit, keine Ozeanauflast; ein Nullbefund schließt Gezeitenauslösung durch
-  die volle Gezeit nicht aus.
+* Gezeiten: präregistriert nur Körpergezeit. Ozeanauflast nur explorativ (SPOTL, TPXO 7.2; im
+  Fjord-Nahfeld unzureichend); keine störungsflächen-aufgelöste Spannung. Ein Nullbefund schließt
+  Gezeitenauslösung durch die volle Gezeit nicht aus. Die Tanaka-Phase der vollen Gezeit ist zu
+  Zufallszeiten nicht gleichverteilt; Tests brauchen eine Zufallszeit-Referenz.
+* H2.1-Netzkovariaten beruhen auf FDSN-Stationsmetadaten; alte AEC-Kurzperiodenstationen
+  (1990er) fehlen dort, temporäre Arrays flossen evtl. nicht in den Katalog.
 * Lag-Modell: Die Lithosphärendicke aus GIA-Modellen (Sasgen et al. 2026) wird als elastische Dicke
   eines Plattenfilters verwendet; Viskositäten aus Alaska/Island werden auf Halbraum-Relaxation
   übertragen. Ergebnisse sind Szenarien, keine Vorhersagen.

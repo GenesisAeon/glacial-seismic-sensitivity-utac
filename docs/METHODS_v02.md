@@ -74,7 +74,13 @@ Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Ko
 * **Ozeanauflast fehlt.** Für SE-Alaska, Neuseeland, Island und Grönland kann die Auflastgezeit
   größer sein als die Körpergezeit und eine andere Phase haben (Tsuruoka, Ohtake & Sato 1995, GJI
   122:183, https://doi.org/10.1111/j.1365-246X.1995.tb03546.x, rechneten deshalb Körper- und
-  Ozeangezeit am Hypozentrum; Modellierung z. B. mit SPOTL wäre der nächste Schritt). Auch die auf
+  Ozeangezeit am Hypozentrum). Explorativ ergänzt (v0.2.0, nicht präregistriert): SPOTL
+  (Agnew 1997, https://igppweb.ucsd.edu/~agnew/Spotl/spotlmain.html) mit TPXO 7.2, 8 Partialtiden,
+  Green-Funktion gr.gbaver.wef.p02.ce, Flächendehnung = 1,5 × Volumendehnung (freie Oberfläche,
+  ν = 0,25), Test gegen die Phasenverteilung zu Zufallszeiten (`scripts/v02_m3_ocean_load.py`;
+  Konvention: SPOTLs Körpergezeit-Phasen der eintägigen Tiden südlich des Äquators +180°, weil
+  `loadcomb b` auf das vorzeichenbehaftete lokale Potential bezieht). Herkunft der eingefrorenen
+  Love-Zahlen h = 0,6114, l = 0,0832: Körpergezeiten-Werte von SPOTL (`loadcomb`). Auch die auf
   Störungsflächen aufgelöste (Coulomb-)Spannung fehlt. Getestet wird genau die **Korrelation mit
   der Phase der Grad-2-Körpergezeiten-Flächendehnung**; ein Nullbefund ist nur dafür ein Nullbefund.
 
@@ -114,7 +120,7 @@ Vorhersage eines Ereignisses.
 M1 re-runs F1 and Habermann z with an Ogata–Katsura (EMR-type) Mc, Mc bootstrap and
 Gardner–Knopoff declustering. M2 is a temporal ETAS with yearly background (two-stage estimator,
 tmax 1 yr). M3 computes the degree-2 body-tide areal strain (own Meeus ephemeris, validated) and
-Tanaka phases; ocean loading is not included. M4 re-runs the v0.1.0 lag model with the
+Tanaka phases; ocean loading is not part of the preregistered test (exploratory SPOTL/TPXO 7.2 run in v0.2.0; the Tanaka phase of the total strain must be tested against random times). The frozen Love numbers h 0.6114, l 0.0832 are SPOTL's body-tide values. M4 re-runs the v0.1.0 lag model with the
 Sasgen et al. (2026) viscosities without changing the v0.1.0 values. Sea-level rise adds ~37 Pa/yr
 load (not modelled). "2046" is the earliest detection year in the most favourable v0.1.0 scenario,
 not a peak.

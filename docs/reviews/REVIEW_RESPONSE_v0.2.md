@@ -57,7 +57,7 @@ Präregistrierung berührt, wurde in
 | 24 | Zenodo: Release v0.2.0 mit Präreg.-Dateien vor 2027-01-01 | GR | berechtigt | **Entscheidung J. Römer** (kein Release durch mich) |
 | 25 | CI grün, ruff/mypy sauber; 3 lokale Testfehler unter Windows = CRLF auf gehashten JSON | CC | berechtigt | `.gitattributes`: `results/*.json`, `results/frozen_*.json`, `PREREGISTRATION*.md` mit `-text` |
 | 26 | `window_ratio()` halboffen → Kalibrierung verglich 2008–2018 vs. 2020–2024 | CX, CC (B1) | **berechtigt (bestätigt)** | Skripte nutzen jetzt die Produktionsgeometrie aus `v02` (CC: auch Vorlauf und 31. Bin fehlten); produktionsgetreue Kalibrierung (CC und GB): Trend sd(z) ≤ 1,11 → 1,25 reicht; Fensterverhältnis 1,18–1,30 (Obergrenzen bis 1,42); H2.1 bleibt abgelehnt; H2.2-Klassen kippen erst ab Faktor 1,56; Regressionstest `test_v02_scripts.py`; **Erratum E1** |
-| 27 | Love-Zahlen: IERS 2010 h = 0,6078, l = 0,0847 bevorzugen | GE | teilweise (Werte geprüft; Herkunft „Farrell 1972“ nicht prüfbar) | Konstanten `LOVE_*_IERS2010`, Test (nur Skalierung, Phasen identisch); eingefrorene H3-Werte bleiben (**E7**) |
+| 27 | Love-Zahlen: IERS 2010 h = 0,6078, l = 0,0847 bevorzugen | GE | teilweise (Werte geprüft; Herkunft „Farrell 1972“ nicht prüfbar; eingefrorene Werte = SPOTL-Körpergezeit, s. u.) | Konstanten `LOVE_*_IERS2010`, Test (nur Skalierung, Phasen identisch); eingefrorene H3-Werte bleiben (**E7**) |
 | 28 | „Kumazawa & Ogata Jahresbins“ nicht treu | GE | berechtigt (geprüft: µ(t) und K0(t) glatt, ABIC, Bruchpunkte) | Docstring und METHODS: „angelehnt an, keine Nachimplementierung“ |
 | 29 | Sasgen: Island-Werte und Ensemble-Spannen „nicht gefunden“ | GE | nicht berechtigt | Stehen in Sasgen et al. 2026 (Fig. 3, Methods „Earth model parameters“, Discussion: Island 1e18 Pa·s/30 km, GNSS 40 km; Ensemble 1e18–3e19 Pa·s, 30–90 km) |
 | 30 | Tanaka 2002, Tan 2019, Ogata–Katsura 1993, GK/van Stiphout 2012, IPCC AR6 A.1.7 | GE | bestätigt | keine |
@@ -128,7 +128,9 @@ Entschieden (J. Römer, umgesetzt im Nachtrag A1–A7):
 
 Explorativ bearbeitet (nicht präregistriert; Zahlen in RESULTS):
 
-7. **Ozeanauflast (H3, Punkt 11):** SPOTL mit TPXO 7.2 (8 Partialtiden) – siehe RESULTS M3.
+7. **Ozeanauflast (H3, Punkt 11):** SPOTL mit TPXO 7.2 (8 Partialtiden) – gegen Zufallszeiten
+   getestet nichts signifikant (kleinstes BH-q 0,38); siehe RESULTS M3. Nebenbefund: Die
+   Tanaka-Phase der vollen Gezeit ist zu Zufallszeiten nicht gleichverteilt.
 8. **Netzänderungen (H2.1):** Stationszahlen (EarthScope-FDSN) und jährliches Mc als Kovariaten –
    der Trend wird teilweise, nicht vollständig erklärt; ein Netzartefakt ist weder belegt noch
    ausgeschlossen.

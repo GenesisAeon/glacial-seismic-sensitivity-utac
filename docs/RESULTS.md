@@ -476,6 +476,35 @@ Genau getestet wird die **Korrelation mit der Phase der Grad-2-Körpergezeiten-F
   Hypozentrum, doi:10.1111/j.1365-246X.1995.tb03546.x); gerade in SE-Alaska, NZ, Island und
   Grönland. Die MDE gelten nur relativ zur Körpergezeitenphase, nicht für die volle
   Gezeitenspannung; der Nullbefund schließt Auslösung durch die volle Gezeit nicht aus.
+* **Ozeanauflast (explorativ, nicht präregistriert; `scripts/v02_m3_ocean_load.py`,
+  `m3_tides_ocean_load.csv`):** Auflast-Flächendehnung mit SPOTL (Agnew 1997,
+  doi:10.1029/96JB03458) aus TPXO 7.2 (Egbert & Erofeeva 2002), 8 Partialtiden, Orte =
+  Bebenschwerpunkte von 0,5°-Zellen; Phase auf Körper- + Auflastgezeit (±20 h). Kontrolle: SPOTLs
+  eigene Körpergezeit stimmt mit `tides.areal_strain` überein (Korrelation 0,92–0,999,
+  Amplitudenverhältnis 0,92–1,00, kein Zeitversatz).
+  * Auflast relativ zur Körpergezeit (RMS): SE-Alaska 19,9 vs. 14,6 nstrain, Grönland 18,8 vs. 11,9,
+    NZ-Südalpen 7,0 vs. 18,9, Island 4,6 vs. 12,8, Alpen 1,3 vs. 18,0. Mediane Phasenverschiebung
+    19° (SE-Alaska), 71° (Grönland), 8° (NZ), 21° (Island), 5° (Alpen); Anteil der Beben, die die
+    Dehnungs-/Kompressionshälfte wechseln: 20 %, 42 %, 8 %, 19 %, 2 %.
+  * **Methodischer Befund:** Die Tanaka-Phase ist zu Zufallszeiten nur bei zeitsymmetrischer
+    Wellenform gleichverteilt. Mit Auflast ist die Gesamtdehnung asymmetrisch (z. B. längerer
+    Anstieg als Abfall), und der einfache Schuster-Test „findet“ dann auch Zufallszeiten (Inner-Alaska
+    Schuster-p 5·10⁻⁶, aber Zufallszeiten derselben Orte a = 0,11 bei −78°). Getestet wird deshalb
+    gegen die empirische Phasenverteilung zu Zufallszeiten (3 × N Zufallszeiten je Zelle; Statistik
+    auf χ²₂, reduziert sich bei Gleichverteilung auf Schuster).
+  * Ergebnis (gegen Zufallszeiten, BH über die 5 Gletscherregionen), Körper → Körper + Auflast:
+    SE-Alaska p 0,048 → 0,081 (q 0,24 → 0,41; a 0,057 → 0,052); NZ-Südalpen 0,93 → 0,85;
+    Alpen 0,84 → 0,87; Island 0,18 → 0,86; Grönland 0,56 → 0,81. b-Wert-Hälften: SE-Alaska
+    p 0,84 → 0,075 (Δb +0,03 → −0,04), Grönland 0,023 → 0,58 (Δb −0,19 → +0,02); kleinstes BH-q mit
+    Auflast 0,38. **Keine H3-Aussage ändert sich; auch mit Ozeanauflast kein signifikanter Befund.**
+    Der knappe Grönland-b-Wert-Effekt der Körpergezeit hängt an der Phasendefinition (42 % der Beben
+    wechseln die Hälfte).
+  * Die Körpergezeiten-Phasen zu Zufallszeiten sind nahezu gleichverteilt (a 0,007–0,036, im Rahmen
+    des Zufallsrauschens der Stichprobe); der eingefrorene H3-/M7-Schuster-Test ist damit nicht
+    verzerrt. Für jede Phase auf der vollen Gezeit ist dagegen die Zufallszeit-Referenz nötig.
+  * Grenzen: TPXO 7.2 (1/4°) erfasst Fjorde und Küstennähe schlecht (SPOTL meldet Ozeanzellen ohne
+    Modellwert, v. a. SE-Alaska); Zellschwerpunkte statt Hypozentren; nur 8 Partialtiden, keine
+    langperiodische Auflast; weiterhin keine störungsflächen-aufgelöste Spannung.
 
 ## M1 – Katalog-Robustheit (`m1_catalogue_robustness.csv`, Chart 22)
 
@@ -554,8 +583,13 @@ explain), not an identified forcing rate. No region meets the predefined "masked
 (deceptive-quiet) criterion; moderate effects are not excluded, especially in Iceland/Greenland; the v0.1.0 NZ Southern Alps quiet is a genuine
 background decrease in the ETAS model but is Mc-dependent and network-wide. No significant correlation with the
 phase of the degree-2 body-tide areal strain (Schuster, b-value; BH); SE Alaska MDE 6.8 % modulation
-relative to that phase, Δb 0.07; ocean loading and fault-resolved stress not modelled, so full tidal
-triggering is not tested. Thin-plate/half-space lag sensitivity informed by Sasgen et al. 2026: SE
+relative to that phase, Δb 0.07. Exploratory ocean loading (SPOTL, TPXO 7.2) changes the phases
+substantially in SE Alaska and Greenland, but tested against the empirical phase distribution at random
+times (needed because the total-strain waveform is time-asymmetric) nothing becomes significant
+(smallest BH q 0.38); fault-resolved stress is still not modelled. Exploratory network covariates
+explain part, not all, of the H2.1 trend (0.41 → 0.25–0.39 per decade); a network artefact is neither
+confirmed nor excluded. The recovery study re-run with the corrected simulator is qualitatively
+unchanged. Thin-plate/half-space lag sensitivity informed by Sasgen et al. 2026: SE
 Alaska earliest detection 2045.8 → 2047.3 (within this reduced model governed by the instantaneous
 fraction 1 − C rather than viscosity – a property of the model architecture); Iceland τ ~300 → ~10 yr, earliest detection 2070 → 2062.
 C2 baselines frozen (SHA-256 e2fc568c…). Surprise: Omori p hits its lower bound almost everywhere.

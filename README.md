@@ -1,5 +1,7 @@
 # glacial-seismic-sensitivity-utac
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23281090.svg)](https://doi.org/10.5281/zenodo.23281090)
+
 GenesisAeon Package **133** (registry class KLIMA-KRYO-13) – companion to
 [`glacial-seismicity-utac`](https://github.com/GenesisAeon/glacial-seismicity-utac) (P101).
 Tests whether earthquake catalogues near melting glaciers show an **early stage** of a delayed
@@ -76,6 +78,6 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 ## Citation and licence
 
-See [CITATION.cff](CITATION.cff). MIT licence. Data remain under their providers' terms
+See [CITATION.cff](CITATION.cff). Zenodo: v0.1.0 doi:10.5281/zenodo.23281091; all versions (concept DOI) doi:10.5281/zenodo.23281090. MIT licence. Data remain under their providers' terms
 ([docs/DATA.md](docs/DATA.md)). Package 133 is entered in the GenesisAeon package registry as
 KLIMA-KRYO-13.

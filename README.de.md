@@ -1,5 +1,7 @@
 # glacial-seismic-sensitivity-utac
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23281090.svg)](https://doi.org/10.5281/zenodo.23281090)
+
 GenesisAeon-Paket **133** (Registerklasse KLIMA-KRYO-13) – Begleitpaket zu
 [`glacial-seismicity-utac`](https://github.com/GenesisAeon/glacial-seismicity-utac) (P101).
 Geprüft wird, ob Erdbebenkataloge nahe schmelzender Gletscher ein **Frühstadium** einer verzögerten
@@ -76,6 +78,6 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 ## Zitieren und Lizenz
 
-Siehe [CITATION.cff](CITATION.cff). MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
+Siehe [CITATION.cff](CITATION.cff). Zenodo: v0.1.0 doi:10.5281/zenodo.23281091; alle Versionen (Konzept-DOI) doi:10.5281/zenodo.23281090. MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
 ([docs/DATA.md](docs/DATA.md)). Paket 133 ist im GenesisAeon-Register als KLIMA-KRYO-13
 eingetragen.

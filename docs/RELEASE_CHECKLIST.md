@@ -8,8 +8,11 @@ Stand 2026-10-10 (v0.1.0):
   - `PYPI_API_TOKEN` liegt im Environment `pypi`.
   - Tag `v0.1.0` → `.github/workflows/release.yml` baut, testet, lädt auf PyPI hoch und erstellt das
     GitHub-Release. Zenodo archiviert das Release.
+- **Ergebnis:** GitHub-Release v0.1.0 am 2026-10-10. Zenodo: doi:10.5281/zenodo.23281091 (Version),
+  doi:10.5281/zenodo.23281090 (Konzept). Damit ist der Einfrierzeitpunkt der Präregistrierung vor
+  dem 2026-11-01 unabhängig belegt.
 - **Danach:**
-  - DOI in `CITATION.cff` und in die READMEs eintragen (Folgecommit, kein neuer Tag).
+  - DOI in `CITATION.cff` und in die READMEs eintragen: erledigt (Folgecommit, kein neuer Tag).
   - Auf Trusted Publishing umstellen (Johann).
 
 ## 1. Vor dem ersten Release entscheiden
@@ -20,7 +23,7 @@ Stand 2026-10-10 (v0.1.0):
       `PREREGISTRATION.md`-Titel.
 - [ ] **Version:** 0.1.0 (Analyse- und Präregistrierungsstand) oder 1.0.0. Empfehlung: 0.1.0, weil
       der konfirmatorische Teil erst 2029/2036 ausgewertet wird.
-- [ ] **Präregistrierung zeitlich belegen:** Ein Zenodo-DOI *vor* dem 2026-11-01 würde den
+- [x] **Präregistrierung zeitlich belegen (erledigt: doi:10.5281/zenodo.23281091, 2026-10-10):** Ein Zenodo-DOI *vor* dem 2026-11-01 würde den
       Einfrierzeitpunkt unabhängig dokumentieren. Der Git-Commit allein ist schwächer, weil
       Commit-Daten änderbar sind. Alternativ: OSF-Präregistrierung mit Link auf den Commit.
 

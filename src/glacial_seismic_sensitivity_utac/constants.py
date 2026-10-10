@@ -1,6 +1,6 @@
 """Literature constants used for comparison and for the lag model.
 
-GenesisAeon Package 133 (PROVISIONAL number - to be confirmed in PACKAGE_REGISTRY.md).
+GenesisAeon Package 133, registry class KLIMA-KRYO-13 (entered in PACKAGE_REGISTRY.md 2026-10-10).
 Companion of glacial-seismicity-utac (P101). Deliberately NO UTAC/CREP/AFET bridge.
 
 Every number below is quoted from the cited source (checked 2026-10-10). Numbers marked
@@ -9,8 +9,9 @@ Every number below is quoted from the cited source (checked 2026-10-10). Numbers
 
 from __future__ import annotations
 
-PACKAGE_ID = 133  # provisional
-PACKAGE_ID_PROVISIONAL = True
+PACKAGE_ID = 133
+PACKAGE_ID_PROVISIONAL = False
+REGISTRY_CLASS = "KLIMA-KRYO-13"
 COMPANION_PACKAGE = "glacial-seismicity-utac (P101)"
 
 
@@ -150,6 +151,192 @@ ADER_AVOUAC_2013 = _c(
     "Detecting periodicities and declustering in earthquake catalogs using the Schuster spectrum",
     "Earth Planet. Sci. Lett. 377-378, 97-105",
     "10.1016/j.epsl.2013.06.032",
+)
+
+# --- v0.1.0 extensions: tipping trajectories (A), quiescence (B), CSN, GNSS -----------------
+EDWARDS_2021 = _c(
+    "Edwards, T.L. et al.",
+    2021,
+    "Projected land ice contributions to twenty-first-century sea level rise",
+    "Nature 593, 74-82",
+    "10.1038/s41586-021-03302-y",
+    "Table 1, 2015-2100, cm SLE, median [5-95 %], SSP5-8.5: Greenland 10 [2, 20]; glaciers "
+    "16 [12, 21]; Antarctica 4 [-5, 14], risk-averse 22 [8, 43].",
+)
+EDWARDS_2021_CM = dict(greenland_ssp585=(10, 2, 20), glaciers_ssp585=(16, 12, 21))
+DECONTO_2021 = _c(
+    "DeConto, R.M. et al.",
+    2021,
+    "The Paris Climate Agreement and future sea-level rise from Antarctica",
+    "Nature 593, 83-89",
+    "10.1038/s41586-021-03427-0",
+    "~3 degC: abrupt jump in the pace of Antarctic ice loss after ~2060, ~0.5 cm/yr GMSL by "
+    "2100, an order of magnitude faster than today (abstract).",
+)
+ROBEL_2019 = _c(
+    "Robel, A.A., Seroussi, H., Roe, G.H.",
+    2019,
+    "Marine ice sheet instability amplifies and skews uncertainty in projections of future "
+    "sea-level rise",
+    "PNAS 116(30), 14887-14892",
+    "10.1073/pnas.1904822116",
+)
+IMBIE_2018 = _c(
+    "The IMBIE team",
+    2018,
+    "Mass balance of the Antarctic Ice Sheet from 1992 to 2017",
+    "Nature 558, 219-222",
+    "10.1038/s41586-018-0179-y",
+    "WAIS 53 +- 29 -> 159 +- 26 Gt/yr (1992-1997 -> 2012-2017).",
+)
+VELICOGNA_2020 = _c(
+    "Velicogna, I. et al.",
+    2020,
+    "Continuity of ice sheet mass loss in Greenland and Antarctica from the GRACE and GRACE "
+    "Follow-On missions",
+    "Geophys. Res. Lett. 47, e2020GL087291",
+    "10.1029/2020GL087291",
+)
+BEVIS_2019 = _c(
+    "Bevis, M. et al.",
+    2019,
+    "Accelerating changes in ice mass within Greenland, and the ice sheet's sensitivity to "
+    "atmospheric forcing",
+    "PNAS 116(6), 1934-1939",
+    "10.1073/pnas.1806562116",
+)
+BOERS_RYPDAL_2021 = _c(
+    "Boers, N., Rypdal, M.",
+    2021,
+    "Critical slowing down suggests that the western Greenland Ice Sheet is close to a tipping "
+    "point",
+    "PNAS 118(21), e2024192118",
+    "10.1073/pnas.2024192118",
+)
+ROBINSON_2012 = _c(
+    "Robinson, A., Calov, R., Ganopolski, A.",
+    2012,
+    "Multistability and critical thresholds of the Greenland ice sheet",
+    "Nature Climate Change 2, 429-432",
+    "10.1038/nclimate1449",
+)
+LEVERMANN_WINKELMANN_2016 = _c(
+    "Levermann, A., Winkelmann, R.",
+    2016,
+    "A simple equation for the melt elevation feedback of ice sheets",
+    "The Cryosphere 10, 1799-1807",
+    "10.5194/tc-10-1799-2016",
+)
+ARMSTRONG_MCKAY_2022 = _c(
+    "Armstrong McKay, D.I. et al.",
+    2022,
+    "Exceeding 1.5 degC global warming could trigger multiple climate tipping points",
+    "Science 377, eabn7950",
+    "10.1126/science.abn7950",
+)
+OGATA_1988 = _c(
+    "Ogata, Y.",
+    1988,
+    "Statistical models for earthquake occurrences and residual analysis for point processes",
+    "J. Am. Stat. Assoc. 83(401), 9-27",
+    "10.1080/01621459.1988.10478560",
+)
+OGATA_1992 = _c(
+    "Ogata, Y.",
+    1992,
+    "Detection of precursory relative quiescence before great earthquakes through a "
+    "statistical model",
+    "J. Geophys. Res. 97(B13), 19845-19871",
+    "10.1029/92JB00708",
+)
+WYSS_HABERMANN_1988 = _c(
+    "Wyss, M., Habermann, R.E.",
+    1988,
+    "Precursory seismic quiescence",
+    "Pure Appl. Geophys. 126, 319-332",
+    "10.1007/BF00879001",
+)
+HABERMANN_1991 = _c(
+    "Habermann, R.E.",
+    1991,
+    "Seismicity rate variations and systematic changes in magnitudes in teleseismic catalogs",
+    "Tectonophysics 193, 277-289",
+    "10.1016/0040-1951(91)90337-R",
+)
+HARRIS_1998 = _c(
+    "Harris, R.A.",
+    1998,
+    "Introduction to special section: Stress triggers, stress shadows, and implications for "
+    "seismic hazard",
+    "J. Geophys. Res. 103(B10), 24347-24358",
+    "10.1029/98JB01576",
+)
+HAMPEL_2010 = _c(
+    "Hampel, A., Hetzel, R., Maniatis, G.",
+    2010,
+    "Response of faults to climate-driven changes in ice and water volumes on Earth's surface",
+    "Phil. Trans. R. Soc. A 368, 2501-2517",
+    "10.1098/rsta.2010.0031",
+)
+JOHNSTON_1987 = _c(
+    "Johnston, A.C.",
+    1987,
+    "Suppression of earthquakes by large continental ice sheets",
+    "Nature 330, 467-469",
+    "10.1038/330467a0",
+)
+SCHORLEMMER_2005 = _c(
+    "Schorlemmer, D., Wiemer, S., Wyss, M.",
+    2005,
+    "Variations in earthquake-size distribution across different stress regimes",
+    "Nature 437, 539-542",
+    "10.1038/nature04094",
+)
+SUNDAL_2011 = _c(
+    "Sundal, A.V. et al.",
+    2011,
+    "Melt-induced speed-up of Greenland ice sheet offset by efficient subglacial drainage",
+    "Nature 469, 521-524",
+    "10.1038/nature09740",
+)
+TEDSTONE_2015 = _c(
+    "Tedstone, A.J. et al.",
+    2015,
+    "Decadal slowdown of a land-terminating sector of the Greenland Ice Sheet despite warming",
+    "Nature 526, 692-695",
+    "10.1038/nature15722",
+)
+SIGMUNDSSON_2015 = _c(
+    "Sigmundsson, F. et al.",
+    2015,
+    "Segmented lateral dyke growth in a rifting event at Bardarbunga volcanic system, Iceland",
+    "Nature 517, 191-195",
+    "10.1038/nature14111",
+)
+POTIN_2024 = _c(
+    "Potin, B., Ruiz, S., Aden-Antoniow, F. et al.",
+    2024,
+    "A Revised Chilean Seismic Catalog from 1982 to Mid-2020",
+    "Seismological Research Letters 96(1), 484-498",
+    "10.1785/0220240047",
+    "Data: Potin, Aden-Antoniow & Ruiz, Zenodo, doi:10.5281/zenodo.13146436 (CC BY 4.0).",
+)
+POTIN_2024_DATA = _c(
+    "Potin, B., Aden-Antoniow, F., Ruiz, S.",
+    2024,
+    "Chilean Seismic Catalogue - 1982 - mid-2020",
+    "Zenodo (DataCite)",
+    "10.5281/zenodo.13146436",
+    "Record rights: CC BY 4.0 and MIT (DataCite rightsList); concept DOI "
+    "10.5281/zenodo.11360589. The README inside the zip cites 10.5281/zenodo.13146119, which "
+    "does not resolve (checked 2026-10-10).",
+)
+BLEWITT_2018 = _c(
+    "Blewitt, G., Hammond, W.C., Kreemer, C.",
+    2018,
+    "Harnessing the GPS data explosion for interdisciplinary science",
+    "Eos 99",
+    "10.1029/2018EO104623",
 )
 
 ALL_CITATIONS = {k: v for k, v in globals().items() if isinstance(v, dict) and "doi" in v}

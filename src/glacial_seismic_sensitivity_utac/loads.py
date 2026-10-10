@@ -29,10 +29,13 @@ def grace_file() -> str:
     return files[-1]
 
 
-def regional_grace(fn: str | None = None) -> pd.DataFrame:
-    """Monthly regional mean load anomaly (kPa) and mass (Gt) for every region.
+def box_grace(
+    boxes: dict[str, tuple[tuple[float, float, float, float], str | None]], fn: str | None = None
+) -> pd.DataFrame:
+    """Monthly mean load anomaly (kPa) and mass (Gt) for arbitrary boxes.
 
-    Columns: t_yr, month (Timestamp), <region>_kPa, <region>_Gt, <region>_n_mascons.
+    boxes[name] = ((minlat, maxlat, minlon, maxlon), exclude_rule_or_None).
+    Columns: t_yr, month (Timestamp), <name>_kPa, <name>_Gt, <name>_n_mascons.
     """
     fn = fn or grace_file()
     with h5py.File(fn, "r") as f:
@@ -44,10 +47,10 @@ def regional_grace(fn: str | None = None) -> pd.DataFrame:
         cm = f["solution/cmwe"][:]
         tyr = f["time/yyyy_doy_yrplot_middle"][2]
     out: dict[str, np.ndarray] = {"t_yr": np.asarray(tyr)}
-    for name, r in C.REGIONS.items():
-        a, b, c, d = r.box
+    for name, (box, exclude) in boxes.items():
+        a, b, c, d = box
         m = (lat >= a) & (lat <= b) & (lon >= c) & (lon <= d) & (loc != 90)
-        if r.exclude == "lon>-36&lat<66":
+        if exclude == "lon>-36&lat<66":
             m &= ~((lon > -36) & (lat < 66))
         if m.sum() == 0:
             continue
@@ -61,6 +64,11 @@ def regional_grace(fn: str | None = None) -> pd.DataFrame:
     mon = np.clip(np.floor((df.t_yr - yr) * 12).astype(int) + 1, 1, 12)
     df["month"] = pd.to_datetime(dict(year=yr, month=mon, day=1))
     return df.drop_duplicates("month").reset_index(drop=True)
+
+
+def regional_grace(fn: str | None = None) -> pd.DataFrame:
+    """Monthly regional mean load anomaly (kPa) and mass (Gt) for every study region."""
+    return box_grace({n: (r.box, r.exclude) for n, r in C.REGIONS.items() if r.grace}, fn)
 
 
 def seasonal_anomaly(s: pd.Series, window: int = 13, min_periods: int = 9) -> pd.Series:

@@ -1,0 +1,3 @@
+region,catalogue,mc_ref,n_decl,years,n_events,schuster_amp,schuster_p,peak_month,b0,b0_se,b1_per_decade,b1_se,b1_p_wald_one,b1_p_wald_two,phi,b1_p_perm_one,b1_p_perm_two,group,tier,q_BH_all_regions,sig_BH
+Central_Andes_CSN_ctrl,CSN relocated (Potin et al. 2024),4,2779,1990-2019,2779,0.06343,0.0611005,10.4825,0.0405398,0.0372667,-0.0701369,0.0411938,0.955679,0.0886419,1.64989,0.877061,0.251374,,,,
+Central_Andes,"ComCat (main run, 1990-2025)",4.6,,,4918,0.0744698,0.00109336,1.73125,0.0587943,0.0207357,0.0159099,0.0202542,0.216077,0.432154,1.03018,0.18091,0.354823,control,comcat,0.452274,False

@@ -7,6 +7,7 @@ Sources (all public, no login):
 - GeoNet (New Zealand) FDSN         https://service.geonet.org.nz/fdsnws/event/1/
 - Icelandic Met Office quakes API   https://api.vedur.is/quakes/events
 - GEUS Greenland/Denmark GeoJSON    https://seismologi.geus.dk/geojson/GeoJSON-eqs.json
+- CSN Chile relocated 1982-2020     Zenodo doi:10.5281/zenodo.13146436 (see fetch/extra.py)
 """
 
 from __future__ import annotations
@@ -203,6 +204,10 @@ def fetch_region(name: str, force: bool = False) -> pd.DataFrame:
         df = fetch_imo(r)
     elif r.source == "geus":
         df = fetch_geus(r)
+    elif r.source == "csn_zenodo":
+        from .extra import fetch_csn
+
+        df = fetch_csn(r)
     else:  # pragma: no cover
         raise ValueError(r.source)
     df = df.drop_duplicates("id")[UNIFIED_COLUMNS]

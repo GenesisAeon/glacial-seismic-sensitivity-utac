@@ -1,7 +1,7 @@
 # Werden Beben an schmelzenden Gletschern empfindlicher? Ein nüchterner Test
 
 *Allgemeinverständliches Begleitdokument zu `glacial-seismic-sensitivity-utac` (GenesisAeon P133,
-provisorisch). Die Zahlen stammen aus [docs/RESULTS.md](docs/RESULTS.md); jede Quelle steht in
+KLIMA-KRYO-13). Die Zahlen stammen aus [docs/RESULTS.md](docs/RESULTS.md); jede Quelle steht in
 [docs/SOURCES.md](docs/SOURCES.md).*
 
 ## Worum es geht
@@ -58,6 +58,23 @@ Nicht untersucht oder nicht ausschließbar sind:
 - einzelne große Beben an schon stark gespannten Verwerfungen;
 - vulkanische Folgen (Island);
 - Regionen ohne gute Messnetze (Westantarktis, Patagonien).
+
+## Was wäre, wenn das Eis kippt? (Ergänzung v0.1.0)
+
+Wir haben durchgespielt, was passiert, wenn der Eisverlust sich beschleunigt, etwa so stark, wie es die
+Fachliteratur für hohe Emissionen als möglich ansieht (Grönland bis zum 6-fachen Tempo bis 2100,
+Westantarktis bis zum 10-fachen nach DeConto et al. 2021).
+
+- **Seismizität:** Die Zahl kleiner Beben auf „geförderten“ Verwerfungen könnte bis 2100 je nach
+  Region um 0 bis rund 135 % steigen. Messbar wäre ein Anstieg frühestens um 2046 und nur im
+  steilsten Gebirgsfall. Grönland bliebe bis 2100 im Rauschen.
+- **Trügerische Ruhe:** Liegen viele Verwerfungen im „Spannungsschatten“, kann es zunächst *ruhiger*
+  werden, während das Eis schneller schwindet. Diese Ruhe ist aber flach (4–16 %) und mit heutigen
+  Netzen erst Jahrzehnte später erkennbar.
+- **Frühwarnung:** Schwerkraftsatelliten (GRACE) und GPS-Stationen bemerken eine Beschleunigung viel
+  früher. Deshalb haben wir für sie Schwellen festgelegt, die jährlich geprüft werden.
+- **Heute:** Nur Patagonien zeigt einen klar beschleunigten Verlust. Grönland und Vatnajökull
+  verlieren derzeit langsamer als vor 2014. Island zeigt keine verdächtige Ruhe.
 
 ## Wie es weitergeht
 

@@ -33,6 +33,14 @@ def main() -> int:
                 timeout=30,
                 headers={"User-Agent": "glacial-seismic-sensitivity-utac doi check"},
             )
+            if r.status_code != 200 and d.startswith("10.5281/"):  # Zenodo DOIs live at DataCite
+                r2 = requests.get(f"https://api.datacite.org/dois/{d}", timeout=30)
+                if r2.status_code == 200:
+                    a = r2.json()["data"]["attributes"]
+                    print(
+                        f"OK   {d}: {a['publicationYear']} | DataCite | {a['titles'][0]['title']}"
+                    )
+                    continue
             if r.status_code != 200:
                 print(f"FAIL {d}: HTTP {r.status_code}")
                 bad += 1

@@ -36,7 +36,7 @@ def _out(df: pd.DataFrame, name: str) -> None:
 def prepare_all(regions: list[str] | None = None) -> dict[str, Prepared]:
     out = {}
     rows = []
-    for name in regions or list(C.REGIONS):
+    for name in regions or C.main_regions():
         p = prepare_region(name)
         r = C.REGIONS[name]
         if p is None:

@@ -403,6 +403,98 @@ def chart_gridmap() -> None:
     _save(fig, "13_alaska_phase_map.png")
 
 
+def _exists(name: str) -> bool:
+    return (C.OUT / name).exists()
+
+
+def chart_tipping() -> None:
+    """14: load multiplier and seismicity-rate ratio (promoted faults) per trajectory."""
+    if not _exists("tipping_curves.csv"):
+        return
+    c = _read("tipping_curves.csv")
+    c = c[(c.t <= 2150)]
+    regs = ["Greenland_SE", "Amundsen_WAIS", "SE_Alaska_surface", "Iceland_surface"]
+    fig, ax = plt.subplots(2, 4, figsize=(17, 7), sharex=True)
+    for j, reg in enumerate(regs):
+        x = c[(c.region == reg) & (c.shadow_frac == 0.0)]
+        for tr, g in x.groupby("trajectory"):
+            ax[0, j].plot(g.t, g.ldot / g.ldot[g.t == 2025].iloc[0], label=tr)
+            ax[1, j].plot(g.t, g.promoted, label=tr)
+        ax[0, j].set_title(reg)
+        ax[0, j].axvline(2025, color="k", lw=0.6, ls=":")
+        ax[1, j].axhline(1, color="k", lw=0.6)
+        ax[1, j].set_xlabel("year")
+    ax[0, 0].set_ylabel("unloading rate / 2025")
+    ax[1, 0].set_ylabel("seismicity rate / 2025\n(promoted faults, kappa=1, Sdot0=10 kPa/yr)")
+    for j in range(4):
+        ax[0, j].legend(fontsize=6)
+    fig.suptitle(
+        "A: accelerating-loss trajectories -> rate-and-state seismicity ratio (upper-end coupling)"
+    )
+    _save(fig, "14_tipping_rate_ratios.png")
+
+
+def chart_deceptive_quiet() -> None:
+    """15: aggregate rate with 60 % shadowed faults - apparent quiet before the turnaround."""
+    if not _exists("tipping_curves.csv"):
+        return
+    c = _read("tipping_curves.csv")
+    c = c[(c.t <= 2150) & (c.shadow_frac == 0.6)]
+    regs = ["Amundsen_WAIS", "SE_Alaska_surface", "Iceland_surface"]
+    fig, ax = plt.subplots(1, 3, figsize=(15, 4.2), sharey=True)
+    for j, reg in enumerate(regs):
+        for tr, g in c[c.region == reg].groupby("trajectory"):
+            ax[j].plot(g.t, g.aggregate_rate, label=tr)
+        ax[j].axhline(1, color="k", lw=0.6)
+        ax[j].axhline(0.98, color="grey", lw=0.6, ls="--")
+        ax[j].set_title(reg)
+        ax[j].set_xlabel("year")
+        ax[j].legend(fontsize=7)
+    ax[0].set_ylabel("catalogue rate / 2025 (60 % shadowed faults)")
+    fig.suptitle("B: pre-tipping apparent quiet (kappa=1, Sdot0=10 kPa/yr); dashed = -2 %")
+    _save(fig, "15_deceptive_pretipping_quiet.png")
+
+
+def chart_precursors() -> None:
+    """16: present-day GRACE normalised acceleration and GNSS uplift acceleration."""
+    if not _exists("precursors_grace_acceleration.csv"):
+        return
+    a = _read("precursors_grace_acceleration.csv")
+    g = _read("precursors_gnss_uplift.csv")
+    fig, ax = plt.subplots(1, 2, figsize=(16, 4.8), gridspec_kw=dict(wspace=0.55))
+    y = np.arange(len(a))
+    ax[0].errorbar(a.xi_per_yr, y, xerr=1.96 * a.xi_se, fmt="o")
+    ax[0].axvline(0, color="k", lw=0.6)
+    ax[0].axvline(0.02, color="r", lw=0.8, ls="--", label="M1 threshold 0.02/yr")
+    ax[0].set_yticks(y, a.box)
+    ax[0].set_xlabel("xi = acceleration of loss / |rate|  [1/yr]  (GRACE 2002-2026)")
+    ax[0].legend(fontsize=8)
+    y2 = np.arange(len(g))
+    ax[1].errorbar(g.accel_mm_yr2, y2, xerr=1.96 * g.accel_se, fmt="o")
+    ax[1].axvline(0, color="k", lw=0.6)
+    ax[1].set_yticks(y2, g.station + " (" + g.uplift_mm_yr_2015.round(1).astype(str) + " mm/yr)")
+    ax[1].set_xlabel("GNSS uplift acceleration [mm/yr^2] (NGL IGS20)")
+    fig.suptitle("Present-day precursor indicators M1 / M2 (baseline, frozen 2026-10-10)")
+    _save(fig, "16_precursors_grace_gnss.png")
+
+
+def chart_quiescence() -> None:
+    """17: ETAS relative quiescence and Habermann z per region."""
+    if not _exists("quiescence_summary.csv"):
+        return
+    q = _read("quiescence_summary.csv")
+    fig, ax = plt.subplots(figsize=(9, 4.5))
+    y = np.arange(len(q))
+    ax.scatter(q.habermann_z, y, label="Habermann z (decl., 2020-25 vs 2008-19)")
+    ax.scatter(q.z_etas_2020_2026.clip(-15, 15), y, marker="s", label="ETAS z 2020-26 (clipped)")
+    ax.axvline(-2, color="r", lw=0.8, ls="--")
+    ax.axvline(0, color="k", lw=0.6)
+    ax.set_yticks(y, q.region + "\n" + q.classification, fontsize=7)
+    ax.legend(fontsize=7)
+    ax.set_title("M5: quiescence statistics and pre-registered classification")
+    _save(fig, "17_quiescence_classification.png")
+
+
 def all_charts() -> None:
     f1 = _read("F1_harmonic_growth.csv")
     f2 = _read("F2_load_sensitivity_growth.csv")
@@ -442,5 +534,9 @@ def all_charts() -> None:
         chart_power,
         chart_heatmap,
         chart_gridmap,
+        chart_tipping,
+        chart_deceptive_quiet,
+        chart_precursors,
+        chart_quiescence,
     ):
         fn()

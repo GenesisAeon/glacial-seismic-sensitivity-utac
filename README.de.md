@@ -1,6 +1,6 @@
 # glacial-seismic-sensitivity-utac
 
-GenesisAeon-Paket **133 (provisorisch)** – Begleitpaket zu
+GenesisAeon-Paket **133** (Registerklasse KLIMA-KRYO-13) – Begleitpaket zu
 [`glacial-seismicity-utac`](https://github.com/GenesisAeon/glacial-seismicity-utac) (P101).
 Geprüft wird, ob Erdbebenkataloge nahe schmelzender Gletscher ein **Frühstadium** einer verzögerten
 Reaktion auf Eisentlastung zeigen – nicht über Ratentrends, sondern über eine wachsende
@@ -27,6 +27,10 @@ und ERA5-Niederschlag. Ein konfirmatorischer Test auf Daten ab **November 2026**
 | Lag-Modell (Szenarien) | Relaxationszeiten von 23 Jahren (Patagonien) bis ~2000 Jahren (Alpen). Schmale Gebirgslasten wirken überwiegend elastisch. Ein verzögerter viskoser Ratenanstieg wäre in keinem von 126 Szenarien vor ~2155 als Trend nachweisbar. |
 | Kritikalitäts-Batterie | 16 von 544 Einzeltests nach BH signifikant, überwiegend Netz-/Mc-, b-Wert- und Varianzeffekte (4 in Kontrollregionen); 0 von 180 Gruppenvergleichen Gletscher vs. Kontrolle; nirgends steigende Autokorrelation. |
 | Konfirmatorischer Test C1 | Eingefroren am 2026-10-10. Looks 2029-10-31 (α 0,01) und 2036-10-31 (α 0,04). Bis 2036 erkennbar: etwa eine Verdopplung der SE-Alaska-Modulation. |
+| A Kippszenarien (v0.1.0) | Beschleunigte Eisverluste nach publizierten Spannen (Edwards 2021, DeConto 2021). Seismizität geförderter Störungen 2100: Grönland SO 1,0–1,24×, Amundsen (DeConto 3 °C) 1,1–1,9×, SE-Alaska 1,05–2,35×. Ein Anstieg wird frühestens 2046 nachweisbar (SE-Alaska, steilster Pfad, κ = 1); Grönland erst nach 2100. Die Abnahme der Saisonmodulation bleibt bis 2100 unter der Nachweisgrenze. |
+| B Trügerische Ruhe vor dem Kippen | Im Modell möglich, wenn > 50 % der Störungen im Spannungsschatten liegen. Sie beginnt 7–60 Jahre nach Beginn der Beschleunigung, ist 4–16 % tief und frühestens ~2083 statistisch erkennbar. Die geodätischen Indikatoren reagieren früher. |
+| Heutige Vorläufer M1–M5 | GRACE: nur Patagonien beschleunigt (ξ = 0,039 ± 0,007/a), Grönland und Vatnajökull verlangsamen sich. GNSS: TOMO/BACK (Amundsen), AB50 (SE-Alaska) und KELY (W-Grönland) zeigen beschleunigte Hebung. Ruhe nach der Vorab-Regel nur in den NZ-Südalpen (Kontrolle im selben Netz ähnlich). Island: keine Ruhe. |
+| CSN Chile (Potin et al. 2024) | Kontrolle 1990–2019: keine wachsende Saisonmodulation (−0,070 ± 0,041 pro Jahrzehnt). Der Katalog deckt Patagonien nicht ab. |
 
 **Was ausgeschlossen ist und was offen bleibt:** [docs/LIMITATIONS.md](docs/LIMITATIONS.md). Kurz: Ein
 starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE-Alaska
@@ -40,6 +44,7 @@ pip install -e ".[dev]"
 glacial-sensitivity info          # Regionen, Pfade
 glacial-sensitivity fetch         # ~200 MB Rohdaten nach data/raw/ (nicht im Git), ~15–30 min
 glacial-sensitivity run           # alle Analysen -> results/ (~30 min)
+glacial-sensitivity extensions    # Vorläufer, Kippszenarien, Quieszenz, CSN Chile (~10 min, nach run)
 glacial-sensitivity plot          # Charts -> charts/
 glacial-sensitivity lag           # GIA-Relaxationszeiten (ohne Daten)
 pytest                            # Offline-Tests mit synthetischen Daten und Fixtures
@@ -56,12 +61,12 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 | Pfad | Inhalt |
 |---|---|
-| `src/glacial_seismic_sensitivity_utac/` | `fetch/` (Daten), `catalog`, `decluster`, `glm`, `loads`, `sensitivity` (F1–F3), `lagmodel` (F5), `seasonal`, `power`, `criticality`, `confirmatory`, `honesty`, `plots`, `cli` |
-| `results/` | alle Ergebnistabellen, `frozen_confirmatory_parameters.json` |
-| `charts/` | 15 Charts (01–13) |
+| `src/glacial_seismic_sensitivity_utac/` | `fetch/` (Daten), `catalog`, `decluster`, `glm`, `loads`, `sensitivity` (F1–F3), `lagmodel` (F5), `seasonal`, `power`, `criticality`, `confirmatory`, `precursors`, `tipping`, `quiescence`, `extensions`, `honesty`, `plots`, `cli` |
+| `results/` | alle Ergebnistabellen, `frozen_confirmatory_parameters.json`, `frozen_monitoring_indicators.json` |
+| `charts/` | 19 Charts (01–17) |
 | `PREREGISTRATION.md` | Versuchsreihe und Präregistrierung |
 | `docs/` | `METHODS`, `RESULTS`, `LAG_MODEL`, `ANALOGIES`, `DATA`, `LIMITATIONS`, `SOURCES`, `RELEASE_CHECKLIST` |
-| `scripts/verify_dois.py` | prüft alle DOIs aus `constants.py` über Crossref |
+| `scripts/verify_dois.py` | prüft alle DOIs aus `constants.py` und `docs/SOURCES.md` über Crossref/DataCite |
 
 ## Ehrlichkeitsschicht
 
@@ -72,5 +77,5 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 ## Zitieren und Lizenz
 
 Siehe [CITATION.cff](CITATION.cff). MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
-([docs/DATA.md](docs/DATA.md)). Die Paketnummer 133 ist provisorisch, bis sie im GenesisAeon-Register
-eingetragen ist.
+([docs/DATA.md](docs/DATA.md)). Paket 133 ist im GenesisAeon-Register als KLIMA-KRYO-13
+eingetragen.

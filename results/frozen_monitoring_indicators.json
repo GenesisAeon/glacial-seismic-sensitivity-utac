@@ -1,0 +1,188 @@
+{
+ "frozen_on": "2026-10-10",
+ "package_version": "0.1.0",
+ "review": "annually, first review with GRACE-FO data to 2027-12 and catalogues to 2027-12",
+ "thresholds": {
+  "M1_xi_per_yr": 0.02,
+  "M2_uplift_accel_z": 3.0,
+  "M3_modulation_drop_z": 2.487,
+  "M4_b_value_drop": 0.2,
+  "M5_quiet_habermann_z": -2.0,
+  "M5_quiet_etas_z": -2.0,
+  "artefact_ks_p": 0.01,
+  "artefact_dmag": 0.1,
+  "artefact_dmc": 0.2
+ },
+ "baseline_grace": {
+  "Amundsen_ASE": {
+   "mass_rate": -110.23978,
+   "mass_accel": -0.93975,
+   "xi_per_yr": 0.00852,
+   "xi_se": 0.00763
+  },
+  "Greenland_all": {
+   "mass_rate": -285.81723,
+   "mass_accel": 5.34661,
+   "xi_per_yr": -0.01871,
+   "xi_se": 0.00739
+  },
+  "Greenland_SE_box": {
+   "mass_rate": -95.9501,
+   "mass_accel": 2.25688,
+   "xi_per_yr": -0.02352,
+   "xi_se": 0.00967
+  },
+  "Greenland_W_box": {
+   "mass_rate": -62.50537,
+   "mass_accel": 1.68568,
+   "xi_per_yr": -0.02697,
+   "xi_se": 0.01401
+  },
+  "SE_Alaska_box": {
+   "mass_rate": -37.07792,
+   "mass_accel": -0.55805,
+   "xi_per_yr": 0.01505,
+   "xi_se": 0.01533
+  },
+  "Vatnajokull": {
+   "mass_rate": -1.07045,
+   "mass_accel": 0.02331,
+   "xi_per_yr": -0.02177,
+   "xi_se": 0.00651
+  },
+  "Patagonia_box": {
+   "mass_rate": -26.42578,
+   "mass_accel": -1.04087,
+   "xi_per_yr": 0.03939,
+   "xi_se": 0.00737
+  }
+ },
+ "baseline_gnss": {
+  "HOFN": {
+   "uplift_mm_yr_2015": 12.3093,
+   "accel_mm_yr2": -0.005,
+   "accel_z": -0.0788
+  },
+  "KULU": {
+   "uplift_mm_yr_2015": 6.7457,
+   "accel_mm_yr2": 0.1052,
+   "accel_z": 2.0065
+  },
+  "QAQ1": {
+   "uplift_mm_yr_2015": 4.4959,
+   "accel_mm_yr2": -0.0105,
+   "accel_z": -0.3496
+  },
+  "KELY": {
+   "uplift_mm_yr_2015": 7.16,
+   "accel_mm_yr2": 0.4777,
+   "accel_z": 8.3007
+  },
+  "SCOR": {
+   "uplift_mm_yr_2015": 3.0443,
+   "accel_mm_yr2": 0.1848,
+   "accel_z": 1.0566
+  },
+  "THU2": {
+   "uplift_mm_yr_2015": 5.9782,
+   "accel_mm_yr2": 0.022,
+   "accel_z": 0.5342
+  },
+  "AB50": {
+   "uplift_mm_yr_2015": 18.9882,
+   "accel_mm_yr2": 0.4611,
+   "accel_z": 6.4335
+  },
+  "JNU1": {
+   "uplift_mm_yr_2015": 16.2427,
+   "accel_mm_yr2": 0.2464,
+   "accel_z": 1.0988
+  },
+  "TOMO": {
+   "uplift_mm_yr_2015": 41.6899,
+   "accel_mm_yr2": 2.3083,
+   "accel_z": 7.9534
+  },
+  "BACK": {
+   "uplift_mm_yr_2015": 13.0925,
+   "accel_mm_yr2": 0.6701,
+   "accel_z": 4.8593
+  },
+  "INMN": {
+   "uplift_mm_yr_2015": 29.95,
+   "accel_mm_yr2": 0.8013,
+   "accel_z": 2.6386
+  },
+  "LPLY": {
+   "uplift_mm_yr_2015": 4.2869,
+   "accel_mm_yr2": 0.0927,
+   "accel_z": 0.3637
+  },
+  "COYQ": {
+   "uplift_mm_yr_2015": 0.3395,
+   "accel_mm_yr2": 0.0994,
+   "accel_z": 2.8153
+  },
+  "FAIR": {
+   "uplift_mm_yr_2015": 1.6331,
+   "accel_mm_yr2": -0.0203,
+   "accel_z": -0.2659
+  }
+ },
+ "baseline_quiescence": {
+  "Iceland_Vatnajokull_IMO": {
+   "habermann_z": 0.188285,
+   "z_etas_2020_2026": -2.4289,
+   "mc": 2.5,
+   "classification": "no quiescence"
+  },
+  "SE_Alaska_AK": {
+   "habermann_z": 3.14448,
+   "z_etas_2020_2026": 41.0695,
+   "mc": 2.1,
+   "classification": "no quiescence"
+  },
+  "Greenland_GEUS": {
+   "habermann_z": -0.356816,
+   "z_etas_2020_2026": 2.26238,
+   "mc": 2.7,
+   "classification": "no quiescence"
+  },
+  "Alps_SED": {
+   "habermann_z": 1.50608,
+   "z_etas_2020_2026": -4.42327,
+   "mc": 2.1,
+   "classification": "no quiescence"
+  },
+  "NZ_Southern_Alps": {
+   "habermann_z": -2.49718,
+   "z_etas_2020_2026": -14.1514,
+   "mc": 2.8,
+   "classification": "quiescence, load trend unknown"
+  },
+  "Himalaya_Karakoram": {
+   "habermann_z": -1.27738,
+   "z_etas_2020_2026": -1.06481,
+   "mc": 4.7,
+   "classification": "no quiescence"
+  },
+  "Interior_AK_ctrl": {
+   "habermann_z": -1.26074,
+   "z_etas_2020_2026": -4.9582,
+   "mc": 2.1,
+   "classification": "no quiescence"
+  },
+  "N_Switzerland_ctrl": {
+   "habermann_z": 1.78316,
+   "z_etas_2020_2026": 3.55219,
+   "mc": 2.3,
+   "classification": "no quiescence"
+  },
+  "NZ_Wellington_ctrl": {
+   "habermann_z": -1.31946,
+   "z_etas_2020_2026": -17.8031,
+   "mc": 2.7,
+   "classification": "no quiescence"
+  }
+ }
+}

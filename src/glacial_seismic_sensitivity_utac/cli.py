@@ -1,4 +1,4 @@
-"""Command line interface: ``glacial-sensitivity {fetch,run,sensitivity,lag,plot,all,info}``."""
+"""Command line interface: ``glacial-sensitivity {fetch,run,extensions,lag,plot,all,info}``."""
 
 from __future__ import annotations
 
@@ -22,6 +22,9 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("run", help="full analysis (sensitivity, lag, power, criticality)")
     r.add_argument("--regions", nargs="*")
     r.add_argument("--no-criticality", action="store_true")
+    sub.add_parser(
+        "extensions", help="precursors, tipping scenarios, quiescence, CSN Chile (after run)"
+    )
     sub.add_parser("lag", help="print GIA relaxation-time table")
     sub.add_parser("plot", help="charts from existing results")
     a = sub.add_parser("all", help="fetch + run + plot")
@@ -39,6 +42,11 @@ def main(argv: list[str] | None = None) -> int:
 
         run_all(args.regions, criticality_battery=not args.no_criticality)
         return 0
+    if args.cmd == "extensions":
+        from .extensions import run_extensions
+
+        run_extensions()
+        return 0
     if args.cmd == "lag":
         from .lagmodel import relaxation_table
 
@@ -50,12 +58,14 @@ def main(argv: list[str] | None = None) -> int:
         all_charts()
         return 0
     if args.cmd == "all":
+        from .extensions import run_extensions
         from .fetch.run import fetch_all
         from .pipeline import run_all
         from .plots import all_charts
 
         fetch_all()
         run_all(criticality_battery=not args.no_criticality)
+        run_extensions()
         all_charts()
         return 0
     if args.cmd == "info":

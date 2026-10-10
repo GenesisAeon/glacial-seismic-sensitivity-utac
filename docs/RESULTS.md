@@ -147,3 +147,166 @@ erreichen und zeigte deshalb 0 Treffer; das war eine Grenze der Rechnung, kein B
 - Die Treffer sind deshalb als Netz-, Katalog- und Rateneffekte zu lesen, **nicht** als Hinweis auf
   Kritikalität. Ausgeschlossen ist Kritikalität damit nicht; diese Indikatoren haben bei 18
   Zwei-Jahres-Bins wenig Power.
+
+---
+
+# Erweiterungen v0.1.0 (Lauf 2026-10-10, `glacial-sensitivity extensions`)
+
+Alle Zahlen stammen aus den Dateien in `results/`, die unten jeweils genannt sind. Die Szenarien sind
+**Modellrechnungen, keine Prognosen**. Die Kopplung κ zwischen Oberflächenentlastung und
+Coulomb-Spannung auf den Störungen ist unbekannt. κ = 1 ist ein oberes Ende.
+
+## Heute messbare Vorläufer (M1, M2) – `precursors_*.csv`, Chart 16
+
+**GRACE/GRACE-FO 2002.3–2026.2.** v ist die Massenrate 2015, A die Beschleunigung, ξ = −A/|v|
+(> 0 heißt: der Verlust beschleunigt sich). Die Fehler sind 1σ, AR(1)-korrigiert.
+
+| Box | v [Gt/a] | A [Gt/a²] | ξ [1/a] | Rate 2002–13 → 2014–26 [Gt/a] | M1 |
+|---|---|---|---|---|---|
+| Amundsen-See (ASE) | −110,2 ± 2,5 | −0,94 ± 0,84 | +0,0085 ± 0,0076 | −100 → −108 | – |
+| Grönland gesamt | −285,8 ± 6,3 | +5,3 ± 2,1 | **−0,019 ± 0,007** (Verlust verlangsamt sich) | −324 → −248 | – |
+| Grönland SO | −96,0 ± 2,8 | +2,3 ± 0,9 | −0,024 ± 0,010 | −115 → −83 | – |
+| Grönland W | −62,5 ± 2,6 | +1,7 ± 0,9 | −0,027 ± 0,014 | −70 → −47 | – |
+| SE-Alaska | −37,1 ± 1,7 | −0,56 ± 0,57 | +0,015 ± 0,015 | −28 → −38 | – |
+| Vatnajökull (1 Mascon) | −1,07 ± 0,02 | +0,023 ± 0,007 | **−0,022 ± 0,007** | −1,39 → −1,03 | – |
+| Patagonien | −26,4 ± 0,6 | −1,04 ± 0,19 | **+0,039 ± 0,007** (e-Faltung ≈ 25 a) | −19 → −34 | **ja** |
+
+- Nur **Patagonien** überschreitet die M1-Schwelle. Dort gibt es keinen brauchbaren Katalog: ComCat
+  ist zu dünn, und der CSN-Katalog reicht nur bis 45,98° S.
+- Grönland und Vatnajökull verlieren seit ~2014 *langsamer* (vgl. Bevis et al. 2019 zur Abhängigkeit
+  von der atmosphärischen Zirkulation).
+- In der Amundsen-See ist keine signifikante Beschleunigung messbar. Velicogna et al. 2020 beschreiben
+  eine Pause der antarktischen Beschleunigung nach 2016.
+
+**GNSS (NGL, IGS20, Sprünge modelliert).** Hebung 2015 und Beschleunigung (z).
+
+- **M2-Flag (z > 3):**
+  - TOMO (ASE): 41,7 mm/a; +2,31 mm/a² (z 8,0).
+  - BACK (ASE): 13,1 mm/a; +0,67 (z 4,9).
+  - AB50 (SE-Alaska): 19,0 mm/a; +0,46 (z 6,4).
+  - KELY (W-Grönland): 7,2 mm/a; +0,48 (z 8,3).
+- **Ohne Flag:**
+  - HOFN (Vatnajökull): 12,3 mm/a; −0,005 (z −0,1). Die Hebung ist konstant.
+  - INMN: z 2,6. KULU: z 2,0. JNU1: z 1,1.
+  - QAQ1, THU2, LPLY: ≈ 0.
+  - Kontrolle FAIR: −0,02.
+- **Konkordanz mit M1:**
+  - TOMO/BACK und AB50 haben dasselbe Vorzeichen wie ξ ihrer Box. ξ ist dort aber nicht signifikant.
+  - KELY ist **diskordant**: Die W-Grönland-Box verlangsamt sich. Nach der Vorab-Regel wird KELY
+    nur berichtet, nicht gedeutet.
+  - Mögliche Ursachen: elastische Antwort auf die Verlusthistorie 2003–2012, lokale Effekte.
+- TOMO bestätigt die von Barletta et al. 2018 gemessene Hebung (bis 41 mm/a).
+
+## A – Kippszenarien → Seismizitätsverhältnis – `tipping_scenarios.csv`, `tipping_trajectories.csv`, Chart 14
+
+**Pfade.** Der Lastfaktor m ist relativ zur heutigen GRACE-Rate.
+
+- **Grönland:**
+  - SSP5-8.5-Median-äquivalent: m(2100) = 2,1.
+  - 95. Perzentil: 6,6. Das Integral 2015–2100 entspricht 10 bzw. 20 cm SLE (Edwards et al. 2021).
+- **Amundsen:** DeConto ~3 °C, ×10 ab 2060; Sensitivitätsfall ab 2040.
+- **Gebirgsgletscher:** global-glacier-SSP5-8.5-äquivalent, m = 5,2 ab 2015.
+  - Illustrativ, denn Gletscher gehen aus.
+- **Für jede Region zusätzlich:**
+  - „Fortsetzung“ (m = 1);
+  - „GRACE-Beschleunigung fortgesetzt“, exp(ξ·t).
+- **Variierte Parameter:** κ ∈ {0,3; 1}, Ṡ0 ∈ {10; 30} kPa/a.
+
+**Rate geförderter Störungen, relativ zu 2025** (Spanne über κ und Ṡ0) und frühester Nachweis des
+Anstiegs (Trend ab 2026-11, heutige Katalograte):
+
+| Region / Pfad | 2050 | 2100 | Nachweis Anstieg frühestens |
+|---|---|---|---|
+| Grönland SO, Edwards Median | 1,00–1,03 | 1,01–1,10 | 2158 (1 von 4) |
+| Grönland SO, Edwards 95. Perz. | 1,00–1,04 | 1,02–1,24 | 2102 (3 von 4) |
+| Grönland SO, GRACE-Trend fortgesetzt (verlangsamend) | ≈ 1,00 | ≈ 1,00 | nie |
+| Amundsen, DeConto 3 °C (ab 2060) | 1,00–1,02 | 1,10–1,89 | 2079 (4 von 4)* |
+| Amundsen, DeConto früh (ab 2040) | 1,01–1,06 | 1,11–1,96 | 2065 (4 von 4)* |
+| SE-Alaska, Gletscher SSP5-8.5 (Last Gletscheroberfläche) | 1,04–1,26 | 1,21–2,35 | **2046** (4 von 4) |
+| SE-Alaska, Gletscher SSP5-8.5 (Last GRACE-Box) | 1,01–1,09 | 1,05–1,46 | 2061 (4 von 4) |
+| SE-Alaska, GRACE-ξ fortgesetzt (Oberfläche) | 1,03–1,19 | 1,14–1,86 | 2050 (4 von 4) |
+| Island, Gletscher SSP5-8.5 (Oberfläche) | 1,03–1,19 | 1,13–1,99 | 2070 (4 von 4) |
+| Island, GRACE-ξ fortgesetzt (verlangsamend) | 0,92–0,99 | 0,84–0,98 | nie |
+
+\* Hypothetisches Netz mit 100 Ereignissen/a. Die Westantarktis hat heute keinen brauchbaren Katalog.
+
+**Saisonale Modulation:** Sie sinkt in allen Beschleunigungspfaden, bis 2100 auf 0,43–0,97 des heutigen
+Werts. Mit heutigen Katalogen erreicht die Abnahme bis 2100 aber höchstens z = 1,2 und ist damit
+**nicht nachweisbar**.
+
+**Lesart A:**
+
+- Nur die steilsten Pfade machen einen Anstieg vor ~2060 nachweisbar:
+  - Gebirgsgletscher mit hoher Kopplung;
+  - Amundsen bei frühem Kippen und einem dichten, heute nicht existierenden Netz.
+- Grönland bleibt bis 2100 im Rauschen.
+- Die früheren 126 Szenarien mit konstanter Rate (Nachweis ≥ 2155) werden dadurch nicht widerlegt, sondern ergänzt: Erst eine Beschleunigung verkürzt die Nachweiszeit auf Jahrzehnte.
+
+## B – Trügerische Ruhe vor dem Kippen – `tipping_scenarios.csv` (shadow_frac = 0,6), Chart 15
+
+**Modell:** 60 % der Störungen liegen im Spannungsschatten. Das ist eine Annahme; eine Netto-Ruhe gibt
+es nur bei f > 0,5.
+
+| Pfad | Beginn (−2 %) | Tiefe (Minimum) | frühester Nachweis der Ruhe | Ende der Ruhe (Rate wieder ≥ 2025) |
+|---|---|---|---|---|
+| Amundsen, DeConto ab 2060 | 2070–2100 (10–40 a nach Beginn) | 0,87–0,96 | 2097 | 2126 (nur κ = 1, Ṡ0 = 10) |
+| Amundsen, DeConto ab 2040 | 2055–2099 (15–59 a) | 0,86–0,96 | 2089 | 2120 |
+| SE-Alaska, Gletscher SSP5-8.5 (Oberfläche) | 2032–2071 | 0,84–0,95 | 2083 | 2053 |
+| SE-Alaska, GRACE-ξ fortgesetzt (Oberfläche) | 2035–2084 | 0,89–0,97 | 2095 | 2061 |
+| Island, Gletscher SSP5-8.5 (Oberfläche) | 2036–2088 | 0,84–0,95 | 2229 | 2086 |
+| Grönland SO, Edwards 95. Perz. | 2070–2118 | 0,85–0,99 | 2195 | – |
+
+**Lesart B:**
+
+- Eine trügerische Ruhe **vor** dem Kippen folgt physikalisch aus dem Modell. Sie setzt 7–60 Jahre
+  nach Beginn der Beschleunigung ein.
+- Sie ist aber **flach** (4–16 %) und mit heutigen Katalogen frühestens um 2083 statistisch
+  erkennbar. In den steilsten Fällen kehrt sie sich (2053–2061) um, bevor sie erkennbar wird.
+- Die geodätischen Indikatoren reagieren direkt auf die Last. Sie gehen der seismischen Ruhe voraus.
+
+## B – Heutige Ruhe-Statistik – `quiescence_summary.csv`, `quiescence_etas_windows.csv`, Chart 17
+
+Methoden:
+
+- ETAS wird 1995–2014.5 angepasst und fortgeschrieben (Testfenster 2016–19 und 2020–25).
+- Habermann-z vergleicht die entclusterten Jahreszahlen 2020–25 mit 2008–19.
+
+| Region | Habermann-z | ETAS z 2020–26 (beob./erw.) | Artefakt | Last ξ / GNSS | Klasse |
+|---|---|---|---|---|---|
+| Island (IMO) | +0,19 | −2,4 (0,89) | ja (Magnitudenverschiebung −0,25, KS p < 0,001) | −0,022 / HOFN flach | keine Ruhe (ETAS-only) |
+| SE-Alaska (AEC) | **+3,1** (161 → 194/a) | +41 (1,89) | nein | +0,015 n.s. / AB50 ↑ | keine Ruhe (Aktivierung) |
+| Grönland (GEUS) | −0,4 | +2,3 | nein | −0,019 / KELY ↑ | keine Ruhe |
+| Alpen (SED) | +1,5 | −4,4 (0,77) | nein | – | keine Ruhe (ETAS-only) |
+| NZ Südalpen | **−2,5** (109 → 89/a) | −14 (0,61) | nein | – | Ruhe, Lasttrend unbekannt |
+| Himalaya-Karakorum | −1,3 | −1,1 | nein | – | keine Ruhe |
+| Kontrolle Interior Alaska | −1,3 | −5,0 | nein | – | keine Ruhe (ETAS-only) |
+| Kontrolle Nordschweiz | +1,8 | +3,6 | nein | – | keine Ruhe |
+| Kontrolle Wellington | −1,3 | −17,8 (0,64) | nein | – | keine Ruhe (ETAS-only) |
+
+**Lesart:**
+
+- **Island zeigt keine Ruhe**, die die Kriterien erfüllt:
+  - Die entclusterte Rate ist unverändert.
+  - Das ETAS-Signal fällt mit einer Magnitudenverschiebung zusammen (Habermann 1991) und mit dem
+    Abklingen der Bárðarbunga-Episode 2014–15 (Sigmundsson et al. 2015).
+- **Lastseite Island:**
+  - Die Vatnajökull-Massenbilanz verlangsamt sich (ξ < 0), HOFN hebt sich konstant.
+  - Das ist das Bild der echten Entspannung bzw. des nordatlantischen Abbremsens (Hugonnet et al. 2021), nicht der trügerischen Ruhe.
+- **NZ-Südalpen:**
+  - Einzige Ruhe nach der Regel.
+  - Die Kontrolle Wellington im selben Netz fällt ebenfalls (Habermann −1,3, ETAS −17,8). Wahrscheinlich ist das ein netz- oder landesweites Muster.
+  - Für die Südalpen ist keine GRACE-Box hinterlegt.
+- **ETAS-only:** Das Flag schlägt in 2 von 3 Kontrollen an. Deshalb verlangt die Regel die Bestätigung durch Habermann-z.
+
+## CSN Chile (Potin et al. 2024) – `csn_chile_*.csv`
+
+- **Datensatz:** relokalisierter CSN-Katalog 1982 bis Mitte 2020, Box 35–18° S, ≤ 40 km.
+  - 39 893 Ereignisse mit Magnitude ab 1990.
+  - Mc_ref = 4,0 (wegen der 1990er-Jahre).
+  - 2779 entclustert, 1990–2019.
+- **F1 (Kontrolle):** keine wachsende saisonale Modulation.
+  - b1 = −0,070 ± 0,041 pro Jahrzehnt; Permutation p (zweiseitig) = 0,25.
+  - Das ist konsistent mit der ComCat-Kontrolle Central_Andes: +0,016 ± 0,020.
+- **Datenlücke:** Im Jahr 2000 liegen in der Box nur 148 Ereignisse.
+- **Patagonien deckt der Katalog nicht ab:** südlichster Punkt 45,98° S. Die Aysén-Box (43–46° S)
+  hat nur 418 Ereignisse, überwiegend aus 2016–2018, und ist damit nicht nutzbar.

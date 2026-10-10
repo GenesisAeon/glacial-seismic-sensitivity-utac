@@ -8,6 +8,7 @@ from collections.abc import Callable
 from .. import config as C
 from .auxdata import fetch_cities, fetch_grace, fetch_precip
 from .catalogs import fetch_region
+from .extra import fetch_gnss
 
 
 def fetch_all(regions: list[str] | None = None, force: bool = False) -> dict[str, str]:
@@ -15,6 +16,7 @@ def fetch_all(regions: list[str] | None = None, force: bool = False) -> dict[str
     jobs: list[tuple[str, Callable[[], object]]] = [
         ("cities", lambda: fetch_cities(force)),
         ("grace", lambda: fetch_grace(force)),
+        ("gnss_ngl", lambda: fetch_gnss(force)),
     ]
     for job, fn in jobs:
         try:

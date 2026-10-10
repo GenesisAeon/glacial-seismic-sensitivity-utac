@@ -50,3 +50,23 @@ pytest                           # offline, synthetische Fixtures
 
 - **Seeds:** fest (`config.SEED = 20261010`).
 - **Umgebungsvariablen:** `GSS_N_PERM_SENS`, `GSS_N_SURROGATES` und `GSS_N_PERM` setzen die Zahl der Permutationen bzw. Surrogate (Standard 2000 / 2000 / 10 000; mit 500 Surrogaten und 2000 Permutationen liegt das kleinste erreichbare q bei ~0,06, deshalb die höheren Standardwerte). `GSS_RAW`, `GSS_OUT` und `GSS_CHARTS` setzen die Pfade.
+
+## Erweiterungen (v0.1.0): `glacial-sensitivity extensions`
+
+Der Befehl läuft nach `run`, Laufzeit ~10 min (ETAS-Fits). Er ändert keine Ergebnisse des Hauptlaufs.
+
+- **`precursors.py`:** Kleinste-Quadrate-Fit y = a + v(t−2015) + (A/2)(t−2015)² + Jahres- und Halbjahresgang (+ Sprünge).
+  - Die Fehler werden mit √((1+ρ)/(1−ρ)) aus der Lag-1-Autokorrelation ρ der Residuen inflationiert.
+  - GRACE: Boxen in `config.EXTRA_GRACE_BOXES`. GNSS: 14 Stationen in `config.GNSS_STATIONS`, NGL-Sprungliste.
+- **`tipping.py`:** Lastpfade m(t) mit Entlastungsrate L̇(t) = L̇_heute·m(t).
+  - GIA-Spannungsrate: Ṡ_GIA = κ[(1−C)L̇ + C(L̇ ∗ e^{−t/τ}/τ)], mit τ und C aus `lagmodel`.
+  - Geförderte Störungen: (Ṡ0 + Ṡ_GIA)/(Ṡ0 + Ṡ_GIA,2025).
+  - Schattenstörungen: exakte Dieterich-ODE (aσ = 1,5 kPa) mit Spannungsrate Ṡ0 − Ṡ_GIA.
+  - Katalog: (1−f)·gefördert + f·Schatten.
+  - Nachweis: log-linearer Trend ab 2026-11 gegen `lagmodel.mde_slope`. Abnahme der Modulation wie C1 (einseitig, Faktor 2,487).
+- **`quiescence.py`:** Zeitliches ETAS (μ, K, α, c, p), Maximum-Likelihood mit L-BFGS-B, Kern nach 1 Jahr abgeschnitten.
+  - Fit 1995–2014.5, Erwartung im Testfenster einschließlich Triggerung durch beobachtete Ereignisse.
+  - Habermann-z auf entclusterten Jahreszahlen. KS-Test der Magnituden ≥ Mc und Median des jährlichen Mc.
+  - Klassifikation nach `PREREGISTRATION.md` §6.
+- **`extensions.run_csn`:** F1 und Saisonalitäts-Robustheit für den CSN-Katalog, 1990–2019.
+- **Eingefroren:** Schwellen und Basiswerte in `results/frozen_monitoring_indicators.json`. Diese Datei wird nie überschrieben; spätere Läufe schreiben `_RECOMPUTED`.

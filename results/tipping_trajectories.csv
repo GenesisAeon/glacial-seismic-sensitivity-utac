@@ -1,0 +1,21 @@
+region,trajectory,onset,m2100,xi_per_yr,source,load,ldot_now_kPa_yr,n_per_yr,note
+Greenland_SE,continuation,2025,1,0,today's GRACE rate held constant,GRACE box mean,1.71078,21.5,
+Greenland_SE,grace_accel,2025,1,-0.0235214,today's GRACE acceleration continued (xi = -0.0235/yr),GRACE box mean,1.71078,21.5,
+Greenland_SE,edwards_ssp585_median,2015,2.11882,0,Edwards 2021 (derived),GRACE box mean,1.71078,21.5,
+Greenland_SE,edwards_ssp585_p95,2015,6.64303,0,Edwards 2021 (derived),GRACE box mean,1.71078,21.5,
+Amundsen_WAIS,continuation,2025,1,0,today's GRACE rate held constant,GRACE box mean,1.93075,100,no usable catalogue (3 ComCat events): n/yr is hypothetical
+Amundsen_WAIS,grace_accel,2025,1,0.00852458,today's GRACE acceleration continued (xi = +0.0085/yr),GRACE box mean,1.93075,100,no usable catalogue (3 ComCat events): n/yr is hypothetical
+Amundsen_WAIS,deconto_3C,2060,10,0,DeConto et al. 2021 (~3 degC),GRACE box mean,1.93075,100,no usable catalogue (3 ComCat events): n/yr is hypothetical
+Amundsen_WAIS,deconto_3C_early,2040,10,0,sensitivity case: onset 2040,GRACE box mean,1.93075,100,no usable catalogue (3 ComCat events): n/yr is hypothetical
+SE_Alaska_grace,continuation,2025,1,0,today's GRACE rate held constant,GRACE box mean,1.71257,178.4,
+SE_Alaska_grace,grace_accel,2025,1,0.0150508,today's GRACE acceleration continued (xi = +0.0151/yr),GRACE box mean,1.71257,178.4,
+SE_Alaska_grace,edwards_glaciers_ssp585_median,2015,5.2148,0,Edwards et al. 2021 (derived),GRACE box mean,1.71257,178.4,
+SE_Alaska_surface,continuation,2025,1,0,today's GRACE rate held constant,glacier surface (Hugonnet 2021),7.2594,178.4,
+SE_Alaska_surface,grace_accel,2025,1,0.0150508,today's GRACE acceleration continued (xi = +0.0151/yr),glacier surface (Hugonnet 2021),7.2594,178.4,
+SE_Alaska_surface,edwards_glaciers_ssp585_median,2015,5.2148,0,Edwards et al. 2021 (derived),glacier surface (Hugonnet 2021),7.2594,178.4,
+Iceland_grace,continuation,2025,1,0,today's GRACE rate held constant,GRACE box mean,0.858723,36.8,
+Iceland_grace,grace_accel,2025,1,-0.021772,today's GRACE acceleration continued (xi = -0.0218/yr),GRACE box mean,0.858723,36.8,
+Iceland_grace,edwards_glaciers_ssp585_median,2015,5.2148,0,Edwards et al. 2021 (derived),GRACE box mean,0.858723,36.8,
+Iceland_surface,continuation,2025,1,0,today's GRACE rate held constant,glacier surface (Hugonnet 2021),8.6328,36.8,
+Iceland_surface,grace_accel,2025,1,-0.021772,today's GRACE acceleration continued (xi = -0.0218/yr),glacier surface (Hugonnet 2021),8.6328,36.8,
+Iceland_surface,edwards_glaciers_ssp585_median,2015,5.2148,0,Edwards et al. 2021 (derived),glacier surface (Hugonnet 2021),8.6328,36.8,

@@ -31,3 +31,19 @@
 6. **Mehrfachtests:** BH je Testfamilie. Die Gruppen-Meta-Analysen sind explorativ, weil sich Regionen innerhalb eines Tiers teils überlappen und die Kontrollen heterogen sind.
 7. **Lag-Modell:** κ ist unbestimmt, λ angenommen, Halbraum + Platte, keine 3-D-Viskosität. Ergebnisse sind Größenordnungen. Details in [`LAG_MODEL.md`](LAG_MODEL.md).
 8. **Kausalität:** Eine Korrelation von Seismizität und Last ist kein Beweis für eine Last-Ursache, denn hydrologische Prozesse sind miteinander verkoppelt.
+
+## Zusätzliche Grenzen der Erweiterungen (v0.1.0)
+
+9. **Kippszenarien (A):** Es sind skalierte Pfade, keine Projektionen. Die Faktoren m(2100) stammen aus dem Integral einer angenommenen Exponentialkurve, das auf die publizierten Meeresspiegelbeiträge (Edwards et al. 2021) bzw. die „Größenordnung schneller“-Aussage (DeConto et al. 2021) normiert ist.
+   - κ ist unbekannt. Ein Kipppunkt wird nicht modelliert, nur seine Wirkung auf die Entlastungsrate.
+   - Nach 2100 wird die Rate konstant gehalten.
+   - Gebirgsgletscher verlieren in Wirklichkeit Fläche. Ihre Entlastung kann also nicht unbegrenzt wachsen.
+10. **Trügerische Ruhe (B):** Der Schattenanteil f = 0,6 ist eine Annahme. Bei f < 0,5 entsteht keine Netto-Ruhe.
+    - Echte Störungsgeometrien und Spannungsfelder fehlen.
+    - Aseismisches Kriechen und Porendruck-Drainage (vgl. die effiziente subglaziale Entwässerung bei Sundal et al. 2011 und Tedstone et al. 2015 als Analogie) sind nur als Hypothesen genannt, nicht modelliert.
+11. **Quieszenz-Statistik:** Das zeitliche ETAS ohne Raumkern unterschätzt die Überdispersion. Große frühere Sequenzen (Kaikōura 2016, Bárðarbunga 2014–15) verzerren die Fortschreibung.
+    - Habermann-z setzt eine stationäre Hintergrundrate voraus.
+    - Beide Statistiken sind Flags, keine p-Werte.
+12. **Geodäsie:** ξ hängt vom Zeitfenster ab. Kurzfristige Schwankungen (z. B. NAO, Bevis et al. 2019) können ein Flag auslösen oder verdecken.
+    - GNSS-Beschleunigungen enthalten elastische Antworten auf Laständerungen und lokale Effekte.
+    - Sprünge werden nur an NGL-gelisteten Daten modelliert.

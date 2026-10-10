@@ -1,12 +1,20 @@
-# Release-Checkliste (für Johann – nichts davon ist erledigt)
+# Release-Checkliste
 
-Stand 2026-10-10: Das Repository ist auf GitHub öffentlich, `main` ist gepusht.
-**Es gibt keinen Tag, kein GitHub-Release, keinen Zenodo-DOI und keine PyPI-Veröffentlichung.**
-`.github/workflows/release.yml` läuft nur beim Push eines Tags `v*.*.*`.
+Stand 2026-10-10 (v0.1.0):
+
+- **Erledigt:**
+  - P133 ist als KLIMA-KRYO-13 in `PACKAGE_REGISTRY.md` eingetragen.
+  - Zenodo-GitHub-Integration ist eingeschaltet (Johann).
+  - `PYPI_API_TOKEN` liegt im Environment `pypi`.
+  - Tag `v0.1.0` → `.github/workflows/release.yml` baut, testet, lädt auf PyPI hoch und erstellt das
+    GitHub-Release. Zenodo archiviert das Release.
+- **Danach:**
+  - DOI in `CITATION.cff` und in die READMEs eintragen (Folgecommit, kein neuer Tag).
+  - Auf Trusted Publishing umstellen (Johann).
 
 ## 1. Vor dem ersten Release entscheiden
 
-- [ ] **Paketnummer:** P133 ist provisorisch. Prüfen, ob 133 im `PACKAGE_REGISTRY.md` noch frei ist,
+- [x] **Paketnummer:** P133 / KLIMA-KRYO-13 eingetragen (2026-10-10). Ursprünglicher Punkt: P133 war provisorisch. Prüfen, ob 133 im `PACKAGE_REGISTRY.md` noch frei ist,
       dann dort eintragen (Domain Klima/Glaziologie/Seismologie, Begleitpaket zu P101). Bei anderer
       Nummer anpassen: `constants.PACKAGE_ID`, `CITATION.cff`, `.zenodo.json`, beide READMEs,
       `PREREGISTRATION.md`-Titel.

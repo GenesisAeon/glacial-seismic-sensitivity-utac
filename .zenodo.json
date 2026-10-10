@@ -1,6 +1,6 @@
 {
   "title": "glacial-seismic-sensitivity-utac - P133: Early-stage sensitivity tests of glacial-unloading seismicity",
-  "description": "<p>Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions, a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately has NO UTAC/CREP/AFET bridge. See DISCLAIMER.md. Part of the <strong>GenesisAeon</strong> ecosystem (P133 - provisional number, domain: climate / glaciology / seismology).</p>",
+  "description": "<p>Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions, a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. v0.1.0 adds tipping-trajectory scenarios (accelerating ice loss), a deceptive pre-tipping quiet analysis, ETAS/Habermann quiescence classification and pre-registered GRACE/GNSS/seismicity monitoring indicators. Companion of glacial-seismicity-utac (P101). Deliberately has NO UTAC/CREP/AFET bridge. See DISCLAIMER.md. Part of the <strong>GenesisAeon</strong> ecosystem (P133, registry class KLIMA-KRYO-13, domain: climate / glaciology / seismology).</p>",
   "creators": [
     {
       "name": "Römer, Johann",
@@ -20,7 +20,10 @@
     "glacial-isostatic-adjustment",
     "seasonal-seismicity",
     "preregistration",
-    "open-science"
+    "open-science",
+    "KLIMA-KRYO-13",
+    "tipping-points",
+    "seismic-quiescence"
   ],
   "related_identifiers": [
     {
@@ -33,5 +36,6 @@
     {
       "identifier": "genesisaeon"
     }
-  ]
+  ],
+  "publication_date": "2026-10-10"
 }

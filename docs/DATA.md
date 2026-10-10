@@ -13,14 +13,20 @@ Rohdaten werden **nicht** eingecheckt (`data/raw/` steht in `.gitignore`). Neu e
 | GeoNet (Neuseeland) | https://service.geonet.org.nz/fdsnws/event/1/ | Südalpen und Wellington-Kontrolle, M ≥ 1,5, ≤ 40 km | siehe GeoNet-Datenpolitik |
 | Veðurstofa Íslands (IMO) | https://api.vedur.is/quakes/events | Vatnajökull, `system=sil` (Altsystem mit Daten ab 1991; das Standardsystem SeisComP liefert nur jüngere Daten), Polygonfilter | CC BY 4.0 |
 | GEUS (Grönland) | https://seismologi.geus.dk/geojson/GeoJSON-eqs.json | Grönland, nur „Confirmed earthquake“ | GEUS |
-| CSN Chile | https://eew.csn.uchile.cl/fdsnws/event/1/query | **nicht nutzbar**: HTTP 204 für alle getesteten Zeitfenster | – |
+| CSN Chile (FDSN) | https://eew.csn.uchile.cl/fdsnws/event/1/query | **nicht nutzbar**: HTTP 204 für alle getesteten Zeitfenster | – |
+| CSN Chile, relokalisierter Katalog 1982–Mitte 2020 (ab v0.1.0) | https://zenodo.org/records/13146436 (Zip, md5 `49d78f37784956e362de82d159083165`) | Kontrolle `Central_Andes_CSN_ctrl` (35–18° S, ≤ 40 km), nur 1990–2019, getrennt vom Hauptlauf | CC BY 4.0 (DataCite listet zusätzlich MIT). Zitieren: Potin et al. 2024, SRL 96(1), 484–498, doi:10.1785/0220240047, und Daten doi:10.5281/zenodo.13146436 |
+| Nevada Geodetic Laboratory GNSS (ab v0.1.0) | https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/{STA}.tenv3 und https://geodesy.unr.edu/NGLStationPages/steps.txt | Hebungsrate und -beschleunigung an 14 Stationen (M2) | Blewitt, Hammond & Kreemer 2018, doi:10.1029/2018EO104623 |
 | GRACE/GRACE-FO GSFC Mascons RL06 v2.0 | https://earth.gsfc.nasa.gov/geo/data/grace-mascons | Monatliche Last 2002-04 bis 2026-03 | Loomis et al. 2019, doi:10.1007/s00190-019-01252-y |
 | ERA5 über Open-Meteo-Archiv | https://archive-api.open-meteo.com/v1/archive (`models=era5`) | Tägliche Summen von Niederschlag, Regen und Schneefall → Monatssummen, Mittel über 4–6 Stützpunkte | ERA5: Hersbach et al. 2020, doi:10.1002/qj.3803 |
 | GeoNames cities15000 | https://download.geonames.org/export/dump/ | Städte ≥ 100 000 Einwohner (Indikator „nahe Stadt“) | CC BY 4.0 |
 
-Als Alternative für Chile käme der Zenodo-Datensatz „Chilean Seismic Catalogue 1982–mid-2020“
-(https://zenodo.org/records/13146436) in Frage. Er ist **nicht eingebunden**; Patagonien läuft
-nur über ComCat und ist dort zu dünn (81 declusterte Ereignisse).
+**CSN-Zenodo-Katalog (ab v0.1.0 eingebunden).** Der Datensatz heißt „Chilean Seismic Catalogue – 1982 – mid-2020“, Autoren
+Potin, Aden-Antoniow & Ruiz, veröffentlicht 2024-07-31. Er ist nicht versioniert. Konzept-DOI 10.5281/zenodo.11360589.
+
+- **Abdeckung:** 1982 bis 2020-07. Im Jahr 2000 fehlen fast alle Ereignisse (148 in der Box).
+- **Räumlich:** Er reicht nur bis 45,98° S, **Patagonien ist also nicht abgedeckt**. Die Aysén-Box (46–43° S) hat nur 418 Ereignisse, meist 2016–2018. Sie ist unbrauchbar und wird nicht als Region geführt. Patagonien bleibt damit ohne brauchbaren Katalog (ComCat: 81 declusterte Ereignisse).
+- **Hinweis:** Die README im Zip nennt den DOI 10.5281/zenodo.13146119. Er löst nicht auf (HTTP 404, geprüft 2026-10-10). Richtig ist der Record-DOI 10.5281/zenodo.13146436.
+- **Verwendung:** Weil der Katalog Mitte 2020 endet, läuft die Region `Central_Andes_CSN_ctrl` nur in `glacial-sensitivity extensions` (1990–2019). Sie fließt nicht in F1/F2-BH, Kritikalität, Power oder C1 ein.
 
 ## Abdeckung (aus `results/regions_meta.csv`)
 

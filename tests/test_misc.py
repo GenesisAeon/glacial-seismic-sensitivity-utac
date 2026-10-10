@@ -24,7 +24,8 @@ def test_honesty_all_false():
 
 
 def test_constants_dois():
-    assert constants.PACKAGE_ID == 133 and constants.PACKAGE_ID_PROVISIONAL
+    assert constants.PACKAGE_ID == 133 and not constants.PACKAGE_ID_PROVISIONAL
+    assert constants.REGISTRY_CLASS == "KLIMA-KRYO-13"
     for c in constants.ALL_CITATIONS.values():
         assert re.match(r"^10\.\d{4,9}/\S+$", c["doi"])
 

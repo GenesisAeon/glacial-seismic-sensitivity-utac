@@ -7,13 +7,17 @@ authors:
     affiliation: "MOR Research Collective"
 title: "glacial-seismic-sensitivity-utac"
 version: "0.1.0"
+date-released: "2026-10-10"
 url: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 repository-code: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 license: MIT
-abstract: "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions (year-fixed-effect Poisson models of seasonal modulation and of the response per kPa of GRACE-derived unloading, rain-vs-load comparison with ERA5), a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately no UTAC/CREP/AFET bridge. GenesisAeon P133 (provisional number)."
+abstract: "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions (year-fixed-effect Poisson models of seasonal modulation and of the response per kPa of GRACE-derived unloading, rain-vs-load comparison with ERA5), a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately no UTAC/CREP/AFET bridge. Also: tipping-trajectory scenarios (accelerating ice loss) with a deceptive pre-tipping quiet analysis, ETAS/Habermann quiescence classification, and pre-registered GRACE/GNSS/seismicity monitoring indicators. GenesisAeon P133 (KLIMA-KRYO-13)."
 keywords:
   - GenesisAeon
   - P133
+  - KLIMA-KRYO-13
+  - tipping-points
+  - seismic-quiescence
   - climate
   - glacier
   - seismology

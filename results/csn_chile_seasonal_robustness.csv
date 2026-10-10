@@ -1,0 +1,9 @@
+region,variant,mc_ref,n,amp,p,peak_month
+Central_Andes_CSN_ctrl,decl_all,4,2779,0.06343,0.0611005,10.4825
+Central_Andes_CSN_ctrl,decl_M>=4.4,4,961,0.0701059,0.307036,1.25462
+Central_Andes_CSN_ctrl,decl_M>=4.9,4,247,0.123045,0.392627,3.05945
+Central_Andes_CSN_ctrl,decl_depth<5km,4,398,0.163974,0.0688857,2.80974
+Central_Andes_CSN_ctrl,decl_depth>=5km,4,2381,0.0939728,0.00521308,10.051
+Central_Andes_CSN_ctrl,decl_1990-2007,4,1737,0.105116,0.00824457,11.1167
+Central_Andes_CSN_ctrl,decl_2008-2025,4,1042,0.0572351,0.425981,7.59981
+Central_Andes_CSN_ctrl,raw_all,4,5742,0.0612238,0.0046043,2.90093

@@ -1,4 +1,4 @@
-# Versuchsreihe & Präregistrierung „Frühstadium“ (P133, provisorisch)
+# Versuchsreihe & Präregistrierung „Frühstadium“ (P133, KLIMA-KRYO-13)
 
 **Eingefroren am 2026-10-10** (Paketversion 0.1.0). Die eingefrorenen Zahlen stehen maschinenlesbar in
 [`results/frozen_confirmatory_parameters.json`](results/frozen_confirmatory_parameters.json).
@@ -115,6 +115,71 @@ des retrospektiven Punktschätzers würde er nur mit ~50 % Wahrscheinlichkeit fi
 - Fehlende Monate (Datenausfall) werden nicht imputiert. Ein Block mit 0 Ereignissen fällt aus.
 - Werden Daten rückwirkend revidiert, gilt der Katalogstand zum Look-Termin + 30 Tage. Die verwendete Datei wird archiviert.
 
+## 6. Ergänzung vom 2026-10-10 (v0.1.0): Monitoring-Indikatoren M1–M5 und Hypothese B
+
+Diese Ergänzung **ändert C1 nicht**. Sie legt zusätzliche Beobachtungsgrößen fest, die vor dem ersten
+neuen Datenpunkt eingefroren werden (`results/frozen_monitoring_indicators.json`, Schwellen in
+`extensions.THRESHOLDS`). Sie sind Monitoring, keine konfirmatorischen Tests. Überprüfung jährlich,
+erstmals mit GRACE-FO-Daten und Katalogen bis 2027-12.
+
+### Indikatoren
+
+| Nr. | Größe | Schwelle (Flag) | Begründung |
+|---|---|---|---|
+| M1 | GRACE: normierte Beschleunigung des Massenverlusts ξ = −A/\|v\| je Box (quadratisch + Jahres-/Halbjahresgang, AR(1)-korrigierter Fehler, ganzer Datensatz ab 2002) | ξ > 0,02/Jahr **und** untere 95-%-Grenze > 0 | Exponentielle Pfade mit Edwards et al. 2021 (Grönland 95. Perzentil SSP5-8.5, Gletscher Median) entsprechen ξ ≈ 0,02/Jahr; DeConto et al. 2021 (×10 in 40 Jahren) ξ ≈ 0,058/Jahr. Herleitung in `tipping.py`. |
+| M2 | GNSS (NGL, IGS20): Beschleunigung der Hebung je Station, Sprünge aus der NGL-Sprungliste modelliert | z > 3 **und** gleiches Vorzeichen wie M1 in der zugehörigen Box | Unabhängige Bestätigung von M1. Ohne passendes M1 wird nur berichtet, nicht gedeutet (elastische Antwort, lokale Effekte). |
+| M3 | Saisonale Modulation b (wie C1), zusätzlich die **Abnahme** | einseitig, Faktor 2,487 (α 0,05 / Power 0,8) | Rate-and-State: Steigt die Hintergrund-Spannungsrate, sinkt die relative Modulation. Vorab festgehalten: In keinem Kippszenario erreicht die Abnahme mit heutigen Katalogen bis 2100 z > 1,3. M3 ist praktisch blind. |
+| M4 | b-Wert (Aki-MLE) gegenüber 2008–2019 | Δb ≤ −0,2 bei \|ΔMc\| < 0,2 | b sinkt mit der differentiellen Spannung (Schorlemmer et al. 2005). Explorativ. |
+| M5 | Ruhe: Habermann-z (entclusterte Jahreszahlen, letzte 6 Jahre gegen die 12 davor) **und** ETAS-Verhältnis beobachtet/erwartet < 1 im letzten Fenster (ETAS-Fit 1995–2014.5, Fortschreibung) | Habermann-z ≤ −2 | Wyss & Habermann 1988; Ogata 1992. Ein ETAS-z ≤ −2 ohne Habermann-Stütze wird nur als „ETAS-only“ berichtet. Grund: Im Basislauf schlug es in 2 von 3 Kontrollregionen an (Fortschreibung großer früherer Sequenzen, Überdispersion). Diese Präzisierung wurde nach dem Basislauf auf retrospektiven Daten festgelegt, vor jedem prospektiven Datenpunkt. |
+
+### Hypothese B – trügerische Ruhe vor dem Kippen (nicht als Nachwirkung)
+
+**Frage:** Kann eine scheinbare Beruhigung als *Vorläufer* auftreten, während sich Massenverlust und
+Hebung in Richtung Kippregime beschleunigen?
+
+**Modell** (`tipping.py`): Ein Katalog mischt Störungen, die durch die Entlastung gefördert werden, mit
+Störungen im Spannungsschatten (Anteil f; Hampel et al. 2010, Harris 1998). Die Schattenstörungen
+folgen der exakten Dieterich-Gleichung.
+
+- Eine Netto-Ruhe gibt es nur bei f > 0,5.
+- Sie bleibt, bis die GIA-Spannungsrate die tektonische übersteigt. Erst dann kehrt sie sich um.
+- Vorab festgelegte Kenngrößen je Szenario:
+  - Beginn der Ruhe (−2 % gegenüber 2025);
+  - Minimum;
+  - frühestes nachweisbares Jahr;
+  - Umkehrjahr.
+
+**Entscheidungsregel** (`quiescence.classify`, in dieser Reihenfolge):
+
+1. Kein M5-Flag (Habermann-z ≤ −2 und ETAS-Verhältnis < 1) → „keine Ruhe“.
+2. Katalogartefakt, wenn eines davon zutrifft (Habermann 1991) → „Artefakt-Verdacht“:
+   - der Median des jährlichen Mc steigt um ≥ 0,2;
+   - die Magnituden verschieben sich (KS p < 0,01 und \|Δ mittlere Magnitude\| ≥ 0,1).
+3. M1 (ξ > 0) oder M2 (Hebungsbeschleunigung z > 3) zeigt Beschleunigung → **Kandidat für trügerische
+   Ruhe vor dem Kippen**.
+4. Sonst (Verlust verlangsamt sich, keine Hebungsbeschleunigung) → **vereinbar mit echter Entspannung**.
+
+**Unterstützende Kriterien** für „trügerisch“. Sie werden berichtet, sind aber nicht Teil der Regel:
+
+- räumlicher Dipol: Aktivierung in geförderten Teilgebieten bei gleichzeitiger Ruhe in den übrigen
+  (Gitterzellen z > +2 neben z < −2);
+- saisonale Modulation sinkt, obwohl die saisonale Lastamplitude gleich bleibt.
+
+**Echte Entspannung** zeigt dagegen:
+
+- eine verlangsamte Last (ξ < 0);
+- keine beschleunigte Hebung;
+- eine saisonale Modulation, die proportional zur Lastamplitude sinkt.
+
+**Vulkanische Episoden** (z. B. Bárðarbunga 2014–15, Sigmundsson et al. 2015) machen Fenster
+unbrauchbar. Deshalb beginnen die ETAS-Testfenster erst 2016.
+
+**Was B nicht leisten kann:**
+
+- Ein Kandidat ist kein Nachweis.
+- Die Schattenanteile f sind unbekannt.
+- Die Kopplung κ zwischen Oberflächenentlastung und Coulomb-Spannung ist nicht eingeschränkt.
+
 ---
 
 ## English summary
@@ -125,3 +190,14 @@ des retrospektiven Punktschätzers würde er nur mit ~50 % Wahrscheinlichkeit fi
   - Looks: 2029-10-31 (α 0.01) and 2036-10-31 (α 0.04).
   - Primary region: SE_Alaska_AK.
 - **Power:** By 2036 the test detects roughly a doubling of today's modulation. It has only ~50 % power for a continuation of the retrospective point estimate, so a null result would not be strong evidence against the early-stage hypothesis.
+- **Amendment 2026-10-10 (v0.1.0, additions only, C1 unchanged):** monitoring indicators M1–M5 are frozen in `results/frozen_monitoring_indicators.json`.
+  - M1: GRACE normalised loss acceleration ξ > 0.02/yr with lower 95 % bound > 0.
+  - M2: GNSS uplift acceleration z > 3, concordant with M1.
+  - M3: seasonal-modulation drop.
+  - M4: b-value drop ≥ 0.2.
+  - M5: Habermann or ETAS quiescence z ≤ −2.
+- **Hypothesis B:** a deceptive pre-tipping quiet is classified by a fixed rule:
+  1. no quiet;
+  2. catalogue artefact (Mc rise or magnitude shift);
+  3. quiet with accelerating loss/uplift = candidate deceptive quiet;
+  4. otherwise consistent with genuine relaxation.

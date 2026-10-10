@@ -46,3 +46,24 @@ def does_rain_vs_ice_separation_succeed_in_se_alaska() -> bool:
 def does_this_package_predict_earthquakes_or_eruptions() -> bool:
     """No. Always False."""
     return False
+
+
+def is_tipping_scenario_a_projection() -> bool:
+    """The tipping trajectories are scaled from published ranges (Edwards et al. 2021, DeConto
+    et al. 2021) by an assumption of exponential growth; the seismic response uses an
+    unconstrained coupling kappa and an assumed shadow fraction. Always False."""
+    return False
+
+
+def can_todays_catalogues_detect_deceptive_pretipping_quiet_early() -> bool:
+    """In the model the pre-tipping quiet is 4-16 % deep and becomes statistically detectable at
+    the earliest around 2083 - decades after the geodetic indicators (GRACE acceleration, GNSS
+    uplift acceleration) respond to the same load. Always False."""
+    return False
+
+
+def does_quiescence_alone_distinguish_relaxation_from_deceptive_quiet() -> bool:
+    """A rate drop alone cannot tell genuine relaxation from a stress-shadow quiet or a catalogue
+    artefact; the pre-registered rule needs load/uplift trends and catalogue checks. Always
+    False."""
+    return False

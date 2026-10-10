@@ -49,3 +49,27 @@
 - Zaliapin, I., Ben-Zion, Y. (2013): Earthquake clusters in southern California I: Identification and stability. JGR 118, 2847–2864. doi:10.1002/jgrb.50179
 - Schorlemmer, D., Wiemer, S., Wyss, M. (2005): Variations in earthquake-size distribution across different stress regimes. Nature 437. doi:10.1038/nature04094
 - Gulia, L., Wiemer, S. (2019): Real-time discrimination of earthquake foreshocks and aftershocks. Nature 574. doi:10.1038/s41586-019-1606-4
+
+## Ergänzungen v0.1.0 (Kippszenarien, Quieszenz, Daten) – alle DOIs per Crossref/DataCite geprüft (`scripts/verify_dois.py`)
+- Edwards, T.L. et al. (2021): Projected land ice contributions to twenty-first-century sea level rise. Nature 593, 74–82. doi:10.1038/s41586-021-03302-y
+- DeConto, R.M. et al. (2021): The Paris Climate Agreement and future sea-level rise from Antarctica. Nature 593, 83–89. doi:10.1038/s41586-021-03427-0
+- IPCC AR6 WGI SPM B.5.3 (low-likelihood, high-impact: ~2 m bis 2100 nicht auszuschließen): https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_IPCC-LIV_Changes_to_Underlying_Assessment.pdf
+- Robel, A.A., Seroussi, H., Roe, G.H. (2019): Marine ice sheet instability amplifies and skews uncertainty in projections of future sea-level rise. PNAS 116, 14887–14892. doi:10.1073/pnas.1904822116
+- The IMBIE team (2018): Mass balance of the Antarctic Ice Sheet from 1992 to 2017. Nature 558, 219–222. doi:10.1038/s41586-018-0179-y
+- Velicogna, I. et al. (2020): Continuity of ice sheet mass loss in Greenland and Antarctica from the GRACE and GRACE Follow-On missions. GRL 47. doi:10.1029/2020GL087291
+- Bevis, M. et al. (2019): Accelerating changes in ice mass within Greenland, and the ice sheet's sensitivity to atmospheric forcing. PNAS 116, 1934–1939. doi:10.1073/pnas.1806562116
+- Boers, N., Rypdal, M. (2021): Critical slowing down suggests that the western Greenland Ice Sheet is close to a tipping point. PNAS 118. doi:10.1073/pnas.2024192118
+- Robinson, A., Calov, R., Ganopolski, A. (2012): Multistability and critical thresholds of the Greenland ice sheet. Nature Climate Change 2, 429–432. doi:10.1038/nclimate1449
+- Levermann, A., Winkelmann, R. (2016): A simple equation for the melt elevation feedback of ice sheets. The Cryosphere 10, 1799–1807. doi:10.5194/tc-10-1799-2016
+- Armstrong McKay, D.I. et al. (2022): Exceeding 1.5 °C global warming could trigger multiple climate tipping points. Science 377. doi:10.1126/science.abn7950
+- Ogata, Y. (1988): Statistical models for earthquake occurrences and residual analysis for point processes. JASA 83, 9–27. doi:10.1080/01621459.1988.10478560
+- Ogata, Y. (1992): Detection of precursory relative quiescence before great earthquakes through a statistical model. JGR 97, 19845–19871. doi:10.1029/92JB00708
+- Wyss, M., Habermann, R.E. (1988): Precursory seismic quiescence. PAGEOPH 126, 319–332. doi:10.1007/BF00879001
+- Habermann, R.E. (1991): Seismicity rate variations and systematic changes in magnitudes in teleseismic catalogs. Tectonophysics 193, 277–289. doi:10.1016/0040-1951(91)90337-R
+- Harris, R.A. (1998): Introduction to special section: Stress triggers, stress shadows, and implications for seismic hazard. JGR 103, 24347–24358. doi:10.1029/98JB01576
+- Hampel, A., Hetzel, R., Maniatis, G. (2010): Response of faults to climate-driven changes in ice and water volumes on Earth's surface. Phil. Trans. R. Soc. A 368, 2501–2517. doi:10.1098/rsta.2010.0031
+- Johnston, A.C. (1987): Suppression of earthquakes by large continental ice sheets. Nature 330, 467–469. doi:10.1038/330467a0
+- Sigmundsson, F. et al. (2015): Segmented lateral dyke growth in a rifting event at Bárðarbunga volcanic system, Iceland. Nature 517, 191–195. doi:10.1038/nature14111
+- Potin, B. et al. (2024): A Revised Chilean Seismic Catalog from 1982 to Mid-2020. SRL 96(1), 484–498. doi:10.1785/0220240047
+- Potin, B., Aden-Antoniow, F., Ruiz, S. (2024): Chilean Seismic Catalogue – 1982 – mid-2020 [Datensatz]. Zenodo. doi:10.5281/zenodo.13146436 (CC BY 4.0)
+- Blewitt, G., Hammond, W.C., Kreemer, C. (2018): Harnessing the GPS data explosion for interdisciplinary science. Eos 99. doi:10.1029/2018EO104623

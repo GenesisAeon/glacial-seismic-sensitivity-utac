@@ -1,7 +1,7 @@
 name: Release
 
 # Copied from glacial-seismicity-utac (P101). Triggered ONLY by pushing a tag v*.*.*.
-# No tag has been created for this repository yet - see docs/RELEASE_CHECKLIST.md.
+# First release: v0.1.0 (2026-10-10) - see docs/RELEASE_CHECKLIST.md.
 
 on:
   push:

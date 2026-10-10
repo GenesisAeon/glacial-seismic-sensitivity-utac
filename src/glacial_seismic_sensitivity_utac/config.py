@@ -41,6 +41,7 @@ class Region:
     exclude: str | None = None
     note: str = ""
     grace: bool = True
+    last_year: int | None = None  # last complete catalogue year if the source ends early
 
     @property
     def raw_file(self) -> Path:
@@ -140,6 +141,18 @@ _R = [
         note="Jura/Molasse, same SED network, not glaciated",
     ),
     Region(
+        "Central_Andes_CSN_ctrl",
+        (-35.0, -18.0, -76.0, -66.0),
+        "control",
+        "csn_zenodo",
+        0.0,
+        40.0,
+        pair="CSN",
+        note="relocated CSN catalogue 1982-mid-2020 (Potin et al. 2024, Zenodo 13146436); "
+        "national-tier counterpart of the ComCat Central_Andes control; ends mid-2020",
+        last_year=2019,
+    ),
+    Region(
         "NZ_Wellington_ctrl",
         (-41.8, -39.5, 174.3, 176.8),
         "control",
@@ -151,6 +164,53 @@ _R = [
     ),
 ]
 REGIONS: dict[str, Region] = {r.name: r for r in _R}
+
+
+def main_regions() -> list[str]:
+    """Regions with a catalogue running to TEST_END_YEAR (enter F1-F3, criticality, C1)."""
+    return [n for n, r in REGIONS.items() if r.last_year is None]
+
+
+# Extra GRACE boxes used only by the tipping / precursor module (no catalogue attached)
+EXTRA_GRACE_BOXES: dict[str, tuple[tuple[float, float, float, float], str | None]] = {
+    "Amundsen_ASE": ((-80.0, -72.0, -120.0, -95.0), None),
+    "Greenland_all": ((59.0, 84.0, -75.0, -10.0), "lon>-36&lat<66"),
+    "Greenland_SE_box": ((60.0, 68.0, -50.0, -30.0), None),
+    "Greenland_W_box": ((64.0, 72.0, -56.0, -45.0), None),
+    "SE_Alaska_box": ((57.0, 61.5, -145.0, -133.0), None),
+    "Vatnajokull": ((63.9, 64.9, -18.5, -15.3), None),
+    "Patagonia_box": ((-56.0, -45.0, -77.0, -66.0), None),
+}
+
+# Nevada Geodetic Laboratory GNSS time series (Blewitt, Hammond & Kreemer 2018,
+# doi:10.1029/2018EO104623), IGS20 frame, daily tenv3 files.
+NGL_TENV3 = "https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/{sta}.tenv3"
+NGL_STEPS = "https://geodesy.unr.edu/NGLStationPages/steps.txt"
+GNSS_STATIONS: dict[str, tuple[str, str]] = {
+    # station: (region / ice mass, role)
+    "HOFN": ("Iceland (Vatnajokull, SE margin)", "glacier"),
+    "KULU": ("SE Greenland (Kulusuk)", "icesheet"),
+    "QAQ1": ("S Greenland (Qaqortoq)", "icesheet"),
+    "KELY": ("W Greenland (Kangerlussuaq)", "icesheet"),
+    "SCOR": ("E Greenland (Scoresbysund)", "icesheet"),
+    "THU2": ("NW Greenland (Thule)", "icesheet"),
+    "AB50": ("SE Alaska (Juneau area)", "glacier"),
+    "JNU1": ("SE Alaska (Juneau)", "glacier"),
+    "TOMO": ("Amundsen Sea Embayment (POLENET)", "icesheet"),
+    "BACK": ("Amundsen Sea Embayment (POLENET)", "icesheet"),
+    "INMN": ("Amundsen Sea Embayment (POLENET)", "icesheet"),
+    "LPLY": ("Amundsen/Bellingshausen (POLENET)", "icesheet"),
+    "COYQ": ("Aysen, Chile (Coyhaique, N of the N Patagonian Icefield)", "glacier"),
+    "FAIR": ("Interior Alaska (Fairbanks) - control", "control"),
+}
+
+# Chilean CSN relocated catalogue (Potin et al. 2024, SRL 96(1):484-498,
+# doi:10.1785/0220240047; data doi:10.5281/zenodo.13146436, CC BY 4.0)
+CSN_ZENODO_ZIP = (
+    "https://zenodo.org/api/records/13146436/files/"
+    "chilean_seismic_catalogue-1982-2020-publication_release.zip/content"
+)
+CSN_ZENODO_MD5 = "49d78f37784956e362de82d159083165"
 
 GROUP_LABEL = {"mountain": "Gebirgsgletscher", "icesheet": "Eisschild", "control": "Kontrolle"}
 

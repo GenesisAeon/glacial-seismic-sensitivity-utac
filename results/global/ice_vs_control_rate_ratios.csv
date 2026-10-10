@@ -1,0 +1,40 @@
+region,group,series,n_1995_2009,n_2010_2024,ratio,ci_low,ci_high,p,mde_ratio_80pct
+Alps,glaciated,M>=5 all,15,13,0.866667,0.379517,1.95247,0.850554,2.88147
+Alps,glaciated,M>=5 declustered,13,7,0.538462,0.181906,1.45211,0.263176,3.49802
+Alps,glaciated,GVP eruption starts,0,0,,,,,
+Greenland_Baffin,glaciated,M>=5 all,2,3,1.5,0.171828,17.9592,1,12.2362
+Greenland_Baffin,glaciated,M>=5 declustered,2,3,1.5,0.171828,17.9592,1,12.2362
+Greenland_Baffin,glaciated,GVP eruption starts,0,0,,,,,
+Iceland,glaciated,M>=5 all,10,82,8.2,4.24045,17.7371,3.30469e-15,1.79291
+Iceland,glaciated,M>=5 declustered,6,15,2.5,0.916623,7.86451,0.0783539,3.39404
+Iceland,glaciated,GVP eruption starts,4,7,1.75,0.444888,8.15219,0.548828,5.41116
+Patagonia_South_Andes,glaciated,M>=5 all,40,30,0.75,0.451101,1.2347,0.281979,1.95292
+Patagonia_South_Andes,glaciated,M>=5 declustered,24,18,0.75,0.383521,1.44134,0.440799,2.37287
+Patagonia_South_Andes,glaciated,GVP eruption starts,0,1,inf,0.025641,inf,1,270.426
+SE_Alaska_Yakutat_Fairweather,glaciated,M>=5 all,16,22,1.375,0.689801,2.80086,0.417692,2.48045
+SE_Alaska_Yakutat_Fairweather,glaciated,M>=5 declustered,15,13,0.866667,0.379517,1.95247,0.850554,2.88147
+SE_Alaska_Yakutat_Fairweather,glaciated,GVP eruption starts,0,0,,,,,
+West_Antarctica_Amundsen,glaciated,M>=5 all,0,1,inf,0.025641,inf,1,270.426
+West_Antarctica_Amundsen,glaciated,M>=5 declustered,0,1,inf,0.025641,inf,1,270.426
+West_Antarctica_Amundsen,glaciated,GVP eruption starts,0,0,,,,,
+Central_America,control (non-glaciated),M>=5 all,403,474,1.17618,1.02773,1.34658,0.0180415,1.20816
+Central_America,control (non-glaciated),M>=5 declustered,184,193,1.04891,0.852641,1.29071,0.68038,1.33431
+Central_America,control (non-glaciated),GVP eruption starts,57,65,1.14035,0.786698,1.65701,0.526416,1.6603
+Central_Andes_N_Chile,control (non-glaciated),M>=5 all,879,1252,1.42435,1.3056,1.55441,6.53977e-16,1.12897
+Central_Andes_N_Chile,control (non-glaciated),M>=5 declustered,392,453,1.15561,1.00724,1.32631,0.0389488,1.21245
+Central_Andes_N_Chile,control (non-glaciated),GVP eruption starts,9,9,1,0.351699,2.84334,1,3.74317
+Indonesia,control (non-glaciated),M>=5 all,3884,3050,0.785273,0.74866,0.82362,1.30304e-23,1.06956
+Indonesia,control (non-glaciated),M>=5 declustered,1338,1346,1.00598,0.931976,1.08586,0.892523,1.11415
+Indonesia,control (non-glaciated),GVP eruption starts,95,112,1.17895,0.888913,1.56632,0.266061,1.47584
+Japan,control (non-glaciated),M>=5 all,1029,1800,1.74927,1.61937,1.89036,4.4712e-48,1.11103
+Japan,control (non-glaciated),M>=5 declustered,414,442,1.06763,0.931571,1.22376,0.356097,1.21095
+Japan,control (non-glaciated),GVP eruption starts,44,27,0.613636,0.365381,1.0132,0.0568147,1.94371
+Philippines,control (non-glaciated),M>=5 all,1025,1123,1.09561,1.00577,1.19358,0.0363309,1.12843
+Philippines,control (non-glaciated),M>=5 declustered,351,380,1.08262,0.933924,1.25527,0.300377,1.23013
+Philippines,control (non-glaciated),GVP eruption starts,18,22,1.22222,0.62577,2.41777,0.635828,2.42405
+POOLED control (non-glaciated),control (non-glaciated),GVP eruption starts,223,235,1.05381,0.873625,1.27146,0.607303,1.2991
+POOLED control (non-glaciated),control (non-glaciated),M>=5 all,7220,7699,1.06634,1.03251,1.10129,9.08748e-05,1.04692
+POOLED control (non-glaciated),control (non-glaciated),M>=5 declustered,2679,2814,1.05039,0.995909,1.10787,0.0705958,1.07849
+POOLED glaciated,glaciated,GVP eruption starts,4,8,2,0.535805,9.07596,0.387695,5.03584
+POOLED glaciated,glaciated,M>=5 all,83,151,1.81928,1.38279,2.40763,1.03769e-05,1.44208
+POOLED glaciated,glaciated,M>=5 declustered,60,57,0.95,0.649358,1.38846,0.853408,1.6782

@@ -49,6 +49,10 @@ Gültiger Nachtrag [PREREGISTRATION_v0.2_NACHTRAG.md](PREREGISTRATION_v0.2_NACHT
 eingefrorene Dateien unverändert). Rohfassungen der Reviews: [docs/reviews/raw/](docs/reviews/raw/).
 Aufruf: `glacial-sensitivity v02` (Stufen m0 m1 m2 m3 m4 base plot; wiederaufnehmbar).
 
+**Explorative globale Basislinie** (nicht präregistriert): globale M6+/M7+-Trends, vergletscherte
+Regionen vs. Kontrollen, GVP-Eruptionszahlen, aus archivierten Katalog-Snapshots:
+[docs/BASELINE_GLOBAL.md](docs/BASELINE_GLOBAL.md) (Englisch), `python scripts/global_baseline.py`, `results/global/`.
+
 | Meilenstein | Ergebnis |
 |---|---|
 | M2 ETAS mit Jahres-Hintergrund (H2.1) | SE-Alaska minus Inner-Alaska: +0,41 ± 0,14 pro Jahrzehnt, p = 0,0017 – formal signifikant, aber getragen von 1995–2002 (niedrige Katalogzahlen in beiden Regionen); ab 2003 +0,11 ± 0,16 (explorativ). Vorab-Regel ausgelöst, aber nicht robust (ab 2003; tmax 3 a): am ehesten Katalog-/Modellartefakt, kein Gletschersignal. µ ist der ETAS-*Residual*-Hintergrund, keine identifizierte Forcing-Rate. |

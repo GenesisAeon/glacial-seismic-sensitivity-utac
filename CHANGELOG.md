@@ -3,6 +3,18 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
+## [Unreleased]
+
+### Added (exploratory, not preregistered)
+
+- `scripts/global_baseline.py`, `docs/BASELINE_GLOBAL.md`, `results/global/` (tables plus
+  archived ComCat/GVP snapshots of 2026-10-10 with SHA-256 sums): the first-pass global and
+  regional reality check (global M6+/M7+ trends, glaciated vs control rate ratios, GVP eruption
+  counts), reproducible offline; `tests/test_global_baseline.py`. Declustering ties are now
+  processed in time order, which shifts two first-pass numbers slightly (documented).
+- After the v0.2.0 release: v0.2.0 DOI 10.5281/zenodo.23286492 in `CITATION.cff` and READMEs;
+  `release.yml` publishes to PyPI via trusted publishing (OIDC) only.
+
 ## [0.2.0] – 2026-10-10
 
 ### Addendum and review round 2 (2026-10-10)

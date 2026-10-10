@@ -48,6 +48,10 @@ In-force addendum [PREREGISTRATION_v0.2_NACHTRAG.md](PREREGISTRATION_v0.2_NACHTR
 frozen files unchanged). Raw reviews: [docs/reviews/raw/](docs/reviews/raw/).
 Run: `glacial-sensitivity v02` (stages m0 m1 m2 m3 m4 base plot; resumable).
 
+**Exploratory global baseline** (not preregistered): global M6+/M7+ trends, glaciated vs control
+regions, GVP eruption counts, from archived catalogue snapshots:
+[docs/BASELINE_GLOBAL.md](docs/BASELINE_GLOBAL.md), `python scripts/global_baseline.py`, `results/global/`.
+
 | Milestone | Result |
 |---|---|
 | M2 ETAS with yearly background (H2.1) | SE Alaska minus Interior Alaska: +0.41 ± 0.14 per decade, p = 0.0017 – formally significant, but driven by 1995–2002 (low catalogue counts in both regions); from 2003 on +0.11 ± 0.16 (exploratory). The preregistered rule fired, but not robust (from 2003; tmax 3 yr): most likely a catalogue/model artefact, not a glacial signal. µ is the ETAS *residual* background, not an identified forcing. |

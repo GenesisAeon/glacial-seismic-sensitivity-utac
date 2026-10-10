@@ -58,18 +58,23 @@ def test_schuster():
 
 
 def test_fdsn_text_parser():
-    df = catalogs._fdsn_text((FIXTURES / "fdsn_text_sample.txt").read_text())
+    df = catalogs._fdsn_text((FIXTURES / "fdsn_text_sample.txt").read_text(encoding="utf-8"))
     assert len(df) == 3 and list(df.columns) == catalogs.UNIFIED_COLUMNS
     assert df.etype.str.contains("earthquake").sum() == 2
 
 
 def test_geus_parser(monkeypatch):
     monkeypatch.setattr(
-        catalogs, "http_get", lambda *a, **k: (FIXTURES / "geus_sample.json").read_text()
+        catalogs,
+        "http_get",
+        lambda *a, **k: (FIXTURES / "geus_sample.json").read_text(encoding="utf-8"),
     )
     df = catalogs.fetch_geus(C.REGIONS["Greenland_GEUS"])
     assert list(df.id) == ["g1", "g2"]  # g3 before 1990, g4 explosion
-    assert json.loads((FIXTURES / "geus_sample.json").read_text())["type"] == "FeatureCollection"
+    assert (
+        json.loads((FIXTURES / "geus_sample.json").read_text(encoding="utf-8"))["type"]
+        == "FeatureCollection"
+    )
 
 
 def test_cli_info_and_lag(capsys):

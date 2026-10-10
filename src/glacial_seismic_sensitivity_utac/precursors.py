@@ -121,7 +121,7 @@ def ngl_steps(sta: str) -> list[float]:
     out: list[float] = []
     if not f.exists():
         return out
-    with open(f) as fh:
+    with open(f, encoding="utf-8") as fh:
         for line in fh:
             if not line.startswith(sta + " "):
                 continue

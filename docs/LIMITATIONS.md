@@ -47,3 +47,28 @@
 12. **Geodäsie:** ξ hängt vom Zeitfenster ab. Kurzfristige Schwankungen (z. B. NAO, Bevis et al. 2019) können ein Flag auslösen oder verdecken.
     - GNSS-Beschleunigungen enthalten elastische Antworten auf Laständerungen und lokale Effekte.
     - Sprünge werden nur an NGL-gelisteten Daten modelliert.
+
+## Ergänzung v0.2
+
+* Das ETAS-Hintergrundmodell ist rein zeitlich, mit tmax = 1 Jahr; der Omori-Exponent landet fast
+  überall an der Untergrenze. µ-Niveaus sind modellabhängig, Trends und Verhältnisse weniger.
+* H2.1 kann – wie gezeigt – an einer Netzphase hängen (1995–2002 in Alaska). Netzinterne Kontrollen
+  helfen nur, wenn die Netzänderung beide Regionen gleich trifft.
+* Gezeiten: präregistriert nur Körpergezeit. Ozeanauflast nur explorativ (SPOTL, TPXO 7.2; im
+  Fjord-Nahfeld unzureichend); keine störungsflächen-aufgelöste Spannung. Ein Nullbefund schließt
+  Gezeitenauslösung durch die volle Gezeit nicht aus. Die Tanaka-Phase der vollen Gezeit ist zu
+  Zufallszeiten nicht gleichverteilt; Tests brauchen eine Zufallszeit-Referenz.
+* H2.1-Netzkovariaten beruhen auf FDSN-Stationsmetadaten; alte AEC-Kurzperiodenstationen
+  (1990er) fehlen dort, temporäre Arrays flossen evtl. nicht in den Katalog.
+* Lag-Modell: Die Lithosphärendicke aus GIA-Modellen (Sasgen et al. 2026) wird als elastische Dicke
+  eines Plattenfilters verwendet; Viskositäten aus Alaska/Island werden auf Halbraum-Relaxation
+  übertragen. Ergebnisse sind Szenarien, keine Vorhersagen.
+* µ_y ist ein ETAS-Residual-Hintergrund, keine identifizierte Forcing-Rate (Netz, Schwärme,
+  Produktivitätsänderungen, Auslösung jenseits 1 a landen ebenfalls darin). Verzweigungsverhältnisse
+  gelten nur innerhalb des 1-a-Kerns.
+* H2.2 ist eine deskriptive Klassifikation ohne kalibrierte Fehlerwahrscheinlichkeit; der Nullbefund
+  schließt nur große maskierte Anstiege in gut beobachteten Regionen aus (SE-Alaska ab ≈ Faktor 1,5),
+  in Island/Grönland erst ab ≈ 1,8–2,4.
+* C2 ist ein bedingter Test unter dem eingefrorenen ETAS-Modell (Unsicherheit von K, α, c, p nicht
+  enthalten; p an der Untergrenze). Er schützt nicht gegen differentielle Netzänderungen ab 2027.
+* Die Gemini-Recherche, die v0.2 anregte, ist keine Quelle; zitiert werden nur Originalarbeiten.

@@ -1,0 +1,137 @@
+{
+ "frozen_on": "2026-10-10",
+ "document": "PREREGISTRATION_v0.2.md",
+ "package_version": "0.2.0.dev0",
+ "idea_sources": "Gemini Deep Research report (2026-10-10) used as idea source only ('Ideengeber'), not as a scientific source; see docs/v02_benchmarks.md and FAKTENCHECK.",
+ "v01_frozen_files_sha256": {
+  "results/frozen_confirmatory_parameters.json": "5bccd4cab0ba2d0143c4736c44355b24b6eb6356ca82ba0419fff22c71b4b3cb",
+  "results/frozen_monitoring_indicators.json": "8ae57131325eda3ffb855f0437a649eb5adb0a32ae4e2fd0ec35f515cb87fb0f"
+ },
+ "H2": {
+  "model": "temporal ETAS, piecewise-constant yearly background mu_y, common (K, alpha, c, p)",
+  "estimator": "two-stage: (1) stationary ETAS on the fit window -> triggering parameters; (2) yearly log mu_y with triggering parameters fixed (etas_nonstat.fit_two_stage)",
+  "fit_window": [
+   1995.0,
+   2026.0
+  ],
+  "bins": "calendar years 1995..2025",
+  "history_years": 5.0,
+  "tmax_yr": 1.0,
+  "rw_sd": 1.0,
+  "events": "all events >= v0.1.0 reference Mc (not declustered), v0.1.0 catalogues/regions",
+  "se_rule": "SE = max(OLS residual SE, likelihood SE) * se_calibration_factor",
+  "se_calibration_factor": 1.25,
+  "se_calibration_basis": "null simulations (48 stationary synthetic catalogues): sd(z) = 1.11 (slope), 1.18 (window log-ratio); 90 % bootstrap upper bound ~1.25",
+  "H2_1": {
+   "statistic": "OLS slope of log mu_y over 1995-2025 per decade; DiD glacier - control",
+   "alternative": "greater",
+   "pairs": [
+    [
+     "SE_Alaska_AK",
+     "Interior_AK_ctrl"
+    ],
+    [
+     "NZ_Southern_Alps",
+     "NZ_Wellington_ctrl"
+    ],
+    [
+     "Alps_SED",
+     "N_Switzerland_ctrl"
+    ]
+   ],
+   "primary_pair": [
+    "SE_Alaska_AK",
+    "Interior_AK_ctrl"
+   ],
+   "primary_alpha": 0.05,
+   "multiplicity": "Benjamini-Hochberg q = 0.05 over the three pairs",
+   "descriptive_only": [
+    "Iceland_Vatnajokull_IMO",
+    "Greenland_GEUS"
+   ]
+  },
+  "H2_2": {
+   "statistic": "mu ratio 2020-2025 vs 2008-2019 from yearly log mu (Welch SE x factor) and total-rate ratio of all events >= Mc in the same windows",
+   "classes": {
+    "masked background rise (deceptive-quiet pattern)": "mu lo95 > 1 and total ratio < 1",
+    "background rise (not masked)": "mu lo95 > 1 and total ratio >= 1",
+    "background decrease (genuine quiet)": "mu hi95 < 1",
+    "no resolvable background change": "otherwise"
+   },
+   "interpretation": "descriptive classification, no p-value; a 'masked' class in a glacier region counts only if its network-internal control is not also 'masked'"
+  }
+ },
+ "H3": {
+  "tide": "degree-2 body tide (Moon + Sun), areal strain (2h-6l) W2/(g a), h=0.6114, l=0.0832; NO ocean loading",
+  "phase": "Tanaka et al. 2002: 0 deg at strain maximum, +/-180 at minima, linear in time",
+  "events": "v0.1.0 NN-declustered events >= Mc",
+  "years": [
+   1995,
+   2025
+  ],
+  "test_regions": [
+   "SE_Alaska_AK",
+   "NZ_Southern_Alps",
+   "Alps_SED",
+   "Iceland_Vatnajokull_IMO",
+   "Greenland_GEUS"
+  ],
+  "controls_descriptive": [
+   "Interior_AK_ctrl",
+   "NZ_Wellington_ctrl",
+   "N_Switzerland_ctrl"
+  ],
+  "H3_1": {
+   "test": "Schuster p = exp(-R^2/N)",
+   "multiplicity": "BH q = 0.05 over test_regions"
+  },
+  "H3_2": {
+   "test": "b(|phase|<90) < b(|phase|>=90), one-sided z (Shi-Bolt SE); LR test reported",
+   "multiplicity": "BH q = 0.05 over test_regions"
+  },
+  "power": "simulation MDE of modulation amplitude a (rate ~ 1 + a cos phase) and Delta b at alpha 0.05, power 0.8"
+ },
+ "C2": {
+  "window_start": "2027-01-01",
+  "looks": [
+   {
+    "end": "2029-12-31",
+    "alpha": 0.01
+   },
+   {
+    "end": "2036-12-31",
+    "alpha": 0.04
+   }
+  ],
+  "primary_pair": [
+   "SE_Alaska_AK",
+   "Interior_AK_ctrl"
+  ],
+  "secondary_pairs_descriptive": [
+   [
+    "NZ_Southern_Alps",
+    "NZ_Wellington_ctrl"
+   ],
+   [
+    "Alps_SED",
+    "N_Switzerland_ctrl"
+   ]
+  ],
+  "statistic": "D = [log mu_new - log mu_ref]_glacier - [log mu_new - log mu_ref]_control; mu_new = constant-mu MLE on [2027-01-01, look end] with frozen triggering parameters (etas_nonstat.mu_window_mle), events from the previous tmax as history only",
+  "reference_years": [
+   2016,
+   2025
+  ],
+  "se": "sqrt(sum over both regions of se_new^2 + sigma_year^2 / T_window + sigma_year^2 / n_ref_years)",
+  "alternative": "greater (D > 0)",
+  "baselines_file": "results/frozen_v02_baselines.json (computed from data to 2025-12-31, frozen and hashed before 2027-01-01)",
+  "catalogue_rules": "same sources, region boxes, depth filters and Mc as v0.1.0; magnitudes as reported at the time of the look",
+  "relation_to_C1": "independent of C1 (v0.1.0); C1 is unchanged"
+ },
+ "monitoring": {
+  "M6_background_rise": "one-sided z = (log mu_new - log mu_ref)/se for a glacier region alone >= 2.0 -> flag (no control, monitoring only)",
+  "M7_tidal_schuster": "Schuster p < 0.01 on declustered events (frozen v0.1 NN threshold) in the new window for a test region with N >= 200 -> flag",
+  "review": "yearly, first with catalogues to 2027-12-31"
+ },
+ "change_rules": "Any change after freezing is a new, dated addendum with a new hash; the original file stays in git history."
+}

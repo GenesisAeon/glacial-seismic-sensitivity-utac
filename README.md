@@ -38,6 +38,25 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.2.0 (released 2026-10-10)
+
+Pre-registered addendum [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (frozen 2026-10-10,
+before the analyses; v0.1.0 unchanged). Details: [docs/RESULTS.md](docs/RESULTS.md) (v0.2 section),
+[docs/METHODS_v02.md](docs/METHODS_v02.md), [docs/v02_benchmarks.md](docs/v02_benchmarks.md).
+In-force addendum [PREREGISTRATION_v0.2_NACHTRAG.md](PREREGISTRATION_v0.2_NACHTRAG.md) (2026-10-10; frozen JSON
+`results/frozen_v02_addendum_2026-10-10.json`, SHA-256 `bc2d2af3…7ff49`; clarifications only, earlier
+frozen files unchanged). Raw reviews: [docs/reviews/raw/](docs/reviews/raw/).
+Run: `glacial-sensitivity v02` (stages m0 m1 m2 m3 m4 base plot; resumable).
+
+| Milestone | Result |
+|---|---|
+| M2 ETAS with yearly background (H2.1) | SE Alaska minus Interior Alaska: +0.41 ± 0.14 per decade, p = 0.0017 – formally significant, but driven by 1995–2002 (low catalogue counts in both regions); from 2003 on +0.11 ± 0.16 (exploratory). The preregistered rule fired, but not robust (from 2003; tmax 3 yr): most likely a catalogue/model artefact, not a glacial signal. µ is the ETAS *residual* background, not an identified forcing. |
+| M2 deceptive quiet (H2.2) | No region meets the predefined masked-background-rise criterion (moderate effects not excluded, esp. Iceland/Greenland). The v0.1.0 NZ Southern Alps quiet is a genuine background decrease in the model, but Mc-dependent and network-wide. |
+| M3 body tides (H3) | No significant correlation with the phase of the degree-2 body-tide areal strain, no b-value split (BH). SE Alaska MDE 6.8 % relative to that phase. Exploratory ocean loading (SPOTL/TPXO 7.2), tested against random times: still nothing significant (smallest BH q 0.38). Fault-resolved stress not modelled. |
+| M1 catalogue robustness | F1 in SE Alaska robust to declustering; NZ quiet disappears with an EMR-type Mc. |
+| M4 lag (thin-plate/half-space sensitivity informed by Sasgen et al. 2026) | SE Alaska earliest detection year 2045.8 → 2047.3 (within the reduced model insensitive to viscosity – a model property); Iceland τ ~300 → ~10 yr, 2070 → 2062. |
+| C2 (prospective, from 2027-01-01) | Background change glacier vs control with frozen ETAS parameters; looks 2029-12-31 (α 0.01) and 2036-12-31 (α 0.04). Baselines frozen in `results/frozen_v02_baselines.json`. |
+
 ## Quickstart
 
 ```bash

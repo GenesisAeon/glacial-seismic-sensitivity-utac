@@ -21,7 +21,8 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
 - Raw reviews under `docs/reviews/raw/` (Deep Research, Grok as PDF with rendered pages, Claude Code);
   Gemini report not included (cited only as a source of ideas).
 - Exploratory (not preregistered): (a) ocean tidal loading for H3 with SPOTL/TPXO 7.2
-  (`scripts/v02_m3_ocean_load.py`, `m3_tides_ocean_load.csv`); (b) network changes as a confounder
+  (`scripts/v02_m3_ocean_load.py`, `m3_tides_ocean_load.csv`; tested against the phase distribution
+  at random times because the total-strain Tanaka phase is not uniform; no significant result); (b) network changes as a confounder
   for H2.1 (`scripts/v02_h21_network.py`, EarthScope FDSN station counts and yearly Mc);
   (c) recovery study re-run with the corrected simulator (`recovery_study_v2.csv`; conclusions
   unchanged).

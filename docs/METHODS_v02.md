@@ -40,6 +40,12 @@ Likelihood mit analytischem Gradienten (geprüft gegen finite Differenzen), Paar
 Schätzer und Kalibrierung: [`v02_benchmarks.md`](v02_benchmarks.md). Konsistenzprüfung: mit einem
 einzigen Bin ist das Ergebnis identisch mit dem stationären ETAS aus v0.1.0 (`quiescence.fit_etas`).
 
+**Unsicherheit.** Die SE der Jahres-µ sind bei festen (K, α, c, p) *bedingt*: inverse negative
+Hesse-Matrix des µ-Blocks inkl. Random-Walk-Strafterm (Claude Code: Abweichung zur eigenen
+Hesse-Rechnung 4,7·10⁻¹¹; der Strafterm senkt die SE um ≈ 1,4 %). Die Unsicherheit der Stufe 1
+wird nicht fortgepflanzt; für H2 ist das durch die Nullkalibrierung (SE-Faktor) abgedeckt.
+Explorative Fortpflanzung (`scripts/v02_stage1_propagation.py`): siehe RESULTS.
+
 Grenzen: rein zeitlich (kein Raumkern); bei abgeschnittenem Kern landet p in fast allen Regionen
 an der Untergrenze 1,0001 (siehe RESULTS); Schwärme (Island) passen schlecht zu ETAS (α ≈ 0);
 Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Kontroll-Differenzen.
@@ -58,7 +64,11 @@ Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Ko
   Bebenorten – grob 1–3 kPa (E = 70 GPa, ν = 0,25). Dominante Periode am Äquator 12,42 h (M2);
   in hohen Breiten überwiegt der eintägige Anteil.
 * Phase nach Tanaka, Ohtake & Sato 2002 (JGR 107(B10):2211, https://doi.org/10.1029/2001JB001577),
-  für jedes Beben am eigenen Ort (±14 h, 5-min-Raster).
+  für jedes Beben am eigenen Ort (±14 h, 5-min-Raster). Das Suchfenster ist ein Code-Standardwert,
+  nicht Teil der eingefrorenen Präregistrierung (dort nur die Tanaka-Konvention). Bei ±14 h bleiben
+  0,8–2,6 % der Beben ohne Phase (eintägig dominierte Dehnung in hohen Breiten; Claude-Code-Review
+  K1); mit ±20 h keines. Explorativer Neulauf mit ±20 h: keine H3-Aussage ändert sich (RESULTS M3).
+  Empfehlung für M7 ab 2027: ±20 h per Nachtrag festschreiben.
 * Schuster-Test; b-Wert-Vergleich Dehnungs- vs. Kompressionshälfte (Richtung wie Tan et al. 2019,
   EPSL 512:39, https://doi.org/10.1016/j.epsl.2019.01.047). Power per Simulation.
 * **Ozeanauflast fehlt.** Für SE-Alaska, Neuseeland, Island und Grönland kann die Auflastgezeit

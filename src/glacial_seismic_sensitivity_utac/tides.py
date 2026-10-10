@@ -193,7 +193,12 @@ def tidal_phase(
     step_min: float = 5.0,
     chunk: int = 2000,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Tanaka-type phase [deg, -180..180] and strain amplitude at each event (local site)."""
+    """Tanaka-type phase [deg, -180..180] and strain amplitude at each event (local site).
+
+    The search window ``half_window_h`` (+-14 h, used for the v0.2 H3 run) is a code default, not
+    part of the frozen preregistration. With +-14 h, 1-3 % of events get no phase (NaN) because the
+    bracketing extrema of the diurnal-dominated strain at high latitude lie outside the window
+    (review K1, Claude Code); +-20 h leaves none (``scripts/v02_m3_window20.py``)."""
     jd = decyear_to_jd(np.asarray(t_decyr, float))
     lat = np.broadcast_to(np.asarray(lat, float), jd.shape)
     lon = np.broadcast_to(np.asarray(lon, float), jd.shape)

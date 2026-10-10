@@ -12,15 +12,31 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
   with the degree-2 body-tide areal-strain phase (ocean loading, Tsuruoka et al. 1995), M4 as
   thin-plate/half-space sensitivity informed by Sasgen et al. 2026; Kumazawa & Ogata 2013
   described faithfully (inspired by, not a reimplementation).
-- Erratum: H2.2 windows in the null-calibration/recovery scripts were off by one year
-  (half-open `window_ratio`); scripts fixed, calibration re-run (`calibration_study_v2.csv`,
-  90 % upper bound ~1.30 vs frozen 1.25; no H2.1/H2.2 decision changes). Frozen value unchanged.
+- Erratum (Codex P2; Claude Code B1): H2.2 windows in the null-calibration/recovery scripts were
+  off by one year (half-open `window_ratio`), and the calibration catalogues lacked the 5-yr
+  history and the 2025 bin. The calibration script now takes the production geometry from `v02`;
+  production-faithful re-runs (`calibration_prod_p*.csv`; Claude Code independently): trend sd(z)
+  <= 1.11 (1.25 sufficient), window ratio 1.18-1.30 (90 % upper bounds up to 1.42). H2.1 still
+  rejected; no H2.2 class changes below a factor of 1.56. Frozen value 1.25 unchanged.
 - `etas_nonstat.simulate`: p = 1 handled in the Omori inverse CDF.
+- `etas_nonstat.simulate`: magnitudes drawn from Mc - dm/2 and rounded to the dm grid (lowest bin
+  was half-width, b 0.90 instead of 1; Claude Code K2). Older simulation CSVs used the old simulator.
+- `confirmatory_v02`: robust C2 look-date matching (`resolve_look`: decimal-year tolerance, ISO
+  dates; unknown looks raise instead of silently returning alpha = NaN; Claude Code W2). Frozen
+  looks/alphas unchanged.
+- UTF-8 everywhere for text reads (`read_text(encoding="utf-8")`; Windows cp1252; Claude Code K4);
+  `.gitattributes` extended to `results/*.json` and `PREREGISTRATION*.md`.
+- CI: new job `test-min-deps` (Python 3.11 with numpy 1.26, pandas 2.1, scipy 1.11, matplotlib 3.8;
+  Claude Code K5).
 - `tides`: IERS 2010 nominal Love numbers as reference constants (frozen H3 values unchanged).
 - `.gitattributes`: frozen JSON files are never line-ending converted (Windows CRLF hash failures).
-- Tests: half-open windows, simulator at p = 1, IERS rescaling, C2 SE formula pinned to frozen JSON.
+- Tests: half-open windows, simulator at p = 1 and binned GR, IERS rescaling, C2 SE formula pinned to
+  frozen JSON, C2 look resolution, calibration-script geometry, gradient at the p bound with history
+  events, Gardner-Knopoff foreshocks/ties, tidal phase without gaps at +-20 h (79 tests).
 - Exploratory (not preregistered): H2 null calibration in the p ≈ 1 regime; null simulation of the
-  frozen C2 procedure. Draft addendum (not in force): docs/PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md.
+  frozen C2 procedure; H3 with a +-20 h phase search window (no H3 conclusion changes;
+  `m3_tides_window20.csv`); stage-1 uncertainty propagation for the H2.1 primary pair
+  (`stage1_propagation_*.csv`). Draft addendum (not in force): docs/PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md.
 
 ### Added
 - `etas_nonstat`: temporal ETAS with piecewise-constant yearly background (two-stage estimator,

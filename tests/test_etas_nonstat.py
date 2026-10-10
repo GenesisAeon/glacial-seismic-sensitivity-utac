@@ -185,3 +185,48 @@ def test_simulate_handles_p_equal_one_and_boundary() -> None:
     assert (dt <= q).mean() == pytest.approx(
         np.log((q + c) / c) / np.log((tmax + c) / c), abs=0.005
     )
+
+
+def test_gradient_at_p_lower_bound_with_history_events() -> None:
+    # review K3: gradient check at p = 1.0001 with events before t0 (history only)
+    c = E.simulate(
+        lambda x: 30.0 + 0 * x,
+        1990.0,
+        2010.0,
+        K=0.04,
+        alpha=1.0,
+        c=1e-3,
+        p=1.0001,
+        rng=np.random.default_rng(7),
+    )
+    t, m = c.t.to_numpy(), c.mag.to_numpy()
+    edges = np.arange(1995.0, 2010.5, 5.0)
+    d = E.ETASData.build(t, m, 2.0, 1995.0, 2010.0, edges, 1.0)
+    assert (d.t < 1995.0).sum() > 50
+    x = np.concatenate([np.log(np.full(d.n_bins, 25.0)), [np.log(0.04), 1.0, np.log(1e-3), 1.0001]])
+    _, g = E.loglik_grad(x, d, 1.0)
+    for k in range(len(x)):
+        h = 1e-6
+        xp, xm = x.copy(), x.copy()
+        xp[k] += h
+        xm[k] -= h
+        num = (E.loglik_grad(xp, d, 1.0, False)[0] - E.loglik_grad(xm, d, 1.0, False)[0]) / (2 * h)
+        assert g[k] == pytest.approx(num, rel=1e-4, abs=1e-3)
+
+
+def test_simulated_magnitudes_follow_binned_gr() -> None:
+    # review K2: lowest bin must have full width -> fraction 1 - 10^-0.1 and b ~ 1
+    c = E.simulate(
+        lambda x: 3000.0 + 0 * x,
+        0.0,
+        10.0,
+        K=1e-9,
+        alpha=1.0,
+        c=0.01,
+        p=1.1,
+        rng=np.random.default_rng(8),
+    )
+    m = c.mag.to_numpy()
+    assert np.isclose(m, 2.0).mean() == pytest.approx(1 - 10**-0.1, abs=0.01)
+    b = np.log10(np.e) / (m.mean() - (2.0 - 0.05))
+    assert b == pytest.approx(1.0, abs=0.03)

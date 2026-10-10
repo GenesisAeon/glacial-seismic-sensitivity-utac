@@ -54,13 +54,17 @@ H2-/C2-Standardfehler“ war falsch; die eingefrorene C2-Formel (JSON, Präregis
 `confirmatory_v02.py`) enthält den Faktor nicht. Die Mehrdeutigkeit mit Abschnitt 2 der
 Präregistrierung ist im Nachtragsentwurf `PREREG_v0.2_NACHTRAG_ENTWURF_2026-10-10.md` gelistet.
 
-**Erratum 2026-10-10 (Codex-Review zu PR #1).** `scripts/v02_calibration_study.py` und
-`v02_recovery_study.py` übergaben die H2.2-Fenster als (2008, 2019)/(2020, 2025); `window_ratio()`
-nimmt halboffene Fenster, verglichen wurden also 2008–2018 mit 2020–2024, und die
-Kalibrierkataloge endeten 2025,0 (30 statt 31 Jahresbins). Der echte Lauf (`v02.py`, WIN_A/WIN_B)
-war korrekt. Die Skripte sind korrigiert; der korrigierte Lauf steht in
-`results/v02/calibration_study_v2.csv`, die Gegenüberstellung in `calibration_summary.csv`
-(Zahlen und Folgen: siehe Nachtragsentwurf). Der Faktor 1,25 bleibt als eingefrorener Wert
+**Erratum 2026-10-10 (Codex-Review zu PR #1; Claude-Code-Review B1).**
+`scripts/v02_calibration_study.py` und `v02_recovery_study.py` übergaben die H2.2-Fenster als
+(2008, 2019)/(2020, 2025); `window_ratio()` nimmt halboffene Fenster, verglichen wurden also
+2008–2018 mit 2020–2024; außerdem endeten die Kalibrierkataloge 2025,0 (30 statt 31 Jahresbins) und
+hatten keinen Vorlauf. Der echte Lauf (`v02.py`, WIN_A/WIN_B) war korrekt. Das Kalibrierskript
+übernimmt jetzt die Produktionsgeometrie direkt aus `v02` (1995–2026, 5 a Vorlauf, tmax 1 a,
+WIN_A/WIN_B; Regressionstest `tests/test_v02_scripts.py`). Produktionsgetreu (je 48 Kataloge):
+sd(z) Trend 0,96–1,07, Fensterverhältnis 1,18–1,24 (90-%-Obergrenzen bis 1,35; Claude Code mit
+eigenem Lauf: bis 1,42). Für den Trend (H2.1) reicht 1,25; für das Fensterverhältnis wären
+≈ 1,2–1,3 nötig. Keine veröffentlichte Klassifikation ändert sich unterhalb eines Faktors 1,56.
+Zahlen und Folgen: Nachtragsentwurf, E1. Der Faktor 1,25 bleibt als eingefrorener Wert
 unverändert.
 Ohne Strafterm (σ_rw = 100) ändern sich die Zahlen kaum (sd 0,034).
 

@@ -1,6 +1,7 @@
 """Summarise the H2 null calibration (sd of z for slope and window log-ratio, bootstrap 90 %
 upper bound). Compares the original run (calibration_study.csv, window bug) with the corrected
-run (calibration_study_v2.csv). Exploratory bookkeeping for the 2026-10-10 erratum."""
+run (calibration_study_v2.csv) and the production-geometry runs (calibration_prod_p*.csv,
+re-run with the K2-corrected simulator). Exploratory bookkeeping for the 2026-10-10 erratum."""
 
 from __future__ import annotations
 
@@ -27,12 +28,23 @@ def summ(f: str) -> dict[str, float]:
         sd_z_wr=float(np.std(zw, ddof=1)),
         sd_z_wr_u90=float(np.quantile(bw, 0.9)),
         mean_z_wr=float(zw.mean()),
+        p_hat_median=float(d.p_hat.median()) if "p_hat" in d else float("nan"),
+        frac_p_hat_le_1001=float((d.p_hat <= 1.001).mean()) if "p_hat" in d else float("nan"),
     )
 
 
 if __name__ == "__main__":
     out = pd.DataFrame(
-        {f: summ(f) for f in ("calibration_study.csv", "calibration_study_v2.csv")}
+        {
+            f: summ(f)
+            for f in (
+                "calibration_study.csv",
+                "calibration_study_v2.csv",
+                "calibration_prod_p1.15.csv",
+                "calibration_prod_p1.02.csv",
+            )
+            if os.path.exists(os.path.join(D, f))
+        }
     ).T
     print(out.round(3).to_string())
     out.to_csv(os.path.join(D, "calibration_summary.csv"))

@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from glacial_seismic_sensitivity_utac import etas_nonstat as E
+from glacial_seismic_sensitivity_utac.v02 import WIN_A, WIN_B
 
 OUT = os.path.join(os.environ.get("GSS_OUT", "results"), "v02", "recovery_study.csv")
 TRUE = dict(K=0.0276, alpha=1.0, c=0.002, p=1.15)
@@ -57,12 +58,13 @@ def main(seeds: int) -> None:
                         t, m, 2.0, T0, T1, rw_sd=1.0 if method == "joint_rw1" else 0.2
                     )
                 tr = E.log_mu_trend(f, (T0, T1))
-                wr = E.window_ratio(
-                    f, (2008.0, 2020.0), (2020.0, T1)
-                )  # exclusive ends (erratum 2026-10-10)
+                # H2.2 windows from v02 (half-open); the recovery period ends at T1 = 2025.0, so the
+                # later window is truncated to 2020-2024 here (erratum 2026-10-10, see docstring)
+                win_b = (WIN_B[0], min(WIN_B[1], T1))
+                wr = E.window_ratio(f, WIN_A, win_b)
                 true_wr = float(
-                    np.log(np.mean(fn(np.linspace(2020, 2025, 501))))
-                    - np.log(np.mean(fn(np.linspace(2008, 2019, 501))))
+                    np.log(np.mean(fn(np.linspace(*win_b, 501))))
+                    - np.log(np.mean(fn(np.linspace(*WIN_A, 501))))
                 )
                 mu_true = np.array(
                     [np.mean(fn(np.linspace(a, a + 1, 101))) for a in np.arange(T0, T1)]

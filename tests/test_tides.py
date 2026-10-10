@@ -86,3 +86,15 @@ def test_iers2010_love_numbers_only_rescale_the_strain() -> None:
     assert T.STRAIN_FACTOR == pytest.approx(0.7236, abs=1e-4)
     ratio = T.STRAIN_FACTOR_IERS2010 / T.STRAIN_FACTOR
     assert 0.97 < ratio < 0.98
+
+
+def test_tidal_phase_has_no_gaps_with_20h_window() -> None:
+    # review K1 (Claude Code): +-14 h leaves 1-3 % of events without a phase; +-20 h none
+    rng = np.random.default_rng(11)
+    t = 1995 + 31 * rng.uniform(0, 1, 600)
+    ph14, _ = T.tidal_phase(t, 64.4, -17.0)
+    ph20, _ = T.tidal_phase(t, 64.4, -17.0, half_window_h=20.0)
+    assert np.isfinite(ph20).all()
+    assert np.mean(~np.isfinite(ph14)) < 0.06
+    ok = np.isfinite(ph14)
+    assert np.allclose(ph14[ok], ph20[ok], atol=1e-6)

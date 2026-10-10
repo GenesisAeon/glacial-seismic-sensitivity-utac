@@ -51,3 +51,19 @@ def test_gardner_knopoff_removes_aftershocks_only() -> None:
     out = R.gardner_knopoff(d)
     assert out.triggered.sum() == 20
     assert not out.loc[out.mag == 6.0, "triggered"].any()
+
+
+def test_gardner_knopoff_foreshocks_and_precedence() -> None:
+    # review K3: foreshocks inside the window of a later, larger event are removed; the larger
+    # event takes precedence; for equal magnitudes the earlier event is kept
+    t0 = pd.Timestamp("2000-01-01", tz="UTC")
+    rows = [
+        dict(time=t0, latitude=60.0, longitude=-140.0, mag=4.0),  # foreshock
+        dict(time=t0 + pd.Timedelta(days=3), latitude=60.02, longitude=-140.0, mag=6.0),
+        dict(time=t0 + pd.Timedelta(days=400), latitude=50.0, longitude=-140.0, mag=5.0),
+        dict(time=t0 + pd.Timedelta(days=401), latitude=50.01, longitude=-140.0, mag=5.0),
+    ]
+    d = pd.DataFrame(rows)
+    d["t_yr"] = (d.time - t0).dt.total_seconds() / (365.25 * 86400)
+    out = R.gardner_knopoff(d).sort_values("time").reset_index(drop=True)
+    assert out.triggered.tolist() == [True, False, False, True]

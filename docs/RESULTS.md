@@ -371,6 +371,13 @@ stärker als in der Kontrolle).** Die Lesart muss aber vorsichtig sein:
   (z 0,71); ohne 2025: +0,41 ± 0,15 (z 2,82); gemeinsamer Schätzer: +0,43 ± 0,13 (z 3,29), ab 2003
   +0,16 ± 0,14 (z 1,11); p frei (> 0,3): +0,39 ± 0,15 (z 2,56), ab 2003 z 0,34; tmax 3 a:
   +0,23 ± 0,21 (z 1,09), ab 2003 z −1,65.
+* **Explorativ, Unsicherheit der Stufe 1** (Review W3, `stage1_propagation_*.csv`): 30 Ziehungen
+  von (K, α, c, p) aus der Normalapproximation der Stufe 1, Stufe 2 jeweils neu angepasst (Ziehung
+  −1 reproduziert den Produktionswert exakt). Streuung der Trends 0,013 (SE-Alaska) bzw. 0,008
+  (Inner-Alaska) pro Jahrzehnt – die SE wachsen dadurch um ≈ 1 % (Fensterverhältnis ≈ 2 %); H2.1-z
+  2,93 → 2,90. Einschränkung: p liegt an der Untergrenze 1,0001, dort ist die Normalapproximation
+  schlecht (23–27 % der Ziehungen an der Grenze); die Modellunsicherheit (tmax, Startjahr, siehe
+  oben) ist viel größer als diese Parameterunsicherheit.
 * Fazit: Der präregistrierte H2.1-Test ist formal positiv (die Entscheidungsregel wurde korrekt
   ausgelöst). Der Effekt ist jedoch nicht robust gegen die Beschränkung auf die katalogisch
   homogenere Zeit ab 2003 und gegen einen längeren Triggerhorizont (tmax 3 a). Zusammen mit dem
@@ -442,6 +449,11 @@ Genau getestet wird die **Korrelation mit der Phase der Grad-2-Körpergezeiten-F
 | Kontrollen (3) | 251–8 542 | 0,006–0,086 | 0,37–0,96 | – | 0,048–0,28 | −0,05…+0,16 | 0,03–0,92 | – |
 
 * Weder H3.1 noch H3.2 ist nach BH signifikant (kleinstes q 0,10, Grönland-b-Wert).
+* **Suchfenster (explorativ, Review K1):** Mit dem Code-Standard ±14 h blieben 0,8–2,6 % der Beben
+  ohne Phase (SE-Alaska 2,5 %, Island 2,6 %). Neulauf mit ±20 h (`m3_tides_window20.csv`, keine
+  Lücken): SE-Alaska Schuster-p 0,14 → 0,19 (a 0,042 → 0,038), Δb-p 0,79 → 0,84; Island 0,22 → 0,28;
+  Grönland Schuster-p 0,66 → 0,70, Δb −0,195 → −0,189, p 0,021 → 0,023; kleinstes BH-q (Grönland-b)
+  0,10 → 0,12. Keine H3-Aussage ändert sich. Das ±14-h-Fenster war nicht präregistriert.
 * Power: In SE-Alaska wäre eine Modulation von ≥ 6,8 % (Rate ∝ 1 + a·cos Phase) mit 80 % Power
   entdeckt worden; beobachtet 4,2 % ± Rauschen. Ein b-Unterschied von ≥ 0,07 wäre sichtbar.
 * Die Körpergezeit erreicht an den Bebenorten typisch 20 nstrain (≈ 1–3 kPa). **Ozeanauflast fehlt**,

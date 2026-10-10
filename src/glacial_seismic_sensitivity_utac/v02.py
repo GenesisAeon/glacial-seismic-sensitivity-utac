@@ -57,7 +57,7 @@ def outdir() -> Path:
 def log(msg: str) -> None:
     line = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}"
     print(line, flush=True)
-    with open(outdir() / "v02_run.log", "a") as f:
+    with open(outdir() / "v02_run.log", "a", encoding="utf-8") as f:
         f.write(line + "\n")
 
 
@@ -151,7 +151,7 @@ def _per_region(stage: str, fn: Any, regions: tuple[str, ...]) -> list[dict[str,
     for name in regions:
         ck = _checkpoint(stage, name)
         if ck.exists():
-            rows.append(json.loads(ck.read_text()))
+            rows.append(json.loads(ck.read_text(encoding="utf-8")))
             continue
         tic = time.time()
         res = fn(name)
@@ -258,7 +258,7 @@ def stage_m1(regions: tuple[str, ...] = V02_REGIONS) -> pd.DataFrame:
 # M2 nonstationary-background ETAS (PREREGISTRATION_v0.2 H2.1 / H2.2)
 # ---------------------------------------------------------------------------
 def prereg() -> dict[str, Any]:
-    return dict(json.loads((C.OUT / "frozen_v02_preregistration.json").read_text()))
+    return dict(json.loads((C.OUT / "frozen_v02_preregistration.json").read_text(encoding="utf-8")))
 
 
 def m2_region(name: str) -> dict[str, Any] | None:
@@ -414,7 +414,7 @@ def stage_base() -> dict[str, Any]:
 
     f = C.OUT / "frozen_v02_baselines.json"
     if f.exists():
-        return dict(json.loads(f.read_text()))
+        return dict(json.loads(f.read_text(encoding="utf-8")))
     pr = prereg()["C2"]
     regs: dict[str, Any] = {}
     for name in V02_REGIONS:
@@ -422,7 +422,7 @@ def stage_base() -> dict[str, Any]:
         tabf = outdir() / f"m2_mu_{name}.csv"
         if not ck.exists() or not tabf.exists():
             continue
-        r = json.loads(ck.read_text())
+        r = json.loads(ck.read_text(encoding="utf-8"))
         tab = pd.read_csv(tabf)
         a, b = pr["reference_years"]
         sel = tab[(tab.t_start >= a) & (tab.t_end <= b + 1)]

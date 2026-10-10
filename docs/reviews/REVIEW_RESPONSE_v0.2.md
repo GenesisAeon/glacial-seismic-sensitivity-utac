@@ -6,7 +6,7 @@ Reviews (Rohfassungen liegen bei J. Römer, nicht im Repo):
 |---|---|---|
 | DR | „Deep-Research-Review“ (wissenschaftliche Begutachtung, deutsch; Modell nicht bekannt) | ETAS, H2.1, H2.2, Gezeiten, Lag, C2 |
 | GR | Grok – Präregistrierungs-Gegenprüfung (2 Seiten) | Zeitstempel, Hashes, C2-Vollständigkeit, Kennzeichnung, Zenodo |
-| CC | Claude Code – Code-Review (unvollständig, Sitzung abgebrochen) | CI, Lint, Tests unter Windows |
+| CC | Claude Code – vollständiges Code-Review von decb368 (2026-10-10, mit eigenen Prüfskripten und Simulationen) | CI, Lint, Windows, ETAS-Likelihood/Gradient/Simulator, Kalibrierung, C2-Nullsimulation, Gezeitenphase, GK, Speicher |
 | CX | Codex – Kommentar P2 im PR | `scripts/v02_calibration_study.py:38` |
 | GE | Gemini – enge Literaturprüfung | 8 Zitate/Zahlen |
 | GB | Grok Bot – Nachholen der ETAS-Prüfungen 1+2 aus `docs/REVIEW_PROMPTS.md` (CC kam nicht dazu) | Likelihood, Gradient, Kovarianz, Simulator |
@@ -42,8 +42,8 @@ Präregistrierung berühren würde, steht als **Entwurf** in
 | 11 | H3 testet nur Phase der Körpergezeiten-Flächendehnung; Ozeanauflast und Störungsflächen-Spannung fehlen (Tsuruoka et al. 1995) | DR | berechtigt (Quelle geprüft) | H3 in RESULTS/METHODS/README genau benannt, MDE eingeschränkt, Tsuruoka et al. zitiert |
 | 12 | Sasgen-LT ≠ Te, AV ≠ Halbraumviskosität | DR | berechtigt (VILMA, 4 Schichten, Asthenosphäre bis 400 km – geprüft) | „Dünnplatten-/Halbraum-Sensitivität, angelehnt an Sasgen et al.“ in RESULTS/METHODS/README |
 | 13 | „Elastischer Anteil dominiert“ ist Modelleigenschaft; Te steuert C und τ zugleich | DR | berechtigt | Lesart in RESULTS/METHODS umformuliert |
-| 14 | SE-Faktor 1,25 bei C2 mehrdeutig | DR | berechtigt (bestätigt) | benchmarks-Text korrigiert; Test pinnt Implementierung = JSON-Formel; Nullsimulation; **Entscheidung E2** |
-| 15 | Baseline (Mittel log µ_y) vs. Fenster (log gepoolter MLE) asymmetrisch, Versatz ≈ 0,052 | DR | berechtigt (nachgerechnet; Simulation: mittleres D 0,045) | **Entscheidung E3** |
+| 14 | SE-Faktor 1,25 bei C2 mehrdeutig | DR | berechtigt (bestätigt) | benchmarks-Text korrigiert; Test pinnt Implementierung = JSON-Formel; Nullsimulationen (CC, GB): Niveau ohne Faktor gehalten; **E2**: Empfehlung jetzt „wie JSON, per Nachtrag klarstellen“ |
+| 15 | Baseline (Mittel log µ_y) vs. Fenster (log gepoolter MLE) asymmetrisch, Versatz ≈ 0,052 | DR | teilweise: Rechnung stimmt für rein log-normale Streuung, in Simulationen aber kein Versatz (CC 2×300: −0,022 ± 0,016 / −0,027 ± 0,011; GB n = 100: +0,045 ± 0,032, n. s.) | **E3** abgeschwächt: symmetrisches µ_ref nur optional |
 | 16 | σ_y²/T setzt unabhängige Jahre voraus; Schätzrauschen doppelt gezählt | DR | teilweise | E4; durch simulationskalibrierte Variante (E2c) abgedeckt |
 | 17 | Kovarianz Gletscher/Kontrolle = 0 | DR | teilweise (für gemeinsame Effekte konservativ) | E4 |
 | 18 | C2 ist bedingt auf eingefrorene Auslöserparameter, nicht modellunabhängig | DR | berechtigt | LIMITATIONS |
@@ -53,16 +53,23 @@ Präregistrierung berühren würde, steht als **Entwurf** in
 | 22 | Rest-Freiheitsgrade C2: Numerik `mu_window_mle`, Katalogrevisionen, Vorlauf-Ereignisse, Software-Versionen, M6/M7-Code | GR | berechtigt | **E5/E6** (Vorschläge) |
 | 23 | H2/H3 korrekt als retrospektiv, Explorativ klar getrennt | GR | bestätigt | keine |
 | 24 | Zenodo: Release v0.2.0 mit Präreg.-Dateien vor 2027-01-01 | GR | berechtigt | **Entscheidung J. Römer** (kein Release durch mich) |
-| 25 | CI grün, ruff/mypy sauber; 3 lokale Testfehler unter Windows = CRLF auf gehashten JSON | CC | berechtigt | `.gitattributes`: `results/frozen_*.json -text` |
-| 26 | `window_ratio()` halboffen → Kalibrierung verglich 2008–2018 vs. 2020–2024 | CX | **berechtigt (bestätigt)** | Skripte korrigiert, Kalibrierung neu (`calibration_study_v2.csv`): 90-%-Obergrenze ≈ 1,30 statt 1,25; H2.1 bleibt abgelehnt (z 2,82), keine H2.2-Klasse ändert sich; Regressionstest; **Erratum E1** |
+| 25 | CI grün, ruff/mypy sauber; 3 lokale Testfehler unter Windows = CRLF auf gehashten JSON | CC | berechtigt | `.gitattributes`: `results/*.json`, `results/frozen_*.json`, `PREREGISTRATION*.md` mit `-text` |
+| 26 | `window_ratio()` halboffen → Kalibrierung verglich 2008–2018 vs. 2020–2024 | CX, CC (B1) | **berechtigt (bestätigt)** | Skripte nutzen jetzt die Produktionsgeometrie aus `v02` (CC: auch Vorlauf und 31. Bin fehlten); produktionsgetreue Kalibrierung (CC und GB): Trend sd(z) ≤ 1,11 → 1,25 reicht; Fensterverhältnis 1,18–1,30 (Obergrenzen bis 1,42); H2.1 bleibt abgelehnt; H2.2-Klassen kippen erst ab Faktor 1,56; Regressionstest `test_v02_scripts.py`; **Erratum E1** |
 | 27 | Love-Zahlen: IERS 2010 h = 0,6078, l = 0,0847 bevorzugen | GE | teilweise (Werte geprüft; Herkunft „Farrell 1972“ nicht prüfbar) | Konstanten `LOVE_*_IERS2010`, Test (nur Skalierung, Phasen identisch); eingefrorene H3-Werte bleiben (**E7**) |
 | 28 | „Kumazawa & Ogata Jahresbins“ nicht treu | GE | berechtigt (geprüft: µ(t) und K0(t) glatt, ABIC, Bruchpunkte) | Docstring und METHODS: „angelehnt an, keine Nachimplementierung“ |
 | 29 | Sasgen: Island-Werte und Ensemble-Spannen „nicht gefunden“ | GE | nicht berechtigt | Stehen in Sasgen et al. 2026 (Fig. 3, Methods „Earth model parameters“, Discussion: Island 1e18 Pa·s/30 km, GNSS 40 km; Ensemble 1e18–3e19 Pa·s, 30–90 km) |
 | 30 | Tanaka 2002, Tan 2019, Ogata–Katsura 1993, GK/van Stiphout 2012, IPCC AR6 A.1.7 | GE | bestätigt | keine |
 | 31 | ETAS-Likelihood/Gradient (Kern bei tmax, Vorlauf nur als Auslöser, Bins) | GB | korrekt | siehe unten |
-| 32 | Kovarianz bei `fix_trig` | GB | korrekt als bedingte Kovarianz | Hinweis (enthält Random-Walk-Strafterm → eher kleinere SE; durch max(OLS, Likelihood) × Faktor abgefangen) |
+| 32 | Kovarianz bei `fix_trig` | GB, CC (W3) | korrekt als bedingte Kovarianz (CC: = eigene Hesse-Rechnung bis 4,7e-11; Strafterm −1,4 %) | Docstring + METHODS; explorative Stufe-1-Fortpflanzung (`v02_stage1_propagation.py`, **E10**) |
 | 33 | Simulator: p = 1 exakt → Division durch null in der inversen CDF | GB | Fehler (klein; reale Fits nutzen p ≥ 1,0001) | behoben (log-gleichverteilte Form), Test |
-| 34 | Simulator: Magnituden kontinuierlich simuliert, dann auf 0,1 gerundet und bei Mc gekappt | GB | kleine Inkonsistenz | dokumentiert, nicht geändert (würde die Wiedergewinnungsläufe verschieben; Wirkung ≈ α·0,05 auf die Produktivität) |
+| 34 | Simulator: Magnituden kontinuierlich ab Mc, dann auf 0,1 gerundet → unterster Bin halb so breit, b ≈ 0,90 statt 1 | GB, CC (K2) | Fehler (nur Simulationen betroffen) | **behoben**: Ziehung ab Mc − Δm/2, Rundung auf das Raster (`dm`), b jetzt 0,997; Test. Produktionsgetreue Kalibrierung mit korrigiertem Simulator neu gerechnet; ältere Simulations-CSVs (Wiedergewinnung, `calibration_study*.csv`, `review_sims_*.csv`) stammen vom alten Simulator |
+| 35 | W2: C2-Blicke nur bei exakt 2030.0/2037.0 erkannt, sonst stillschweigend α = NaN | CC | berechtigt | `resolve_look()` mit Toleranz/ISO-Datum, unbekannte Blicke → Fehler; Tests (E2) |
+| 36 | K1: ±14-h-Suchfenster lässt 1–3 % der Beben ohne Gezeitenphase | CC | berechtigt (nachgeprüft: 0,8–2,6 %) | Explorativer Neulauf ±20 h: keine H3-Aussage ändert sich; Fenster war nicht eingefroren; **E9** (±20 h für M7); Test |
+| 37 | K3: fehlende Tests (Kalibrierfenster, GK-Vorbeben/Gleichstand, Gradient an p-Untergrenze mit Vorlauf, Simulator-b) | CC | berechtigt | Tests ergänzt |
+| 38 | K4: `read_text()` ohne Kodierung (cp1252 unter Windows) | CC | berechtigt | überall `encoding="utf-8"` |
+| 39 | K5: CI prüft nur aktuelle Paketversionen | CC | berechtigt | CI-Job `test-min-deps` (numpy 1.26, pandas 2.1, scipy 1.11, matplotlib 3.8; lokal grün) |
+| 40 | K6: Simulator bei p = 1 | CC | = Nr. 33 | bereits behoben |
+| 41 | Ohne Befund: Likelihood/Kompensator vs. Quadratur (1,1e-11), Gradient vs. zentrale Differenzen (bis 5,6e-7 an p ≈ 1), Simulator-KS (p 0,80), Phasenkonvention, GK, v0.1.0 unverändert, Speicher (49 B/Paar, ≈ 0,74 GB), Lint | CC | bestätigt | keine |
 
 ## ETAS-Prüfungen 1+2 (nachgeholt, GB)
 
@@ -79,16 +86,39 @@ Präregistrierung berühren würde, steht als **Entwurf** in
   durch Kalibrierung abgedeckt; für C2 siehe Tabelle Nr. 18).
 * **Simulator:** Inverse CDF des abgeschnittenen Omori-Kerns korrekt für p ≠ 1; p = 1 behoben.
   Kinder jenseits t1 werden verworfen; Verzweigung über Generationen; GR bei m_max 8 abgeschnitten
-  (Abweichung zur unbeschränkten Verzweigungsformel vernachlässigbar). Randeffekt: Die
-  Kalibrier-/Wiedergewinnungskataloge beginnen ohne Vorlauf und werden ohne Vorlauf angepasst –
-  konsistent, keine Verzerrung von µ.
+  (Abweichung zur unbeschränkten Verzweigungsformel vernachlässigbar). Die Wiedergewinnungs-
+  kataloge beginnen ohne Vorlauf und werden ohne Vorlauf angepasst (konsistent); die
+  Kalibrierkataloge nutzen jetzt die Produktionsgeometrie mit 5 a Vorlauf (E1).
+* **Magnituden (K2):** Siehe Nr. 34 – behoben.
+
+## Zusammenfassung Claude-Code-Review (CC, Stand decb368)
+
+Dank an Claude Code für ein gründliches, eigenständig nachgerechnetes Review (eigene Prüfskripte
+und Simulationen; Rohfassung und Daten bei J. Römer, nicht im Repo). Kernaussagen und Umgang:
+
+* **B1 (Blocker, mit Codex P2):** Nullkalibrierung des Faktors 1,25 mit falschen Fenstern und
+  abweichender Geometrie. Bestätigt, behoben, produktionsgetreu neu gerechnet (CC und GB
+  übereinstimmend): 1,25 reicht für den Trend, für das Fensterverhältnis wären ≈ 1,2–1,4 nötig;
+  keine veröffentlichte Entscheidung kippt unterhalb 1,56. Erratum E1, eingefrorener Wert bleibt.
+* **K0 (C2-Nullsimulation, 2×300):** kein Jensen-Versatz, Niveau gehalten oder konservativ → E2/E3
+  abgeschwächt (C2 wie JSON).
+* **W2** Blickdaten robust (behoben), **W3** bedingte Kovarianz bestätigt und dokumentiert,
+  explorative Stufe-1-Fortpflanzung (+1 % SE), **K1** ±20 h (keine H3-Änderung), **K2** Simulator-b
+  (behoben, 0,895 → 0,997), **K3** Tests ergänzt, **K4** UTF-8 + `.gitattributes`, **K5**
+  CI-Mindestversionen, **K6** p = 1 (bereits behoben).
+* **Ohne Befund:** Likelihood/Kompensator, Gradient (auch an der p-Untergrenze), Simulator-Verteilung,
+  Phasenkonvention, Gardner–Knopoff, Unverändertheit von v0.1.0, Speicherbedarf, Lint.
 
 ## Was offen bleibt / Entscheidungen für J. Römer
 
-1. **E2** SE-Faktor bei C2 (ohne / × 1,25 / simulationskalibriert) – Empfehlung: simulationskalibriert.
-2. **E3** symmetrisches µ_ref (neue Baseline-Datei mit neuem Hash) – Empfehlung: ja.
-3. **E5/E6** Betriebsregeln für C2 (Kataloghomogenität, Archivierung, Software-Stand).
-4. **E1** Erratum zum Faktor 1,25 mit v0.2.0 veröffentlichen (Wert bleibt).
-5. **E7** Love-Zahlen: H3 bleibt; ggf. IERS für M7 ab 2027.
+1. **E1** Erratum zum Faktor 1,25 mit v0.2.0 veröffentlichen (Wert bleibt).
+2. **E2** SE-Faktor bei C2 – Empfehlung jetzt: wie JSON (ohne Faktor) und per Nachtrag
+   klarstellen; simulationskalibrierter kritischer Wert optional.
+3. **E3** symmetrisches µ_ref – nur optional (kein Versatz in den Simulationen).
+4. **E5/E6** Betriebsregeln für C2 (Kataloghomogenität, Archivierung, Software-Stand).
+5. **E7/E9** Love-Zahlen und Suchfenster ±20 h für M7 ab 2027 (H3 bleibt).
 6. Release v0.2.0 + Zenodo **vor 2027-01-01** (inkl. eines angenommenen Nachtrags).
-7. Rohfassungen der Reviews: nicht committet (Entscheidung, ob sie unter `docs/reviews/` sollen).
+7. Rohfassungen der Reviews (inkl. Claude-Code-Prüfskripte/-daten): nicht committet
+   (Entscheidung, ob sie unter `docs/reviews/` sollen).
+8. Offen ohne Lösung im Code: Ozeanauflast (H3), Netzänderungen als Störgröße (H2.1),
+   Wiedergewinnungsstudie und ältere Simulationen nicht mit dem korrigierten Simulator wiederholt.

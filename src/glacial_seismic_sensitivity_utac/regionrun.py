@@ -46,7 +46,7 @@ def prepare_region(name: str, use_cache: bool = True) -> Prepared | None:
         dc = pd.read_csv(cache)
         dc["time"] = pd.to_datetime(dc["time"], format="ISO8601", utc=True)
         thr_f = cache.with_suffix(".thr")
-        thr = float(thr_f.read_text()) if thr_f.exists() else float("nan")
+        thr = float(thr_f.read_text(encoding="utf-8")) if thr_f.exists() else float("nan")
     else:
         sub = raw[raw.mag >= mc_ref - 1e-9].reset_index(drop=True)
         if len(sub) > C.MAX_EVENTS_DECLUSTER:

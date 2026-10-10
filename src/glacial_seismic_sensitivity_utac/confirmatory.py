@@ -27,7 +27,9 @@ from .glm import fit_poisson_fe
 
 
 def frozen() -> dict[str, object]:
-    return dict(json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text()))
+    return dict(
+        json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text(encoding="utf-8"))
+    )
 
 
 def confirmatory_test(

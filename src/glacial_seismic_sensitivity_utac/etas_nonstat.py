@@ -294,7 +294,11 @@ def fit_nonstationary(
     """Joint MLE of piecewise-constant mu (bins ``edges``) and common triggering parameters.
 
     ``fix_trig`` = (K, alpha, c_yr, p) fixes the triggering parameters (two-stage estimator):
-    only the bin rates are fitted and the covariance is that of the mu block alone."""
+    only the bin rates are fitted and the covariance is that of the mu block alone, i.e. the
+    covariance *conditional* on the fixed triggering parameters (inverse negative Hessian of the
+    penalised log-likelihood; the random-walk penalty lowers it by ~1 %). Stage-1 uncertainty is
+    not propagated (review W3, Claude Code); see ``scripts/v02_stage1_propagation.py`` for an
+    exploratory propagation. The frozen H2 procedure is unchanged."""
     if edges is None:
         edges = np.arange(t0, t1, 1.0)
         edges = np.append(edges, t1) if edges[-1] < t1 else edges
@@ -515,8 +519,15 @@ def simulate(
     mu_max: float | None = None,
     mainshocks: tuple[tuple[float, float], ...] = (),
     m_max: float = 8.0,
+    dm: float = 0.1,
 ) -> pd.DataFrame:
-    """Simulate a temporal ETAS catalogue (branching) with background rate mu_fn(t) [1/yr]."""
+    """Simulate a temporal ETAS catalogue (branching) with background rate mu_fn(t) [1/yr].
+
+    Magnitudes are drawn continuously from GR above ``mc - dm/2`` and reported rounded to ``dm``,
+    so every reported bin (including the lowest, labelled ``mc``) has full width and the binned
+    catalogue follows GR with the nominal b (review K2, Claude Code: drawing from ``mc`` and
+    rounding afterwards gave the lowest bin half width and b ~ 0.9). ``dm = 0`` returns
+    continuous magnitudes >= mc."""
     rng = rng or np.random.default_rng(0)
     beta = b * np.log(10)
     grid = np.linspace(t0, t1, 2001)
@@ -525,10 +536,12 @@ def simulate(
     tb = np.sort(rng.uniform(t0, t1, n0))
     tb = tb[rng.uniform(0, mmax, n0) < mu_fn(tb)]
 
+    m_lo = mc - 0.5 * dm
+
     def mags(n: int) -> np.ndarray:
         u = rng.uniform(0, 1, n)
-        trunc = 1 - np.exp(-beta * (m_max - mc))
-        return np.asarray(mc - np.log(1 - u * trunc) / beta)
+        trunc = 1 - np.exp(-beta * (m_max - m_lo))
+        return np.asarray(m_lo - np.log(1 - u * trunc) / beta)
 
     t_all = [tb, np.array([x[0] for x in mainshocks])]
     m_all = [mags(len(tb)), np.array([x[1] for x in mainshocks])]
@@ -555,7 +568,9 @@ def simulate(
     t = np.concatenate(t_all)
     m = np.concatenate(m_all)
     o = np.argsort(t)
-    m = np.round(m[o] / 0.1) * 0.1
+    m = m[o]
+    if dm > 0:
+        m = np.round(np.round((m - mc) / dm) * dm + mc, 6)
     return pd.DataFrame(dict(t=t[o], mag=np.maximum(m, mc)))
 
 

@@ -93,7 +93,7 @@ def build_regions() -> list[tipping.TipRegion]:
     """Rebuild the v0.1.0 TipRegions from the v0.1.0 result files (no refit)."""
     acc = pd.read_csv(C.OUT / "precursors_grace_acceleration.csv")
     ldot = dict(zip(acc.box, acc.unloading_kPa_per_yr, strict=True))
-    frozen = json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text())
+    frozen = json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text(encoding="utf-8"))
     regs = tipping.default_regions(acc, ldot, frozen)
     f1_path = C.OUT / "F1_harmonic_growth.csv"
     if f1_path.exists():

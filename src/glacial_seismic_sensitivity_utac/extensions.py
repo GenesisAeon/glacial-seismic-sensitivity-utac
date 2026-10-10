@@ -67,7 +67,7 @@ def run_precursors() -> tuple[pd.DataFrame, pd.DataFrame, dict[str, float]]:
 
 
 def run_tipping(acc: pd.DataFrame, ldot: dict[str, float]) -> pd.DataFrame:
-    frozen = json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text())
+    frozen = json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text(encoding="utf-8"))
     f1 = pd.read_csv(C.OUT / "F1_harmonic_growth.csv").set_index("region")
     regs = tipping.default_regions(acc, ldot, frozen)
     cat = {

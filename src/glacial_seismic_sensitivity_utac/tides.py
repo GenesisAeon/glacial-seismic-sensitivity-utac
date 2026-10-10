@@ -4,7 +4,9 @@ Scope and limitations (also in docs/METHODS_v02.md):
 * Low-precision lunar/solar ephemeris (main periodic terms of Meeus, *Astronomical Algorithms*,
   2nd ed., ch. 25 and 47); accuracy ~0.02 deg in position, ~0.01 % in distance - ample for
   the degree-2 tidal potential (relative error << 1 %).
-* Only the degree-2 **body tide** (Love numbers h = 0.6114, l = 0.0832, PREM-like) is modelled;
+* Only the degree-2 **body tide** (Love numbers h = 0.6114, l = 0.0832 as frozen in
+  PREREGISTRATION_v0.2; source still to be verified - the IERS Conventions 2010 nominal values
+  h = 0.6078, l = 0.0847 give a 2 % smaller strain and identical phases) is modelled;
   the horizontal areal strain at the surface is (2h - 6l) W2 / (g a), tension positive.
 * **Ocean loading is NOT included.** In coastal regions (SE Alaska, NZ, Iceland, Greenland) the
   load tide can be comparable to or larger than the body tide and has a different phase. A

@@ -40,7 +40,9 @@ Netzänderungen verschieben µ_y direkt – deshalb nur netzinterne Gletscher-Ko
   Test gegen Beispiel 47.a (Mond, 1992-04-12) und 25.a (Sonne, 1992-10-13): Abweichung < 0,01° bzw.
   < 30 km.
 * Grad-2-Potential W2 = Σ GM·a²/r³·P2(cos ψ); Flächendehnung an der Oberfläche (2h − 6l)·W2/(g·a),
-  h = 0,6114, l = 0,0832. Typisch 20 nstrain (Median), 31 nstrain (95-%-Quantil) an den
+  h = 0,6114, l = 0,0832 (Herkunft noch zu belegen; die Nominalwerte der IERS Conventions 2010,
+  h = 0,6078, l = 0,0847, ergeben 2 % weniger Dehnung und **identische Phasen** – Schuster-Test und
+  b-Wert-Aufteilung hängen nicht davon ab). Typisch 20 nstrain (Median), 31 nstrain (95-%-Quantil) an den
   Bebenorten – grob 1–3 kPa (E = 70 GPa, ν = 0,25). Dominante Periode am Äquator 12,42 h (M2);
   in hohen Breiten überwiegt der eintägige Anteil.
 * Phase nach Tanaka, Ohtake & Sato 2002 (JGR 107(B10):2211, https://doi.org/10.1029/2001JB001577),

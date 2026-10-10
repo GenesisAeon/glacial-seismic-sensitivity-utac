@@ -3,7 +3,7 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
-## [0.2.0] – unreleased (prepared on branch `v0.2-dev`)
+## [0.2.0] – 2026-10-10
 
 ### Addendum and review round 2 (2026-10-10)
 

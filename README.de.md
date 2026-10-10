@@ -39,7 +39,7 @@ starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE
 unwahrscheinlich. Verzögerte viskose Antworten, einzelne große Brüche und vulkanische Effekte sind
 *nicht* ausgeschlossen.
 
-## v0.2.0 (vorbereitet auf Branch `v0.2-dev`; noch nicht veröffentlicht)
+## v0.2.0 (veröffentlicht am 2026-10-10)
 
 Präregistrierte Ergänzung [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (eingefroren am
 2026-10-10, vor den Auswertungen; v0.1.0 unverändert). Details: [docs/RESULTS.md](docs/RESULTS.md)

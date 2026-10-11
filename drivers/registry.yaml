@@ -1,0 +1,225 @@
+# Treiber-Register (v0.3-dev). Schema und Regeln: src/glacial_seismic_sensitivity_utac/drivers.py
+# und docs/v03/TREIBER_REGISTER.md. Jede DOI muss in drivers/verified_dois.tsv stehen
+# (per Crossref aufgelöst). Der Eintrag ist eine Buchführung, kein Befund.
+schema_version: 1
+drivers:
+  - id: D-GLAC
+    name: Saisonale und langfristige Eis-/Schneeentlastung (P133-Kern)
+    mechanism: Coulomb-Spannungsänderung durch Laständerung; viskoelastische Nachwirkung
+    evidence: established
+    origin: literature
+    sources: [10.1016/j.epsl.2019.115904, 10.1016/j.epsl.2005.06.032, 10.1038/s41586-021-03436-z]
+    observables: [seasonal_harmonic_amplitude, rate_trend, b_value]
+    data: [ComCat, AK, IMO, SED, GeoNet, GRACE-FO mascons]
+    status: active
+    introduced_in: v0.1.0
+    prereg: frozen:PREREGISTRATION.md (C1 ab 2026-11-01), PREREGISTRATION_v0.2.md (C2)
+    notes: Einziger aktiver Treiber; v0.3 ändert daran nichts.
+
+  - id: D-GIAPD
+    name: Schnelle gegenwärtige GIA in Regionen niedriger Mantelviskosität
+    mechanism: GIA-Hebung maskiert GRACE-Massenverlust (Unterschätzung) und verkürzt Relaxationszeiten
+    evidence: reported
+    origin: literature
+    sources: [10.1038/s43247-026-03738-y]
+    observables: [grace_mass_rate, gnss_uplift, relaxation_time]
+    data: [GRACE-FO mascons, Sasgen 2026 Replikationsdaten (Harvard Dataverse)]
+    status: candidate
+    introduced_in: v0.2.0
+    prereg: exploratory
+    notes: v0.2 M4 (Rheologie) und v0.3 Sensitivitätslauf GRACE-Unterschätzung (results/v03/), beides explorativ.
+
+  - id: D-MINE
+    name: Untertage-Hohlraumkollaps (Bergbau; Kavität nach Explosion)
+    mechanism: Dacheinbruch über einem Hohlraum; Volumenabnahme bzw. schließender Riss plus vertikale Kraft
+    evidence: established
+    origin: literature
+    sources: [10.1126/science.1157392, 10.1785/gssrl.79.5.637, 10.1002/2014jb011037, 10.1785/0220180130]
+    observables: [catalog_type, depth, mt_iso, mt_class, mag_discrepancy, preceding_trigger]
+    data: [ComCat, ComCat moment-tensor products, publizierte MT]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Fälle Crandall 2007 (implosiv dominiert) und Punggye-ri 2017 (keine reine Implosion).
+
+  - id: D-SLIDE
+    name: Große Massenbewegung als seismische Quelle und mögliche Auslöserin kleiner Beben
+    mechanism: Einzelkraft-Quelle (langperiodisch); statische Laständerung; Auslösung nur Einzelfall
+    evidence: established
+    origin: literature
+    sources: [10.1130/gsatg191a.1, 10.1002/2014gl060592, 10.1002/2016jf004036, 10.1126/science.1232887]
+    observables: [catalog_type, ML_vs_md_or_Ms, long_period_energy, depth_0]
+    data: [ComCat, publizierte Kraftinversionen]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Quelle etabliert; Auslösung von Folgebeben nur für Bingham 2013 berichtet (16 Ereignisse in 6 Tagen). Fälle Bingham 2013, Langtang 2026.
+
+  - id: D-GAS
+    name: Reservoir-Depletion bzw. Kompaktion (Gasförderung)
+    mechanism: Porendruckabsenkung, Kompaktion, Spannungsumlagerung an Störungen
+    evidence: established
+    origin: literature
+    sources: [10.1190/tle34060664.1, 10.1017/njg.2017.20]
+    observables: [rate_vs_production, b_value, depth_reservoir_level]
+    data: [KNMI FDSN, NLOG Förderdaten (Zugang offen)]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Fall Groningen. Förderzeitreihe noch nicht über einen freigegebenen offenen Weg bezogen.
+
+  - id: D-RES
+    name: Stauseeeinstau und Pegelschwankungen
+    mechanism: Auflast und Porendruckdiffusion triggern tektonische Bruchflächen
+    evidence: established
+    origin: literature
+    sources: [10.1016/s0012-8252(02)00063-6, 10.1007/s12040-021-01780-2]
+    observables: [rate_vs_level, b_value]
+    data: [ComCat/ISC-GEM; Pegeldaten nicht offen]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Fall Koyna, nur Katalog (eingeschränkt).
+
+  - id: D-GW
+    name: Grundwasserentnahme bzw. Aquifer-Entlastung
+    mechanism: Krustenentlastung moduliert Spannung auf tektonischer Störung
+    evidence: reported
+    origin: literature
+    sources: [10.1038/ngeo1610]
+    observables: [slip_distribution, depth]
+    data: [ComCat, EMSC]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Einzelfall Lorca 2011.
+
+  - id: D-CALD
+    name: Calderakollaps durch Magmaentzug
+    mechanism: Absenkung des Reservoirdachs; Randstörungen mit stark nicht-DC Mechanismen; überwiegend aseismisch
+    evidence: established
+    origin: own_research
+    sources: [10.1126/science.aaf8988, 10.1093/gji/ggv157, 10.1002/2015gl067423, 10.1029/2019gl085636]
+    observables: [repeated_M45_cluster, mt_percent_dc, geodetic_subsidence]
+    data: [ComCat, ComCat moment-tensor products]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: exploratory
+    notes: Fall Bárðarbunga 2014-15; Kīlauea 2018 als optionaler Zusatzfall vorgeschlagen.
+
+  - id: D-SALT
+    name: Salzkavernen-Instabilität und Erdfall
+    mechanism: Kavernenkollaps bzw. Fluidbewegung; MT zeigte bei Napoleonville Volumenzunahme (61-82 %), keine Implosion
+    evidence: reported
+    origin: own_research
+    sources: [10.1785/0120130260, 10.1007/s00024-009-0008-1]
+    observables: [mt_iso_sign, microseismic_rate]
+    data: [lokale Netze (nicht offen), ComCat]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Zeigt, dass Kollaps nicht automatisch ein negatives ISO bedeutet. Napoleonville 2012 optionaler Zusatzfall.
+
+  - id: D-KARST
+    name: Karst- bzw. Erdfallbildung
+    mechanism: Lösung und Dacheinbruch; seismische Signale nur lokal und klein
+    evidence: speculative
+    origin: own_research
+    sources: [10.1016/j.earscirev.2014.08.002]
+    observables: [catalog_type, depth_0]
+    data: [keine passenden offenen Kataloge gefunden]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Geogefahr etabliert, aber kein katalogtauglicher seismischer Fall gefunden; für v0.3 nicht genutzt.
+
+  - id: D-PERMA
+    name: Permafrost-Degradation in Felswänden
+    mechanism: Erwärmung reduziert Eis-/Fels-Festigkeit, erhöht Felssturzwahrscheinlichkeit (Kopplung an D-SLIDE)
+    evidence: reported
+    origin: own_research
+    sources: [10.1002/esp.3374, 10.1029/2006jf000547]
+    observables: [rockfall_frequency, catalog_type]
+    data: [keine Katalogquelle; Inventare]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Wirkt über Massenbewegungen; eigener seismischer Pfad nicht belegt.
+
+  - id: D-HYD
+    name: Gashydrat-Destabilisierung
+    mechanism: Druck-/Temperaturänderung destabilisiert Hydrate, möglich Hangrutschungen am Kontinentalrand
+    evidence: speculative
+    origin: own_research
+    sources: [10.1098/rsta.2010.0065, 10.1002/2016rg000534]
+    observables: [submarine_slide_catalog]
+    data: [keine]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Ruppel & Kessler 2017 sehen geringe heutige Effekte; Bezug zur Seismizität unbelegt.
+
+  - id: D-INJ
+    name: Fluidinjektion (Abwasser, CCS)
+    mechanism: Porendruckerhöhung, thermoelastische Abkühlung
+    evidence: established
+    origin: own_research
+    sources: [10.1126/science.1225942]
+    observables: [rate_vs_injection]
+    data: [nicht vorgesehen]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Idee aus dem Gemini-Bericht, Beleg selbst geprüft; nicht im v0.3-Kern.
+
+  - id: D-JOK
+    name: Subglaziale Seeentleerung (Jökulhlaup; Tremor, Kesselabsenkung)
+    mechanism: Flutfront und Kesseldach-Absenkung erzeugen Tremor
+    evidence: established
+    origin: own_research
+    sources: [10.1038/s41467-020-15744-5]
+    observables: [tremor_amplitude, cauldron_subsidence]
+    data: [IMO Wellenformen (nicht geplant)]
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Tremor ist keine Katalog-Seismizität; Skaftá (Plan-Rang 9) nicht in v0.3.
+
+  - id: D-VHEAT
+    name: Subglaziale vulkanische Wärme
+    mechanism: Wärmefluss unter Eisschilden; Bezug zur Seismizität spekulativ
+    evidence: speculative
+    origin: ai_report
+    sources: [10.1038/s41467-018-04421-3]
+    observables: []
+    data: []
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Aus Gemini-Bericht; Quelle belegt nur die Wärme, nicht die Seismizität.
+
+  - id: D-LDAM
+    name: Erdrutschdamm-Bruchfluten (Erosion bzw. Entlastung im Tal)
+    mechanism: Rasche Entlastung/Erosion; Seismizitätsbezug unbelegt
+    evidence: speculative
+    origin: ai_report
+    sources: [10.1016/j.earscirev.2020.103116]
+    observables: []
+    data: []
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Quelle belegt nur Dammbildung/-bruch, nicht Seismizität. Budhi Gandaki 2026 nur Watchlist.
+
+  - id: D-PROGLAC
+    name: Füllen bzw. Entleeren proglazialer Seen als Laständerung
+    mechanism: Lastwechsel am Gletscherrand
+    evidence: speculative
+    origin: ai_report
+    sources: [10.5194/nhess-25-1913-2025]
+    observables: []
+    data: []
+    status: candidate
+    introduced_in: v0.3-dev
+    prereg: none
+    notes: Quelle nur Bathymetrie (Fjallsárlón).

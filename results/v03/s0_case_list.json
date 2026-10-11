@@ -1,0 +1,497 @@
+{
+  "cases": [
+    {
+      "case_id": "crandall_2007",
+      "expected_class": "collapse",
+      "forcing": "underground coal mining (room-and-pillar retreat)",
+      "key_event_ids": [
+        "uu50342430"
+      ],
+      "key_event_rule": "fixed ComCat id (type 'mine collapse')",
+      "lat": 39.4642,
+      "lon": -111.2168,
+      "name": "Crandall Canyon coal mine collapse, Utah, 2007-08-06",
+      "notes": "ComCat depth -2.5 km (above sea level datum); the mine district has continuous mining-induced background seismicity.",
+      "published": [
+        {
+          "doi": "10.1785/gssrl.79.5.637",
+          "key": "ML",
+          "note": "local magnitude, 08:48:40 UTC",
+          "value": 3.9
+        },
+        {
+          "doi": "10.1002/2014jb011037",
+          "key": "Mw",
+          "note": "recorded as an Mw 4.1 event",
+          "value": 4.1
+        },
+        {
+          "doi": "10.1126/science.1157392",
+          "key": "mt_class",
+          "note": "dominated by an implosive component; smaller non-collapse component",
+          "value": "implosive_dominant"
+        },
+        {
+          "doi": "10.1002/2014jb011037",
+          "key": "precursor",
+          "note": "",
+          "value": "b-value and location changes in the 48 h before the collapse (template matching, Mc 0.0)"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 39.4642,
+          "lon": -111.2168,
+          "minmag": null,
+          "name": "crandall_comcat",
+          "radius_km": 30.0,
+          "service": "comcat",
+          "start": "1990-01-01"
+        }
+      ],
+      "radius_km": 15.0,
+      "rank": 1,
+      "status": "core"
+    },
+    {
+      "case_id": "bingham_2013",
+      "expected_class": "mass_movement",
+      "forcing": "open-pit mining (slope failure)",
+      "key_event_ids": [],
+      "key_event_rule": "published origin times 03:30:22 and 05:05:22 UTC; the two slides are NOT ComCat events (checked 2026-10-11) -> key-event features from the publication",
+      "lat": 40.536,
+      "lon": -112.142,
+      "name": "Bingham Canyon mine rock avalanches, Utah, 2013-04-11 UTC",
+      "notes": "",
+      "published": [
+        {
+          "doi": "10.1130/gsatg191a.1",
+          "key": "origin_times_utc",
+          "note": "",
+          "value": [
+            "2013-04-11T03:30:22",
+            "2013-04-11T05:05:22"
+          ]
+        },
+        {
+          "doi": "10.1130/gsatg191a.1",
+          "key": "ML",
+          "note": "",
+          "value": [
+            2.5,
+            2.4
+          ]
+        },
+        {
+          "doi": "10.1130/gsatg191a.1",
+          "key": "md_min",
+          "note": "duration magnitudes '>3.5'",
+          "value": 3.5
+        },
+        {
+          "doi": "10.1130/gsatg191a.1",
+          "key": "followup_events_6d",
+          "note": "impulsive arrivals, tectonic-like",
+          "value": 16
+        },
+        {
+          "doi": "10.1002/2014gl060592",
+          "key": "lp_force_history",
+          "note": "long-period force inversion (single-force source)",
+          "value": true
+        },
+        {
+          "doi": "10.1002/2016jf004036",
+          "key": "volume_Mm3",
+          "note": "",
+          "value": 52
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 40.536,
+          "lon": -112.142,
+          "minmag": null,
+          "name": "bingham_comcat",
+          "radius_km": 20.0,
+          "service": "comcat",
+          "start": "1990-01-01"
+        }
+      ],
+      "radius_km": 10.0,
+      "rank": 2,
+      "status": "core"
+    },
+    {
+      "case_id": "langtang_2026",
+      "expected_class": "mass_movement",
+      "forcing": "none known (high-mountain mass movement)",
+      "key_event_ids": [
+        "us7000tbwb",
+        "us7000tc90"
+      ],
+      "key_event_rule": "fixed ComCat ids (type 'landslide', Ms_vx)",
+      "lat": 28.271,
+      "lon": 85.515,
+      "name": "Langtang ice/rock mass movement, Nepal, 2026-08-26",
+      "notes": "Own class 'Massenbewegungsquelle' (approved 2026-10-11). No peer-reviewed source yet; ComCat event pages are the only source.",
+      "published": [],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 28.271,
+          "lon": 85.515,
+          "minmag": null,
+          "name": "langtang_comcat",
+          "radius_km": 100.0,
+          "service": "comcat",
+          "start": "2000-01-01"
+        }
+      ],
+      "radius_km": 50.0,
+      "rank": 3,
+      "status": "core"
+    },
+    {
+      "case_id": "groningen",
+      "expected_class": "tectonic",
+      "forcing": "gas production (reservoir compaction); production stopped 2023/24",
+      "key_event_ids": [],
+      "key_event_rule": "largest KNMI event inside the field polygon proxy (30 km around 53.30N 6.75E)",
+      "lat": 53.3,
+      "lon": 6.75,
+      "name": "Groningen gas field induced seismicity, NL",
+      "notes": "Forcing series (monthly production) not obtained by a sanctioned open route yet -> forcing coupling not tested in S2 (decision needed).",
+      "published": [
+        {
+          "doi": "10.1190/tle34060664.1",
+          "key": "first_event",
+          "note": "also in the KNMI snapshot",
+          "value": "1991-12-05 ML 2.4 Middelstum"
+        },
+        {
+          "doi": "10.1017/njg.2017.20",
+          "key": "context",
+          "note": "",
+          "value": "seismicity development and hazard"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 53.3,
+          "lon": 6.75,
+          "minmag": null,
+          "name": "groningen_knmi",
+          "radius_km": 30.0,
+          "service": "knmi",
+          "start": "1986-01-01"
+        },
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 53.3,
+          "lon": 6.75,
+          "minmag": null,
+          "name": "groningen_comcat",
+          "radius_km": 30.0,
+          "service": "comcat",
+          "start": "1986-01-01"
+        }
+      ],
+      "radius_km": 30.0,
+      "rank": 4,
+      "status": "core"
+    },
+    {
+      "case_id": "lorca_2011",
+      "expected_class": "tectonic",
+      "forcing": "long-term groundwater extraction (crustal unloading)",
+      "key_event_ids": [
+        "usp000j1en"
+      ],
+      "key_event_rule": "fixed ComCat id (mainshock); foreshock usp000j1ea",
+      "lat": 37.699,
+      "lon": -1.672,
+      "name": "Lorca earthquake, SE Spain, 2011-05-11 (Mw 5.1)",
+      "notes": "Negative case for the source discriminator (tectonic source, anthropogenic modulation).",
+      "published": [
+        {
+          "doi": "10.1038/ngeo1610",
+          "key": "forcing",
+          "note": "",
+          "value": "slip distribution controlled by groundwater unloading"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 37.699,
+          "lon": -1.672,
+          "minmag": null,
+          "name": "lorca_comcat",
+          "radius_km": 30.0,
+          "service": "comcat",
+          "start": "1990-01-01"
+        },
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 37.699,
+          "lon": -1.672,
+          "minmag": null,
+          "name": "lorca_emsc",
+          "radius_km": 30.0,
+          "service": "emsc",
+          "start": "2004-10-01"
+        }
+      ],
+      "radius_km": 15.0,
+      "rank": 5,
+      "status": "core"
+    },
+    {
+      "case_id": "punggye_2017",
+      "expected_class": "collapse",
+      "forcing": "underground nuclear explosion 8.5 min earlier (us2000aert)",
+      "key_event_ids": [
+        "us2000aetk"
+      ],
+      "key_event_rule": "fixed ComCat id (type 'collapse'); trigger us2000aert (type 'nuclear explosion')",
+      "lat": 41.332,
+      "lon": 129.03,
+      "name": "Punggye-ri post-explosion collapse, DPRK, 2017-09-03",
+      "notes": "Explosion class itself is out of scope; only the collapse is a module case.",
+      "published": [
+        {
+          "doi": "10.1785/0220180130",
+          "key": "mb_explosion_collapse",
+          "note": "",
+          "value": [
+            6.1,
+            4.1
+          ]
+        },
+        {
+          "doi": "10.1785/0220180130",
+          "key": "mt_class",
+          "note": "MT not a pure implosion; tensional closing crack + two-sided vertical force",
+          "value": "closing_crack_plus_vertical_force"
+        },
+        {
+          "doi": "10.1785/0220180158",
+          "key": "full_mt",
+          "note": "",
+          "value": "full MT analysis of all DPRK tests"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 41.3,
+          "lon": 129.08,
+          "minmag": null,
+          "name": "punggye_comcat",
+          "radius_km": 50.0,
+          "service": "comcat",
+          "start": "2006-01-01"
+        }
+      ],
+      "radius_km": 20.0,
+      "rank": 6,
+      "status": "core"
+    },
+    {
+      "case_id": "bardarbunga_2014",
+      "expected_class": "caldera_collapse",
+      "forcing": "magma withdrawal via a 48 km dike (Holuhraun eruption)",
+      "key_event_ids": [],
+      "key_event_rule": "all ComCat events M>=5.0 within 15 km of the caldera, 2014-08-16..2015-02-28",
+      "lat": 64.64,
+      "lon": -17.53,
+      "name": "Bárðarbunga caldera collapse, Iceland, 2014-08-16 to 2015-02-27",
+      "notes": "",
+      "published": [
+        {
+          "doi": "10.1126/science.aaf8988",
+          "key": "caldera_subsidence",
+          "note": "",
+          "value": "110 km2, 65 m deep, gradual, ~180 d"
+        },
+        {
+          "doi": "10.1093/gji/ggv157",
+          "key": "mt_class",
+          "note": "",
+          "value": "highly non-double-couple rim earthquakes"
+        },
+        {
+          "doi": "10.1093/gji/ggv157",
+          "key": "aseismic",
+          "note": "",
+          "value": "majority of subsidence aseismic"
+        },
+        {
+          "doi": "10.1002/2015gl067423",
+          "key": "dike_mt",
+          "note": "",
+          "value": "dike seismicity strike-slip; no non-DC events"
+        },
+        {
+          "doi": "10.1038/nature14111",
+          "key": "dike",
+          "note": "",
+          "value": "segmented lateral dike growth"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 64.64,
+          "lon": -17.53,
+          "minmag": null,
+          "name": "bardarbunga_comcat",
+          "radius_km": 20.0,
+          "service": "comcat",
+          "start": "1990-01-01"
+        }
+      ],
+      "radius_km": 15.0,
+      "rank": 7,
+      "status": "core"
+    },
+    {
+      "case_id": "koyna",
+      "expected_class": "tectonic",
+      "forcing": "reservoir impoundment and level changes (no open level series)",
+      "key_event_ids": [
+        "iscgem828259"
+      ],
+      "key_event_rule": "fixed ComCat/ISC-GEM id (1967-12-10)",
+      "lat": 17.2,
+      "lon": 73.75,
+      "name": "Koyna-Warna reservoir-triggered seismicity, India (1967 M6.3)",
+      "notes": "Catalogue-only (ComCat completeness is poor for M<4); forcing not testable without reservoir-level data.",
+      "published": [
+        {
+          "doi": "10.1016/s0012-8252(02)00063-6",
+          "key": "review",
+          "note": "",
+          "value": "reservoir-triggered seismicity, Koyna emphasis"
+        },
+        {
+          "doi": "10.1007/s12040-021-01780-2",
+          "key": "review_2022",
+          "note": "",
+          "value": "Koyna as RTS site"
+        }
+      ],
+      "queries": [
+        {
+          "end": "2026-10-01T00:00:00",
+          "lat": 17.2,
+          "lon": 73.75,
+          "minmag": null,
+          "name": "koyna_comcat",
+          "radius_km": 60.0,
+          "service": "comcat",
+          "start": "1960-01-01"
+        }
+      ],
+      "radius_km": 40.0,
+      "rank": 8,
+      "status": "core_limited"
+    },
+    {
+      "case_id": "budhi_gandaki_2026",
+      "expected_class": "mass_movement",
+      "forcing": "unconfirmed (landslide dam reported)",
+      "key_event_ids": [],
+      "key_event_rule": "none (no ComCat event as of 2026-10-11)",
+      "lat": 28.45,
+      "lon": 84.85,
+      "name": "Budhi Gandaki flood / landslide-dam event, Nepal, 2026-10-11 (watchlist only)",
+      "notes": "Not evaluated; cause unconfirmed; recorded only to document the null catalogue result.",
+      "published": [],
+      "queries": [
+        {
+          "end": "2026-10-11T23:59:59",
+          "lat": 28.45,
+          "lon": 84.85,
+          "minmag": null,
+          "name": "budhi_gandaki_comcat",
+          "radius_km": 60.0,
+          "service": "comcat",
+          "start": "2026-09-01"
+        }
+      ],
+      "radius_km": 50.0,
+      "rank": null,
+      "status": "watchlist"
+    }
+  ],
+  "control_exclude_km": 25.0,
+  "control_mainshock_min": 4.5,
+  "control_minmag_fetch": 2.5,
+  "control_regions": {
+    "Iceland": [
+      63.0,
+      67.5,
+      -25.0,
+      -13.0
+    ],
+    "Korea_NE_China": [
+      37.0,
+      44.0,
+      124.0,
+      132.0
+    ],
+    "Nepal_Himalaya": [
+      26.0,
+      31.0,
+      80.0,
+      89.0
+    ],
+    "SE_Spain": [
+      36.0,
+      39.5,
+      -4.0,
+      0.0
+    ],
+    "Utah_Intermountain": [
+      36.5,
+      42.5,
+      -114.5,
+      -108.5
+    ],
+    "W_India": [
+      15.0,
+      21.0,
+      72.0,
+      76.0
+    ]
+  },
+  "control_start": "2000-01-01",
+  "frozen_utc": "2026-10-11T08:50:33Z",
+  "module": "v0.3 mass-change / collapse",
+  "named_controls": {
+    "Magna_2020": "uu60363602"
+  },
+  "optional_cases_proposed": {
+    "kilauea_2018": [
+      "caldera collapse with repeated Mw~5 collapse events; coupled shear + crack closure",
+      "10.1029/2019GL085636"
+    ],
+    "napoleonville_2012": [
+      "salt-cavern sinkhole; MT with large volume-INCREASE components 61-82 % (not implosive)",
+      "10.1785/0120130260"
+    ]
+  },
+  "snapshot_end": "2026-10-01T00:00:00",
+  "source_classes": [
+    "mass_movement",
+    "collapse",
+    "caldera_collapse",
+    "tectonic"
+  ],
+  "step": "S0"
+}

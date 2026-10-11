@@ -80,3 +80,16 @@ def test_case_list_consistent() -> None:
     with pytest.raises(KeyError):
         v03_cases.case_by_id("nope")
     assert v03_cases.s0_payload()["step"] == "S0"
+
+
+def test_s0_amendment_a1() -> None:
+    v = drivers.verified_dois()
+    ids = [c.case_id for c in v03_cases.CASES_A1]
+    assert ids == ["napoleonville_2012", "kilauea_2018"]
+    for c in v03_cases.CASES_A1:
+        assert c.expected_class in v03_cases.SOURCE_CLASSES
+        assert all(p.doi.lower() in v for p in c.published)
+    # the frozen S0 payload must not contain the A1 cases
+    frozen = [c["case_id"] for c in v03_cases.s0_payload()["cases"]]
+    assert not set(ids) & set(frozen)
+    assert v03_cases.case_by_id("kilauea_2018").rank == 10

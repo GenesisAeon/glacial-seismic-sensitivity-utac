@@ -344,8 +344,84 @@ OPTIONAL_CASES_PROPOSED = {
 }
 
 
+# --- S0 amendment A1 (2026-10-11, approved by J. Roemer): optional cases added ----------
+# The frozen S0 file is not modified; A1 is written to results/v03/s0_amendment_A1.json.
+CASES_A1: tuple[Case, ...] = (
+    Case(
+        "napoleonville_2012",
+        9,
+        "Napoleonville salt dome sinkhole (Bayou Corne), Louisiana, 2012-08",
+        "collapse",
+        "salt-cavern (solution mining) failure",
+        "core_added_A1",
+        30.01,
+        -91.14,
+        10.0,
+        (),
+        "no ComCat events (checked 2026-10-11); key-event features from the publications",
+        (Query("napoleonville_comcat", "comcat", 30.01, -91.14, 30.0, "2011-01-01", END),),
+        (
+            Published("n_events_1d", 62, "10.1785/0120130260", "1-2 Aug 2012, local network"),
+            Published("Mw_range", [1.3, 1.6], "10.1785/0120130260"),
+            Published(
+                "mt_class",
+                "volume_increase_iso_61_82pct",
+                "10.1785/0120130260",
+                "large isotropic volume-INCREASE components; not implosive",
+            ),
+            Published("depth_m", 470, "10.1785/0120130260", "approximate source depth"),
+            Published("pre_sinkhole", "local monitoring implications", "10.1785/0220190224"),
+        ),
+        "Not in any open catalogue -> invisible in catalogue_only mode by construction.",
+    ),
+    Case(
+        "kilauea_2018",
+        10,
+        "Kilauea summit caldera collapse, Hawaii, 2018-05 to 2018-08",
+        "caldera_collapse",
+        "magma withdrawal to the lower East Rift Zone eruption",
+        "core_added_A1",
+        19.405,
+        -155.28,
+        15.0,
+        (),
+        "all ComCat events M>=4.5 within 15 km of 19.405N 155.28W, 2018-05-01..2018-08-06",
+        (
+            Query(
+                "kilauea_comcat", "comcat", 19.405, -155.28, 20.0, "2017-10-01", "2019-04-01", 2.5
+            ),
+        ),
+        (
+            Published("collapse_events", "repeated Mw~5 collapse events", "10.1029/2019gl085636"),
+            Published(
+                "mt_class",
+                "coupled shear and crack closure (dilatational first motions)",
+                "10.1029/2019gl085636",
+            ),
+            Published("eruption", "rift eruption and summit collapse", "10.1126/science.aav7046"),
+        ),
+    ),
+)
+A1_NOTE = (
+    "S0 amendment A1, 2026-10-11: Napoleonville 2012 and Kilauea 2018 added as cases "
+    "(approved by J. Roemer). Rationale: test the collapse rule against a volume-increase "
+    "collapse (Napoleonville) and the caldera rule against a second caldera (Kilauea). "
+    "Thresholds from S2 are not changed."
+)
+ALL_CASES: tuple[Case, ...] = CASES + CASES_A1
+
+
+def a1_payload() -> dict[str, Any]:
+    return {
+        "amendment": "A1",
+        "date": "2026-10-11",
+        "note": A1_NOTE,
+        "cases": [c.to_dict() for c in CASES_A1],
+    }
+
+
 def case_by_id(case_id: str) -> Case:
-    for c in CASES:
+    for c in ALL_CASES:
         if c.case_id == case_id:
             return c
     raise KeyError(case_id)

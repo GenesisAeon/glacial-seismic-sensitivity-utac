@@ -31,6 +31,14 @@ def main() -> int:
     text = json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
     OUT.write_text(text, encoding="utf-8")
     print(OUT, hashlib.sha256(text.encode("utf-8")).hexdigest())
+    a1 = OUT.parent / "s0_amendment_A1.json"
+    a1_payload = json.loads(json.dumps(v03_cases.a1_payload()))
+    if a1.exists() and json.loads(a1.read_text(encoding="utf-8")) != a1_payload:
+        print("amendment A1 already written and differs", file=sys.stderr)
+        return 1
+    a1_text = json.dumps(a1_payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+    a1.write_text(a1_text, encoding="utf-8")
+    print(a1, hashlib.sha256(a1_text.encode("utf-8")).hexdigest())
     return 0
 
 

@@ -23,3 +23,13 @@
 **Nicht in S0:** Skaftá (Plan-Rang 9; Tremor statt Katalogseismizität). Napoleonville 2012 und Kīlauea 2018 sind als optionale Zusatzfälle vorgeschlagen (Entscheidung offen).
 
 **Wichtig zur Klassenlogik:** Die Quellklasse beschreibt den physikalischen Herd. Lorca, Koyna und Groningen haben eine tektonische Scherquelle mit anthropogenem bzw. hydrologischem Forcing. Für den Quell-Diskriminator sind sie deshalb Negativfälle; ihr Forcing liegt auf einer eigenen Achse.
+
+## Nachtrag A1 (2026-10-11, freigegeben durch J. Römer)
+- **Datei:** `results/v03/s0_amendment_A1.json`, SHA-256 `c066c92d36a3f7628db45a133f73a535608361e573757ef170baf72bcd54fcdc`. Die eingefrorene S0-Datei bleibt unverändert.
+
+| Rang | Fall | erwartete Klasse | Schlüsselereignis |
+|---|---|---|---|
+| 9 | Napoleonville 2012 (Salzkavernen-Erdfall) | collapse | nur publiziert (keine ComCat-Ereignisse); MT mit Volumen**zunahme** 61–82 % |
+| 10 | Kīlauea 2018 (Calderakollaps) | caldera_collapse | alle ComCat-Ereignisse M ≥ 4,5 im Umkreis von 15 km, 2018-05-01 bis 2018-08-06 |
+
+**Begründung:** Napoleonville prüft die Kollapsregel an einem Kollaps, der nicht implosiv ist. Kīlauea prüft die Caldera-Regel an einer zweiten Caldera. Die S2-Schwellen bleiben unverändert.

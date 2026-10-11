@@ -4,7 +4,7 @@ type: software
 authors:
   - family-names: Römer
     given-names: Johann
-    affiliation: "MOR Research Collective"
+    affiliation: "Independent researcher, Kirchhain, Germany"
 title: "glacial-seismic-sensitivity-utac"
 version: "0.2.0"
 date-released: "2026-10-10"

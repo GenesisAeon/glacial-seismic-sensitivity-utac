@@ -6,6 +6,9 @@ release v0.2.0 plus the exploratory global baseline. Status: **draft, not peer r
 **Corresponding author:** Johann Benjamin Römer, independent researcher,
 Marburger Ring 34 B, 35274 Kirchhain-Großseelheim, Germany.
 Email: jbroemer@web.de (primary), joberoemer@gmail.com (secondary).
+Certified IT specialist for application development (Fachinformatiker für Anwendungsentwicklung),
+background in web design. "MOR collective" is only the informal working name of the
+author's collaboration with several AI systems, not a legal entity or institution.
 
 Funding: none (independent, self-funded). Competing interests: none declared.
 

@@ -1,0 +1,4 @@
+mode,case_events,case_event_hits,cases,case_hits,nontectonic_cases_detected,nontectonic_cases,controls,control_false_positives
+full,42,42,8,8,5,5,659,1
+no_labels,42,40,8,7,4,5,659,1
+catalogue_only,42,38,8,6,3,5,659,1

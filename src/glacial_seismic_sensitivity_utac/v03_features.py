@@ -33,7 +33,11 @@ FIXED_DEPTHS = (0.0, 1.0, 5.0, 10.0, 33.0)
 
 
 def load_comcat(path: Path) -> pd.DataFrame:
-    d = pd.read_csv(path)
+    return load_comcat_frame(pd.read_csv(path))
+
+
+def load_comcat_frame(d: pd.DataFrame) -> pd.DataFrame:
+    """Normalise a ComCat csv frame to time/lat/lon/depth/mag/magtype/type/id."""
     if d.empty:
         return pd.DataFrame(columns=["time", "lat", "lon", "depth", "mag", "magtype", "type", "id"])
     d["time"] = pd.to_datetime(d["time"], utc=True, format="ISO8601")

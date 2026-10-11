@@ -3,6 +3,12 @@
 `P133_preprint.pdf` is the draft preprint describing glacial-seismic-sensitivity-utac up to
 release v0.2.0 plus the exploratory global baseline. Status: **draft, not peer reviewed**.
 
+**Corresponding author:** Johann Benjamin Römer, independent researcher,
+Marburger Ring 34 B, 35274 Kirchhain-Großseelheim, Germany.
+Email: jbroemer@web.de (primary), joberoemer@gmail.com (secondary).
+
+Funding: none (independent, self-funded). Competing interests: none declared.
+
 ## Contents
 
 | Path | What |

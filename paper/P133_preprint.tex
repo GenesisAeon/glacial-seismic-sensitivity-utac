@@ -23,6 +23,9 @@
 \addbibresource{references.bib}
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
 \usepackage{microtype}
+\hypersetup{pdftitle={Is seismicity in glaciated regions becoming more sensitive to unloading? (P133 preprint draft)},
+  pdfauthor={Johann Benjamin R\"omer (jbroemer@web.de)},
+  pdfkeywords={glacial isostatic adjustment, seasonal seismicity, ETAS, preregistration}}
 \usepackage[section]{placeins}
 
 \newcommand{\pre}{\textnormal{\textsc{[prereg]}}}
@@ -32,8 +35,9 @@
 
 \title{Is seismicity in glaciated regions becoming more sensitive to unloading?\\
 \large Early-stage tests, upper bounds and a preregistered confirmatory design (P133, v0.2.1 draft)}
-\author{Johann Benjamin Römer\\[2pt]
-\small Independent researcher, Kirchhain, Germany}
+\author{Johann Benjamin Römer\thanks{Corresponding author. Address: Marburger Ring 34\,B, 35274 Kirchhain-Gro{\ss}seelheim, Germany. Email: \href{mailto:jbroemer@web.de}{\texttt{jbroemer@web.de}} (primary); \href{mailto:joberoemer@gmail.com}{\texttt{joberoemer@gmail.com}} (secondary).}\\[2pt]
+\small Independent researcher, Kirchhain, Germany\\
+\small \href{mailto:jbroemer@web.de}{\texttt{jbroemer@web.de}}}
 \date{Draft of 11 October 2026 (not peer reviewed)}
 
 \begin{document}
@@ -467,6 +471,9 @@ J.\,B.\,R. conceived the project, set the research questions and decision rules,
 
 \section*{Data and code availability}
 Code, frozen files, result tables and documentation: GitHub \url{https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac}; archived releases v0.1.0 (\href{https://doi.org/10.5281/zenodo.23281091}{10.5281/zenodo.23281091}) and v0.2.0 (\href{https://doi.org/10.5281/zenodo.23286492}{10.5281/zenodo.23286492}); concept DOI \href{https://doi.org/10.5281/zenodo.23281090}{10.5281/zenodo.23281090}; Python package \url{https://pypi.org/project/glacial-seismic-sensitivity-utac/}. Figures in this paper are re-rendered from the CSV files in \texttt{results/} by \texttt{paper/figures/make\_paper\_figures.py}. All input data are public (Section~\ref{sec:data}); global snapshots are archived in \texttt{results/global/snapshots/}. The project is registered as P133 (KLIMA-KRYO-13) in the GenesisAeon research programme.
+
+\section*{Funding}
+This work received no external funding; the author is independent and self-funded.
 
 \section*{Competing interests}
 The author declares no competing interests.

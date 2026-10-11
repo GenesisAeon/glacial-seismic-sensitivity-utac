@@ -59,7 +59,7 @@ def pub(case: V.Case, key: str):
 
 def case_rows() -> list[dict]:
     rows: list[dict] = []
-    for case in V.CASES:
+    for case in V.ALL_CASES:
         if case.status == "watchlist":
             continue
         cat = cat_for(case)
@@ -73,6 +73,15 @@ def case_rows() -> list[dict]:
                 & (haversine_km(cat.lat, cat.lon, case.lat, case.lon) <= 15.0)
             )
             ids = list(cat.loc[sel, "id"])
+        if case.case_id == "kilauea_2018":
+            t = cat.time
+            sel = (
+                (cat.mag >= 4.5)
+                & (t >= pd.Timestamp("2018-05-01", tz="UTC"))
+                & (t < pd.Timestamp("2018-08-07", tz="UTC"))
+                & (haversine_km(cat.lat, cat.lon, case.lat, case.lon) <= 15.0)
+            )
+            ids = list(cat.loc[sel, "id"])
         if case.case_id == "groningen":
             ids = [str(cat.loc[cat.mag.idxmax(), "id"])]
         for eid in ids:
@@ -80,6 +89,21 @@ def case_rows() -> list[dict]:
             r = add_cluster(r)
             r["in_catalogue"] = True
             rows.append(r)
+        if case.case_id == "napoleonville_2012":
+            rows.append(
+                dict(
+                    case_id=case.case_id,
+                    event_id="published_2012-08-01_02",
+                    expected_class=case.expected_class,
+                    time_utc="2012-08-02",
+                    mag=float(pub(case, "Mw_range")[1]),
+                    magtype="mw",
+                    catalog_type="",
+                    depth_km=float(pub(case, "depth_m")) / 1000.0,
+                    in_catalogue=False,
+                    feature_source="published (10.1785/0120130260)",
+                )
+            )
         if case.case_id == "bingham_2013":
             for t, ml in zip(pub(case, "origin_times_utc"), pub(case, "ML"), strict=True):
                 rows.append(

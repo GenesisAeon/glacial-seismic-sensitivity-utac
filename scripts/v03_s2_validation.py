@@ -58,8 +58,21 @@ def rows() -> pd.DataFrame:
     neg = pd.read_csv(RAW / "val_neg_global_M5_2025.csv")
     for eid in neg.id:
         row = add_cluster(F.event_row(eid, g, "val_global_2025", "tectonic"))
-        row.update(is_control=1, in_catalogue=True)
+        row.update(is_control=1, in_catalogue=True, neg_set="global_M5_2025")
         out.append(row)
+    ms = RAW / "neg_matched_sample.csv"
+    if ms.exists():
+        for r in pd.read_csv(ms).itertuples():
+            nb = RAW / "neg_nb" / f"{r.id}.csv"
+            if not nb.exists():
+                continue
+            cat = F.load_comcat(nb)
+            if r.id not in set(cat.id):
+                d = pd.DataFrame([r._asdict()]).drop(columns=["Index", "sample_net"])
+                cat = pd.concat([cat, F.load_comcat_frame(d)])
+            row = add_cluster(F.event_row(r.id, cat, f"val_matched_{r.sample_net}", "tectonic"))
+            row.update(is_control=1, in_catalogue=True, neg_set="matched_M2_4.5")
+            out.append(row)
     return pd.DataFrame(out)
 
 
@@ -68,34 +81,20 @@ def main() -> int:
     df = D.apply(rows(), th)
     df.drop(columns=["cluster_ids"]).to_csv(OUT / "s2v_predictions.csv", index=False)
     res = []
+
+    def add(mode: str, name: str, k: int, n: int) -> None:
+        lo, hi = cp(k, n)
+        res.append(dict(mode=mode, set=name, n=n, hits=k, rate=k / n, ci_lo=lo, ci_hi=hi))
+
+    pos = df[df.is_control == 0]
     for mode in ("no_labels", "catalogue_only"):
         p = f"pred_{mode}"
-        for cls, g in df[df.is_control == 0].groupby("expected_class"):
-            k, n = int((g[p] == cls).sum()), len(g)
-            res.append(
-                dict(
-                    mode=mode,
-                    set=f"positives_{cls}",
-                    n=n,
-                    hits=k,
-                    rate=k / n,
-                    ci_lo=cp(k, n)[0],
-                    ci_hi=cp(k, n)[1],
-                )
-            )
-        g = df[df.is_control == 1]
-        k, n = int((g[p] != "tectonic").sum()), len(g)
-        res.append(
-            dict(
-                mode=mode,
-                set="negatives_false_positive",
-                n=n,
-                hits=k,
-                rate=k / n,
-                ci_lo=cp(k, n)[0],
-                ci_hi=cp(k, n)[1],
-            )
-        )
+        for cls, g in pos.groupby("expected_class"):
+            add(mode, f"positives_{cls}", int((g[p] == cls).sum()), len(g))
+        for cls, g in pos[pos.mag.between(2.0, 4.5)].groupby("expected_class"):
+            add(mode, f"positives_{cls}_M2-4.5", int((g[p] == cls).sum()), len(g))
+        for ns, g in df[df.is_control == 1].groupby("neg_set"):
+            add(mode, f"negatives_FP_{ns}", int((g[p] != "tectonic").sum()), len(g))
     sc = pd.DataFrame(res)
     sc.to_csv(OUT / "s2v_scores.csv", index=False)
     pd.set_option("display.width", 200)

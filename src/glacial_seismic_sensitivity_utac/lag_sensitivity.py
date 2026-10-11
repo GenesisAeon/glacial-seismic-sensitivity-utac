@@ -89,9 +89,13 @@ def _rheo(variant: dict[str, lagmodel.Rheology]) -> dict[str, lagmodel.Rheology]
     return {**lagmodel.RHEOLOGIES, **variant}
 
 
-def build_regions() -> list[tipping.TipRegion]:
-    """Rebuild the v0.1.0 TipRegions from the v0.1.0 result files (no refit)."""
-    acc = pd.read_csv(C.OUT / "precursors_grace_acceleration.csv")
+def build_regions(acc: pd.DataFrame | None = None) -> list[tipping.TipRegion]:
+    """Rebuild the v0.1.0 TipRegions from the v0.1.0 result files (no refit).
+
+    ``acc`` (v0.3, exploratory) replaces the GRACE fit table, e.g. with rates scaled for the
+    GIA under-correction of Sasgen et al. (2026); default None reproduces v0.1.0/v0.2."""
+    if acc is None:
+        acc = pd.read_csv(C.OUT / "precursors_grace_acceleration.csv")
     ldot = dict(zip(acc.box, acc.unloading_kPa_per_yr, strict=True))
     frozen = json.loads((C.OUT / "frozen_confirmatory_parameters.json").read_text(encoding="utf-8"))
     regs = tipping.default_regions(acc, ldot, frozen)

@@ -1,6 +1,6 @@
 {
  "status": "EXPLORATORY (S2, data-touched)",
- "manifest_files_verified": 718,
+ "manifest_files_verified": 4250,
  "thresholds": {
   "dm_min": 0.8,
   "shallow_km": 1.0,

@@ -48,7 +48,8 @@ def rows() -> pd.DataFrame:
         cat = F.load_comcat(nb)
         if r.id not in set(cat.id):
             cat = pd.concat([cat, F.load_comcat_frame(pd.DataFrame([r._asdict()]))])
-        row = add_cluster(F.event_row(r.id, cat, f"val_{r.type}", CLASS_OF[r.type]))
+        lab = str(r.type).lower()
+        row = add_cluster(F.event_row(r.id, cat, f"val_{lab}", CLASS_OF[lab]))
         row.update(is_control=0, in_catalogue=True)
         out.append(row)
     g = pd.concat(

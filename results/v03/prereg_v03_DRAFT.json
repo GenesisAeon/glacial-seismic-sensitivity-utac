@@ -54,7 +54,8 @@
    "FP rate in mode no_labels",
    "sensitivity: control exclusion 50 km instead of 25 km around case centres"
   ],
-  "reporting": "result reported regardless of outcome; no re-tuning of thresholds"
+  "reporting": "result reported regardless of outcome; no re-tuning of thresholds",
+  "s2b_retrospective_check": "catalogue_only: FP 0/1594 (CP upper 0.23%); recall collapse 2/21, mass movement 1/55 (exploratory, thresholds unchanged)"
  },
  "decisions_open": [
   "Groningen forcing: production data route (else forcing test dropped)",
@@ -62,7 +63,9 @@
   "optional cases Napoleonville 2012 / Kilauea 2018",
   "own MT inversion: skip in v0.3",
   "M8 window: 1 year (default) or 2 years",
-  "archive raw S1 snapshots (13.5 MB) with the release on Zenodo"
+  "archive raw S1/S1b snapshots (~77 MB) with the release on Zenodo",
+  "M8 negatives: add a magnitude/network-matched negative set (ComCat earthquakes M2-4.5 from the same regional networks as the positives); S2b showed that M>=5 negatives are not comparable",
+  "M8 primary endpoint: keep FP criterion only, or add a recall criterion (S2b recall catalogue_only: collapse 2/21, mass movement 1/55)"
  ],
  "sha256_frozen_v01_v02": {
   "results/frozen_confirmatory_parameters.json": "5bccd4cab0ba2d0143c4736c44355b24b6eb6356ca82ba0419fff22c71b4b3cb",
@@ -73,8 +76,9 @@
  },
  "sha256_v03_artefacts": {
   "results/v03/s0_case_list.json": "19c950912a7f407da46e0ee8b6ac45f32e405c32b79f131e3e4d16118de52302",
-  "results/v03/MANIFEST_v03.sha256": "99b70485dc1cde7debdd0ab99990d9371141cb2ffb69a287e91e561a2f869aee",
-  "results/v03/s2_calibration.json": "adff233a60821a78df5277d2fbf1ae7819d615988e5c320146723d49efb42a5f",
+  "results/v03/MANIFEST_v03.sha256": "93fcf76a16a29bce1f9677813073f27a0cedae92849b9f39b32852f8ee694501",
+  "results/v03/s2_calibration.json": "82fcae3cff1ef498b1d9a5e5c4a1d8b8b26f592bbdb4b03e8bb9f587c9558ed8",
+  "results/v03/s2v_scores.csv": "f3f43f9f3ad78e6bca1cde7f6f700bfee852c3b6420f751d62099be41ab2f40d",
   "drivers/registry.yaml": "2618439ca38357bd1927d1dd5711a935fad2b42d42aeedfd2fde5892fd6ed51f",
   "drivers/verified_dois.tsv": "5ae23bea6b62e047a7c2d9363807f98a44cce022ac32c0c0c885543e43f80d44"
  }

@@ -59,3 +59,27 @@ Die Kontrollen sind ungleich verteilt: 455 Nepal (überwiegend Gorkha-Sequenz), 
 - Eigene MT-Inversion: optional und nicht machbar ohne Wellenform-Pipeline (obspy fehlt, kein GPU-Bedarf, aber erheblicher Aufwand).
 - Nichtstationäres ETAS für Groningen: zurückgestellt, bis die Förderdaten geklärt sind.
 - InSAR: wie vereinbart erst in einer späteren Version.
+
+## S2b – Rückblickprüfung vor dem Einfrieren (explorativ; Schwellen aus S2 unverändert)
+
+- **Daten (S1b):**
+  - Positive: alle ComCat-Ereignisse 2000–2026 mit Typ `landslide`, `mine collapse` oder `collapse` außerhalb der S0-Fallgebiete, also 55 Rutschungen und 21 Kollapse; das Label ist verborgen.
+  - Negative: alle 1 594 globalen ComCat-Erdbeben 2025 mit M ≥ 5 und Tiefe ≤ 40 km.
+- **Ausgaben:** `results/v03/s2v_predictions.csv`, `s2v_scores.csv`.
+
+| Satz | n | als nicht-tektonisch erkannt | 95-%-KI |
+|---|---|---|---|
+| Kollaps-Positive (catalogue_only) | 21 | 2 (9,5 %) | 1,2–30 % |
+| Rutschungs-Positive (catalogue_only) | 55 | 1 (1,8 %) | 0,05–9,7 % |
+| Negative, Fehlalarme | 1 594 | 0 (0 %) | 0–0,23 % |
+
+**Bewertung:**
+- **Der Diskriminator ist spezifisch, aber außerhalb der Kalibrierfälle fast blind.** Die 3/5 nicht-tektonischen Fälle im Modus „catalogue_only“ aus S2 waren überwiegend ein Anpassungseffekt: Crandall wurde über die nachträglich gewählte ISO-Regel erkannt.
+- **Ursache sind fehlende Katalogmerkmale, nicht die Schwellen:**
+  - Nur 8 der 76 Positiven haben eine zweite Magnitude.
+  - Nur 1 hat einen ComCat-MT, keiner einen vollen MT.
+  - 71 der 76 liegen dagegen in ≤ 1 km Tiefe. Das ist meist ein fest gesetzter Wert (0 oder 1 km).
+- **Designproblem für M8:** Positive (Median M 1,9) und Negative (M ≥ 5) sind magnitudenmäßig nicht vergleichbar.
+  - Ein flaches Tiefenkriterium sähe gegen diese Negativen gut aus. Das wäre aber irreführend, weil kleine Ereignisse häufig mit fester Tiefe 0/1 km katalogisiert sind.
+  - Für M8 sollten die Negativen nach Magnitude und Netz passen (Entscheidung nötig).
+- Die Schwellen wurden nach S2b **nicht** verändert.

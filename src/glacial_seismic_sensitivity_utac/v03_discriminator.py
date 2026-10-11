@@ -64,7 +64,7 @@ def classify(row: dict[str, Any], th: Thresholds, mode: str = "full") -> tuple[s
     if row.get("in_catalogue", True) is False and mode == "catalogue_only":
         return "not_in_catalogue", "-"
     use_pub = mode != "catalogue_only"
-    label = str(row.get("catalog_type", ""))
+    label = str(row.get("catalog_type", "")).lower()
     if mode == "full" and label in NONTECTONIC_LABELS:
         return NONTECTONIC_LABELS[label], "L0"
     depth = _f(row.get("depth_km"))

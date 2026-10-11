@@ -27,6 +27,7 @@ V03_ARTEFACTS = (
     "results/v03/s0_case_list.json",
     "results/v03/MANIFEST_v03.sha256",
     "results/v03/s2_calibration.json",
+    "results/v03/s2v_scores.csv",
     "drivers/registry.yaml",
     "drivers/verified_dois.tsv",
 )
@@ -75,6 +76,8 @@ def main() -> int:
                 "sensitivity: control exclusion 50 km instead of 25 km around case centres",
             ],
             "reporting": "result reported regardless of outcome; no re-tuning of thresholds",
+            "s2b_retrospective_check": "catalogue_only: FP 0/1594 (CP upper 0.23%); recall "
+            "collapse 2/21, mass movement 1/55 (exploratory, thresholds unchanged)",
         },
         "decisions_open": [
             "Groningen forcing: production data route (else forcing test dropped)",
@@ -82,7 +85,12 @@ def main() -> int:
             "optional cases Napoleonville 2012 / Kilauea 2018",
             "own MT inversion: skip in v0.3",
             "M8 window: 1 year (default) or 2 years",
-            "archive raw S1 snapshots (13.5 MB) with the release on Zenodo",
+            "archive raw S1/S1b snapshots (~77 MB) with the release on Zenodo",
+            "M8 negatives: add a magnitude/network-matched negative set (ComCat earthquakes "
+            "M2-4.5 from the same regional networks as the positives); S2b showed that "
+            "M>=5 negatives are not comparable",
+            "M8 primary endpoint: keep FP criterion only, or add a recall criterion "
+            "(S2b recall catalogue_only: collapse 2/21, mass movement 1/55)",
         ],
         "sha256_frozen_v01_v02": {p: sha(p) for p in FROZEN_V01_V02},
         "sha256_v03_artefacts": {p: sha(p) for p in V03_ARTEFACTS},

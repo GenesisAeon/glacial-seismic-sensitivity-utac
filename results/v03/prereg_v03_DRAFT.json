@@ -1,0 +1,81 @@
+{
+ "status": "DRAFT - NOT FROZEN (awaiting review by J. Roemer; freeze before 2026-11-01)",
+ "document": "PREREGISTRATION_v0.3_ENTWURF.md",
+ "scope": "v0.3 mass-change / collapse module; does not modify C1, C2, M1-M7, A1-A7, E1",
+ "categories": {
+  "exploratory": [
+   "S2 discriminator calibration",
+   "S2b retrospective check",
+   "GRACE under-estimation sensitivity (Sasgen 2026)",
+   "Groningen sequence description"
+  ],
+  "prespecified_data_touched": [
+   "discriminator thresholds and rule order (from S2)"
+  ],
+  "prospective": [
+   "M8 (window 2026-11-01 .. 2027-10-31)"
+  ]
+ },
+ "discriminator": {
+  "rule_order": [
+   "L0 (full mode only)",
+   "R1",
+   "R2",
+   "R4",
+   "tectonic"
+  ],
+  "thresholds": {
+   "dm_min": 0.8,
+   "shallow_km": 1.0,
+   "n_m45_min": 10,
+   "dc_max": 46.0,
+   "min_mts": 3,
+   "iso_max": -0.3
+  },
+  "modes": [
+   "no_labels",
+   "catalogue_only"
+  ],
+  "code": "src/glacial_seismic_sensitivity_utac/v03_discriminator.py"
+ },
+ "M8": {
+  "window_utc": [
+   "2026-11-01T00:00:00",
+   "2027-10-31T23:59:59"
+  ],
+  "data_pull_not_before": "2027-11-15",
+  "positives": "all ComCat events typed landslide, mine collapse or collapse in the window (labels hidden for classification)",
+  "negatives": "all ComCat earthquakes M>=5.0, depth<=40 km, in the window",
+  "neighbourhood": "ComCat global M>=4.5 catalogue, window +-0.5 yr; 30 km / +-400 d neighbourhood for positives",
+  "primary_endpoint": "false-positive rate on negatives, mode catalogue_only",
+  "primary_criterion": "upper 95% Clopper-Pearson bound of FP rate < 0.02",
+  "secondary_endpoints": [
+   "recall per class on positives (both modes), Clopper-Pearson 95% CI, descriptive (expected n ~5-8 per year)",
+   "FP rate in mode no_labels",
+   "sensitivity: control exclusion 50 km instead of 25 km around case centres"
+  ],
+  "reporting": "result reported regardless of outcome; no re-tuning of thresholds"
+ },
+ "decisions_open": [
+  "Groningen forcing: production data route (else forcing test dropped)",
+  "Koyna: keep as catalogue-only negative case",
+  "optional cases Napoleonville 2012 / Kilauea 2018",
+  "own MT inversion: skip in v0.3",
+  "M8 window: 1 year (default) or 2 years",
+  "archive raw S1 snapshots (13.5 MB) with the release on Zenodo"
+ ],
+ "sha256_frozen_v01_v02": {
+  "results/frozen_confirmatory_parameters.json": "5bccd4cab0ba2d0143c4736c44355b24b6eb6356ca82ba0419fff22c71b4b3cb",
+  "results/frozen_monitoring_indicators.json": "8ae57131325eda3ffb855f0437a649eb5adb0a32ae4e2fd0ec35f515cb87fb0f",
+  "results/frozen_v02_preregistration.json": "af7a5d02b6d81e37ba989058968f913e5e821876f98926dcca924560d3d927d3",
+  "results/frozen_v02_addendum_2026-10-10.json": "bc2d2af32192ae5f31312c0609ee850223f23470637350df9795ee18f6e7ff49",
+  "results/frozen_v02_baselines.json": "e2fc568c93622c97607c122c210ed5fcccace0d2440b8cd420fddd931be9f401"
+ },
+ "sha256_v03_artefacts": {
+  "results/v03/s0_case_list.json": "19c950912a7f407da46e0ee8b6ac45f32e405c32b79f131e3e4d16118de52302",
+  "results/v03/MANIFEST_v03.sha256": "99b70485dc1cde7debdd0ab99990d9371141cb2ffb69a287e91e561a2f869aee",
+  "results/v03/s2_calibration.json": "adff233a60821a78df5277d2fbf1ae7819d615988e5c320146723d49efb42a5f",
+  "drivers/registry.yaml": "2618439ca38357bd1927d1dd5711a935fad2b42d42aeedfd2fde5892fd6ed51f",
+  "drivers/verified_dois.tsv": "5ae23bea6b62e047a7c2d9363807f98a44cce022ac32c0c0c885543e43f80d44"
+ }
+}

@@ -83,3 +83,38 @@ Die Kontrollen sind ungleich verteilt: 455 Nepal (überwiegend Gorkha-Sequenz), 
   - Ein flaches Tiefenkriterium sähe gegen diese Negativen gut aus. Das wäre aber irreführend, weil kleine Ereignisse häufig mit fester Tiefe 0/1 km katalogisiert sind.
   - Für M8 sollten die Negativen nach Magnitude und Netz passen (Entscheidung nötig).
 - Die Schwellen wurden nach S2b **nicht** verändert.
+
+## S2/S2b – Neulauf mit A1-Fällen und passenden Negativen (Schwellen unverändert)
+
+Commits: 5a95781 (S2) und 6cb1537 (S2b). Die Schwellen sind dieselben wie oben; geprüft wurde Gleichheit mit dem vorherigen `s2_calibration.json`.
+
+**S2 mit 10 Fällen (8 + Napoleonville 2012 + Kīlauea 2018):**
+
+| Modus | Fälle getroffen | nicht-tektonische Fälle erkannt | Fehlalarme Kontrollen |
+|---|---|---|---|
+| full | 8/10 | 5/7 | 1/659 |
+| no_labels | 7/10 | 4/7 | 1/659 |
+| catalogue_only | 6/10 | 3/7 | 1/659 |
+
+- **Kīlauea 2018:** 0 von 64 Kollapsereignissen werden als `caldera_collapse` erkannt. 63 gelten als tektonisch, 1 als Rutschung (hv70219637, Mww 5,4 gegen ML 4,4).
+  - Ursache: Der Median-DC der ComCat-MTs liegt bei 70,5 % (n = 62). R4 verlangt ≤ 46 %.
+  - Die Regel R4 ist damit faktisch an Bárðarbunga angepasst und überträgt sich nicht auf Kīlauea. Das ist ein echter Befund; nachjustiert wird nicht.
+- **Napoleonville 2012:** nicht erkannt. Der publizierte MT zeigt eine Volumenzunahme und gehört deshalb nicht zur Kollaps-MT-Klasse. Im ComCat-Katalog fehlt das Ereignis. Das ist so gewollt.
+
+**S2b mit passenden Negativen (M 2–4,5; 150 je Netz: ak, us, nc, se, uu, nm; 2025-01 bis 2026-10):**
+
+| Satz (catalogue_only) | n | Treffer | 95-%-KI |
+|---|---|---|---|
+| Kollaps-Positive | 21 | 2 | 1,2–30 % |
+| davon M 2–4,5 | 20 | 2 | 1,2–32 % |
+| Rutschungs-Positive | 55 | 1 | 0,05–9,7 % |
+| davon M 2–4,5 | 10 | 0 | 0–31 % |
+| Fehlalarme global M ≥ 5 | 1 594 | 0 | 0–0,23 % |
+| Fehlalarme passend M 2–4,5 | 900 | 5 | 0,18–1,29 % |
+
+- Alle 5 Fehlalarme entstehen über Regel R2: flach und innerhalb einer Stunde nach einem größeren Ereignis.
+  - 3 liegen bei 60,5° N / 140° W (ak, St.-Elias-Gebiet, vergletschert).
+  - 1 liegt in The Geysers (nc), 1 in South Carolina (se).
+- Die Ergebnisse im Modus no_labels sind identisch.
+- Das vorab notierte M8-Kriterium (obere KI-Grenze < 2 % je Satz) wäre rückblickend erfüllt, bei passenden Negativen aber nur knapp (1,29 %).
+- Die Trefferquoten bleiben niedrig. Sie werden wie beschlossen nur beschreibend berichtet.

@@ -13,6 +13,7 @@ Appends to results/v03/MANIFEST_v03.sha256 and s1_snapshots.json.
 
 from __future__ import annotations
 
+import io
 import sys
 from pathlib import Path
 
@@ -85,6 +86,39 @@ def sample_negatives() -> pd.DataFrame:
     return pd.concat(out, ignore_index=True)
 
 
+def fetch_split(name: str, p: dict[str, object], parts: int = 1) -> None:
+    """Fetch a neighbourhood csv; if ComCat refuses (> 20000 rows, HTTP 400) split the time
+    window into equal parts and concatenate (lossless). All part URLs are recorded."""
+    if (S.RAW / name).exists():
+        return
+    t0, t1 = pd.Timestamp(str(p["starttime"])), pd.Timestamp(str(p["endtime"]))
+    edges = [t0 + (t1 - t0) * k / parts for k in range(parts + 1)]
+    urls, frames = [], []
+    try:
+        for a, b in zip(edges[:-1], edges[1:], strict=True):
+            u = SV.q(
+                **{
+                    **p,
+                    "starttime": a.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "endtime": b.strftime("%Y-%m-%dT%H:%M:%S"),
+                }
+            )
+            body = S.get(u)
+            if S.n_rows(body) >= 19999:
+                raise requests.HTTPError("row limit")
+            urls.append(u)
+            if body.strip():
+                frames.append(pd.read_csv(io.BytesIO(body)))
+    except requests.HTTPError:
+        if parts >= 64:
+            raise
+        fetch_split(name, p, parts * 4)
+        return
+    d = pd.concat(frames, ignore_index=True).drop_duplicates("id") if frames else pd.DataFrame()
+    body = d.to_csv(index=False).encode("utf-8")
+    S.save(name, " | ".join(urls), body, len(d))
+
+
 def main() -> int:
     (S.RAW / "neg_nb").mkdir(parents=True, exist_ok=True)
     try:
@@ -106,16 +140,7 @@ def main() -> int:
                 starttime=(t - pd.Timedelta(days=400)).strftime("%Y-%m-%d"),
                 endtime=end.strftime("%Y-%m-%dT%H:%M:%S"),
             )
-            try:
-                SV.fetch_csv(f"neg_nb/{r.id}.csv", SV.q(**p))
-            except requests.HTTPError:
-                # > 20000 rows (e.g. The Geysers): restrict to M >= mag - 2, which keeps every
-                # event the S2 features/rules use (larger-preceding, M>=4.5 cluster, n >= m-2,
-                # Bath dm); recorded in the URL in s1_snapshots.json
-                SV.fetch_csv(
-                    f"neg_nb/{r.id}.csv",
-                    SV.q(**p, minmagnitude=round(float(r.mag) - 2.0, 2)),
-                )
+            fetch_split(f"neg_nb/{r.id}.csv", p)
             SV.detail(r.id)
     finally:
         S.write_manifest()

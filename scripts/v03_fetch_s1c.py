@@ -18,6 +18,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import v03_fetch as S  # noqa: E402
@@ -98,16 +99,23 @@ def main() -> int:
         for r in neg.itertuples():
             t = pd.Timestamp(r.time).tz_localize(None)
             end = min(t + pd.Timedelta(days=400), DATA_END)
-            SV.fetch_csv(
-                f"neg_nb/{r.id}.csv",
-                SV.q(
-                    latitude=r.latitude,
-                    longitude=r.longitude,
-                    maxradiuskm=30,
-                    starttime=(t - pd.Timedelta(days=400)).strftime("%Y-%m-%d"),
-                    endtime=end.strftime("%Y-%m-%dT%H:%M:%S"),
-                ),
+            p = dict(
+                latitude=r.latitude,
+                longitude=r.longitude,
+                maxradiuskm=30,
+                starttime=(t - pd.Timedelta(days=400)).strftime("%Y-%m-%d"),
+                endtime=end.strftime("%Y-%m-%dT%H:%M:%S"),
             )
+            try:
+                SV.fetch_csv(f"neg_nb/{r.id}.csv", SV.q(**p))
+            except requests.HTTPError:
+                # > 20000 rows (e.g. The Geysers): restrict to M >= mag - 2, which keeps every
+                # event the S2 features/rules use (larger-preceding, M>=4.5 cluster, n >= m-2,
+                # Bath dm); recorded in the URL in s1_snapshots.json
+                SV.fetch_csv(
+                    f"neg_nb/{r.id}.csv",
+                    SV.q(**p, minmagnitude=round(float(r.mag) - 2.0, 2)),
+                )
             SV.detail(r.id)
     finally:
         S.write_manifest()

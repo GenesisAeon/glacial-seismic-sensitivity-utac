@@ -88,7 +88,7 @@ def get(url: str) -> bytes:
             r.raise_for_status()
             return r.content
         except requests.RequestException as e:
-            if attempt == 3:
+            if attempt == 3 or (e.response is not None and e.response.status_code == 400):
                 raise
             print("  retry", attempt + 1, e, file=sys.stderr)
             time.sleep(5 * (attempt + 1))

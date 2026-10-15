@@ -25,6 +25,7 @@ FROZEN_V01_V02 = (
 )
 V03_ARTEFACTS = (
     "results/v03/s0_case_list.json",
+    "results/v03/s0_amendment_A1.json",
     "results/v03/MANIFEST_v03.sha256",
     "results/v03/s2_calibration.json",
     "results/v03/s2v_scores.csv",
@@ -62,36 +63,52 @@ def main() -> int:
         "M8": {
             "window_utc": ["2026-11-01T00:00:00", "2027-10-31T23:59:59"],
             "data_pull_not_before": "2027-11-15",
+            "extension_descriptive": {
+                "window_utc": ["2027-11-01T00:00:00", "2028-10-31T23:59:59"],
+                "data_pull_not_before": "2028-11-15",
+                "role": "descriptive only; no criterion",
+            },
             "positives": "all ComCat events typed landslide, mine collapse or collapse "
             "in the window (labels hidden for classification)",
-            "negatives": "all ComCat earthquakes M>=5.0, depth<=40 km, in the window",
-            "neighbourhood": "ComCat global M>=4.5 catalogue, window +-0.5 yr; "
-            "30 km / +-400 d neighbourhood for positives",
-            "primary_endpoint": "false-positive rate on negatives, mode catalogue_only",
-            "primary_criterion": "upper 95% Clopper-Pearson bound of FP rate < 0.02",
+            "negatives": {
+                "global_M5": "all ComCat earthquakes M>=5.0, depth<=40 km, in the window",
+                "matched_M2_4.5": "ComCat earthquakes 2.0<=M<=4.5 from the networks that "
+                "contributed positives in the same window; random sample of at most 150 per "
+                "network, numpy default_rng(20271115), without replacement",
+            },
+            "neighbourhood": "positives and matched negatives: 30 km / +-400 d ComCat "
+            "(end capped at data pull); global_M5: ComCat global M>=4.5 +-0.5 yr",
+            "primary_endpoint": "false-positive rate, mode catalogue_only, on BOTH negative sets",
+            "primary_criterion": "upper 95% Clopper-Pearson bound < 0.02 for each negative set "
+            "(conjunction; both must pass)",
             "secondary_endpoints": [
-                "recall per class on positives (both modes), Clopper-Pearson 95% CI, "
-                "descriptive (expected n ~5-8 per year)",
-                "FP rate in mode no_labels",
+                "recall per class on positives (both modes; all and M2-4.5 subset), "
+                "Clopper-Pearson 95% CI, DESCRIPTIVE ONLY (approved 2026-10-11)",
+                "FP rates in mode no_labels",
                 "sensitivity: control exclusion 50 km instead of 25 km around case centres",
             ],
             "reporting": "result reported regardless of outcome; no re-tuning of thresholds",
-            "s2b_retrospective_check": "catalogue_only: FP 0/1594 (CP upper 0.23%); recall "
-            "collapse 2/21, mass movement 1/55 (exploratory, thresholds unchanged)",
+            "criterion_history": "global_M5 criterion written 2026-10-11 before S2b (32e3159); "
+            "matched-set criterion added 2026-10-11 before the matched S2b result was computed",
         },
-        "decisions_open": [
-            "Groningen forcing: production data route (else forcing test dropped)",
-            "Koyna: keep as catalogue-only negative case",
-            "optional cases Napoleonville 2012 / Kilauea 2018",
-            "own MT inversion: skip in v0.3",
-            "M8 window: 1 year (default) or 2 years",
-            "archive raw S1/S1b snapshots (~77 MB) with the release on Zenodo",
-            "M8 negatives: add a magnitude/network-matched negative set (ComCat earthquakes "
-            "M2-4.5 from the same regional networks as the positives); S2b showed that "
-            "M>=5 negatives are not comparable",
-            "M8 primary endpoint: keep FP criterion only, or add a recall criterion "
-            "(S2b recall catalogue_only: collapse 2/21, mass movement 1/55)",
+        "not_tested": [
+            "forcing coupling (Groningen: no forcing test; optional later manual NLOG export "
+            "by J. Roemer; Koyna: catalogue-only negative case)",
+            "own moment-tensor inversion (not in v0.3)",
+            "InSAR (later version)",
+            "GRACE under-estimation (exploratory only)",
         ],
+        "decisions_resolved_2026-10-11": [
+            "matched negatives M2-4.5 added",
+            "hit rates descriptive only",
+            "Groningen without forcing test",
+            "Koyna kept as negative case",
+            "Napoleonville 2012 and Kilauea 2018 added (S0 amendment A1)",
+            "no own MT inversion",
+            "M8 1 year primary + descriptive 2nd year",
+            "raw S1 snapshots archived on Zenodo with the v0.3 release",
+        ],
+        "decisions_open": ["final review and freeze date (before 2026-11-01)"],
         "sha256_frozen_v01_v02": {p: sha(p) for p in FROZEN_V01_V02},
         "sha256_v03_artefacts": {p: sha(p) for p in V03_ARTEFACTS},
     }

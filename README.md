@@ -38,6 +38,14 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.3 (in development; preregistration frozen 2026-10-15)
+
+Pre-registered source-discriminator module: [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md)
+(frozen JSON `results/frozen_v03_preregistration.json`, SHA-256 `f9d85cb0…ddba7f`; prospective test M8,
+window 2026-11-01 – 2027-10-31). Known weaknesses are documented in section 5 (R2 false-alarm risk on
+matched M2–4.5 negatives; R4 not transferable beyond Bárðarbunga); rule changes go to v0.4.
+Docs: [docs/v03/](docs/v03/). Raw-data archive plan: [docs/v03/ZENODO_ARCHIV_PLAN.md](docs/v03/ZENODO_ARCHIV_PLAN.md).
+
 ## v0.2.0 (released 2026-10-10)
 
 Pre-registered addendum [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (frozen 2026-10-10,
@@ -89,6 +97,7 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 | `results/` | all result tables, `frozen_confirmatory_parameters.json`, `frozen_monitoring_indicators.json` |
 | `charts/` | 19 charts (01–17) |
 | `PREREGISTRATION.md` | experiment series and pre-registration (German, English summary) |
+| `PREREGISTRATION_v0.3.md` | frozen v0.3 preregistration (M8) |
 | `docs/` | `METHODS`, `RESULTS`, `LAG_MODEL`, `ANALOGIES`, `DATA`, `LIMITATIONS`, `SOURCES`, `RELEASE_CHECKLIST` (German) |
 | `scripts/verify_dois.py` | resolves every DOI in `constants.py` and `docs/SOURCES.md` via Crossref/DataCite |
 

@@ -1,4 +1,6 @@
-# Präregistrierung v0.3 – ENTWURF (nicht eingefroren)
+# Präregistrierung v0.3 – ENTWURF (abgelöst)
+
+> **Abgelöst** durch die eingefrorene Fassung [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md) vom 2026-10-15. Diese Datei bleibt nur als Vorgeschichte erhalten.
 
 **Status:** ENTWURF zur Prüfung durch J. Römer. Das Einfrieren ist für die Zeit **vor dem 2026-11-01** vorgesehen. Dann bleibt das M8-Fenster frei von Datensichtung, und C1 bleibt unberührt.
 - **Maschinenlesbarer Entwurf:** `results/v03/prereg_v03_DRAFT.json`, erzeugt mit `scripts/v03_prereg_draft.py`.

@@ -38,7 +38,22 @@ def sha(rel: str) -> str:
     return hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
 
 
-def main() -> int:
+KNOWN_WEAKNESSES = {
+    "a_R2_false_alarm_risk": "S2b retrospective (exploratory, thresholds unchanged): matched "
+    "M2-4.5 negatives FP 5/900, Clopper-Pearson upper bound 1.29% vs criterion 2%; all 5 via "
+    "R2 (shallow and preceded by a larger event within 1 h); 3 of 5 in the St. Elias region "
+    "(ak, ~60.5N 140W), 1 The Geysers (nc), 1 South Carolina (se). M8 may realistically fail.",
+    "b_R4_not_transferable": "R4 (cluster median DC <= 46%) is effectively tuned to "
+    "Bardarbunga 2014 and does not transfer: Kilauea 2018 0/64 detected as caldera_collapse "
+    "(ComCat cluster median DC 70.5%, n=62).",
+    "c_Napoleonville_by_design": "Napoleonville 2012 not detected by design: published MT shows "
+    "volume increase (not a collapse MT class) and the event is not in ComCat.",
+    "consequence": "rule improvements are deferred to v0.4 and will not touch M8; M8 runs "
+    "with the frozen rules and thresholds and is reported regardless of outcome.",
+}
+
+
+def build_doc() -> dict:
     s2 = json.loads((RES / "v03" / "s2_calibration.json").read_text(encoding="utf-8"))
     doc = {
         "status": "DRAFT - NOT FROZEN (awaiting review by J. Roemer; freeze before 2026-11-01)",
@@ -111,7 +126,13 @@ def main() -> int:
         "decisions_open": ["final review and freeze date (before 2026-11-01)"],
         "sha256_frozen_v01_v02": {p: sha(p) for p in FROZEN_V01_V02},
         "sha256_v03_artefacts": {p: sha(p) for p in V03_ARTEFACTS},
+        "known_weaknesses": KNOWN_WEAKNESSES,
     }
+    return doc
+
+
+def main() -> int:
+    doc = build_doc()
     OUT.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(OUT, hashlib.sha256(OUT.read_bytes()).hexdigest())
     return 0

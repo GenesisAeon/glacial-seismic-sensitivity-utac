@@ -102,5 +102,11 @@
   "results/v03/s2v_scores.csv": "955e77d3ffe8b7411ec7f803acb5c8f1c276e03bfda1f4627d0cd1176b58f842",
   "drivers/registry.yaml": "2618439ca38357bd1927d1dd5711a935fad2b42d42aeedfd2fde5892fd6ed51f",
   "drivers/verified_dois.tsv": "c51e1dbfd6ca75661710920785646bc4e24158ba35550154d3ee0e566855d7e2"
+ },
+ "known_weaknesses": {
+  "a_R2_false_alarm_risk": "S2b retrospective (exploratory, thresholds unchanged): matched M2-4.5 negatives FP 5/900, Clopper-Pearson upper bound 1.29% vs criterion 2%; all 5 via R2 (shallow and preceded by a larger event within 1 h); 3 of 5 in the St. Elias region (ak, ~60.5N 140W), 1 The Geysers (nc), 1 South Carolina (se). M8 may realistically fail.",
+  "b_R4_not_transferable": "R4 (cluster median DC <= 46%) is effectively tuned to Bardarbunga 2014 and does not transfer: Kilauea 2018 0/64 detected as caldera_collapse (ComCat cluster median DC 70.5%, n=62).",
+  "c_Napoleonville_by_design": "Napoleonville 2012 not detected by design: published MT shows volume increase (not a collapse MT class) and the event is not in ComCat.",
+  "consequence": "rule improvements are deferred to v0.4 and will not touch M8; M8 runs with the frozen rules and thresholds and is reported regardless of outcome."
  }
 }

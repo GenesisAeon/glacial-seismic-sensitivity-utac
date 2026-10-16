@@ -25,6 +25,7 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
 ### Unchanged
 
 - No frozen file (C1, C2, M1–M7, addendum, v0.3 preregistration) changed.
+- After release: v0.3.0 DOI 10.5281/zenodo.23411760 in `CITATION.cff` and READMEs.
 
 ## [0.2.1] – 2026-10-16
 

@@ -112,6 +112,6 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 ## Zitieren und Lizenz
 
-Siehe [CITATION.cff](CITATION.cff). Zenodo: v0.3-Rohdaten doi:10.5281/zenodo.23411367; v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; alle Versionen (Konzept-DOI) doi:10.5281/zenodo.23281090. MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
+Siehe [CITATION.cff](CITATION.cff). Zenodo: v0.3.0 doi:10.5281/zenodo.23411760; v0.3-Rohdaten doi:10.5281/zenodo.23411367; v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; alle Versionen (Konzept-DOI) doi:10.5281/zenodo.23281090. MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
 ([docs/DATA.md](docs/DATA.md)). Paket 133 ist im GenesisAeon-Register als KLIMA-KRYO-13
 eingetragen.

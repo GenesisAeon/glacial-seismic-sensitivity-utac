@@ -14,8 +14,11 @@ identifiers:
     value: "10.5281/zenodo.23281090"
     description: "Concept DOI (all versions)"
   - type: doi
+    value: "10.5281/zenodo.23411760"
+    description: "Version 0.3.0"
+  - type: doi
     value: "10.5281/zenodo.23407045"
-    description: "Version 0.2.1 (with preprint P133)"
+    description: "Version 0.2.1 (with preprint P133; previous version)"
   - type: doi
     value: "10.5281/zenodo.23411367"
     description: "v0.3 raw earthquake-catalogue snapshots (dataset; ComCat public domain, KNMI and EMSC CC BY 4.0, see SOURCES_AND_LICENSES.md)"

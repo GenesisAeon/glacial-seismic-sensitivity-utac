@@ -3,7 +3,25 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
-## [Unreleased]
+## [0.2.1] – 2026-10-16
+
+### Added
+
+- Preprint P133 (`paper/P133_preprint.tex`, `paper/P133_preprint.pdf`, 22 pages, not peer reviewed):
+  "Is seismicity in glaciated regions becoming more sensitive to unloading? Early-stage tests,
+  upper bounds and a preregistered confirmatory design". Figures re-rendered from `results/`,
+  bibliography built from Crossref/DataCite-verified DOIs (`paper/bib/`). Revised after a Gemini
+  review (idea source only; response in `docs/reviews/GEMINI_PAPER_REVIEW_RESPONSE.md`, raw review
+  in `docs/reviews/raw/`). The PDF is archived on Zenodo with this release and attached as a
+  release asset.
+- The paper refers to the frozen v0.3 preregistration (SHA-256 f9d85cb0…ddba7f), which will be
+  published with v0.3; v0.3 is a separate module and not part of this release's results.
+
+### Unchanged
+
+- After release: v0.2.1 DOI 10.5281/zenodo.23407045 in `CITATION.cff` and READMEs.
+
+- No frozen file (C1, C2, M1–M7, addendum A1–A7) and no preregistered result changed.
 
 ### Added (exploratory, not preregistered)
 

@@ -1,0 +1,68 @@
+{
+ "status": "EXPLORATORY (S2, data-touched)",
+ "manifest_files_verified": 6158,
+ "thresholds": {
+  "dm_min": 0.8,
+  "shallow_km": 1.0,
+  "n_m45_min": 10,
+  "dc_max": 46.0,
+  "min_mts": 3,
+  "iso_max": -0.3
+ },
+ "calibration": {
+  "controls": 659,
+  "controls_with_dm": 91,
+  "control_dm_q50": 0.1900000000000004,
+  "control_dm_q99": 0.6739999999999997,
+  "control_dm_max": 0.71,
+  "controls_with_cluster_mt": 42,
+  "control_cluster_dc_q01": 47.1212,
+  "control_cluster_dc_q50": 84.64,
+  "control_n_m45_q99": 32.0,
+  "control_n_m45_max": 77.0,
+  "control_depth_le_1km": 1,
+  "control_preceded_by_larger_1h": 69,
+  "control_full_mt": 18,
+  "control_single_dc_lt10": 1,
+  "control_single_dc_n": 48
+ },
+ "groningen": {
+  "event_types": {
+   "induced or triggered event": 1827,
+   "controlled explosion": 12,
+   "other event": 2,
+   "explosion": 1
+  },
+  "depth_values_km": {
+   "3.0": 1815,
+   "1.0": 9,
+   "3.5": 3,
+   "1.8": 2,
+   "0.0": 2
+  },
+  "b_1995_2013": {
+   "mc": 1.5,
+   "b": 0.8970930945837651,
+   "sigma": 0.05374515355690674,
+   "n": 208
+  },
+  "b_2014_2022": {
+   "mc": 1.5,
+   "b": 0.8535730761799242,
+   "sigma": 0.06263961241714476,
+   "n": 137
+  },
+  "b_2023_2026": {
+   "mc": 1.5,
+   "b": NaN,
+   "sigma": NaN,
+   "n": 27
+  },
+  "largest": {
+   "id": "knmi2012qcdh",
+   "time": "2012-08-16 20:30:33.280000+00:00",
+   "mag": "3.6",
+   "type": "induced or triggered event"
+  }
+ }
+}

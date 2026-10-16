@@ -3,6 +3,29 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
+## [0.3.0] – 2026-10-16
+
+### Added
+
+- v0.3 source-discriminator module (`v03_*`): case list S0 + amendment A1, catalogue snapshots S1/S1b/S1c,
+  calibration S2/S2b, driver registry `drivers/registry.yaml` with schema and tests, GRACE bias sensitivity.
+- Frozen preregistration `PREREGISTRATION_v0.3.md` (`results/frozen_v03_preregistration.json`,
+  SHA-256 f9d85cb0…ddba7f, frozen 2026-10-15) for the prospective test M8 (2026-11-01 – 2027-10-31),
+  with documented known weaknesses (R2 false-alarm risk, R4 not transferable, Napoleonville by design).
+- Raw catalogue snapshots archived on Zenodo: doi:10.5281/zenodo.23411367. Licences checked:
+  USGS ComCat U.S. public domain (credit requested); KNMI CC BY 4.0 plus KNMI terms (no reuse in
+  unaltered form for commercial use); EMSC SeismicPortal data CC BY 4.0 (single research excerpt).
+  Details in `docs/v03/ZENODO_ARCHIV_PLAN.md`.
+
+### Changed
+
+- Minimum pandas raised to 2.2 (the frozen v0.3 discriminator uses `groupby.apply(include_groups=False)`,
+  added in pandas 2.2); CI minimum-dependency job updated accordingly. The frozen code is unchanged.
+
+### Unchanged
+
+- No frozen file (C1, C2, M1–M7, addendum, v0.3 preregistration) changed.
+
 ## [0.2.1] – 2026-10-16
 
 ### Added

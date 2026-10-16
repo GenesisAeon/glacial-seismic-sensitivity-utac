@@ -38,6 +38,16 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.3.0 (released 2026-10-16; preregistration frozen 2026-10-15)
+
+Pre-registered source-discriminator module: [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md)
+(frozen JSON `results/frozen_v03_preregistration.json`, SHA-256 `f9d85cb0…ddba7f`; prospective test M8,
+window 2026-11-01 – 2027-10-31). Known weaknesses are documented in section 5 (R2 false-alarm risk on
+matched M2–4.5 negatives; R4 not transferable beyond Bárðarbunga); rule changes go to v0.4.
+Docs: [docs/v03/](docs/v03/). Raw catalogue snapshots: doi:[10.5281/zenodo.23411367](https://doi.org/10.5281/zenodo.23411367)
+(ComCat public domain; KNMI and EMSC CC BY 4.0, KNMI file not for unaltered commercial reuse; see
+[docs/v03/ZENODO_ARCHIV_PLAN.md](docs/v03/ZENODO_ARCHIV_PLAN.md)).
+
 ## v0.2.1 (released 2026-10-16)
 
 Adds the preprint [paper/P133_preprint.pdf](paper/P133_preprint.pdf) (not peer reviewed) and an exploratory global baseline ([docs/BASELINE_GLOBAL.md](docs/BASELINE_GLOBAL.md)). No frozen file or preregistered result changed.
@@ -93,6 +103,7 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 | `results/` | all result tables, `frozen_confirmatory_parameters.json`, `frozen_monitoring_indicators.json` |
 | `charts/` | 19 charts (01–17) |
 | `PREREGISTRATION.md` | experiment series and pre-registration (German, English summary) |
+| `PREREGISTRATION_v0.3.md` | frozen v0.3 preregistration (M8) |
 | `docs/` | `METHODS`, `RESULTS`, `LAG_MODEL`, `ANALOGIES`, `DATA`, `LIMITATIONS`, `SOURCES`, `RELEASE_CHECKLIST` (German) |
 | `scripts/verify_dois.py` | resolves every DOI in `constants.py` and `docs/SOURCES.md` via Crossref/DataCite |
 
@@ -105,6 +116,6 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 ## Citation and licence
 
-See [CITATION.cff](CITATION.cff). Zenodo: v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; all versions (concept DOI) doi:10.5281/zenodo.23281090. MIT licence. Data remain under their providers' terms
+See [CITATION.cff](CITATION.cff). Zenodo: v0.3 raw data doi:10.5281/zenodo.23411367; v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; all versions (concept DOI) doi:10.5281/zenodo.23281090. MIT licence. Data remain under their providers' terms
 ([docs/DATA.md](docs/DATA.md)). Package 133 is entered in the GenesisAeon package registry as
 KLIMA-KRYO-13.

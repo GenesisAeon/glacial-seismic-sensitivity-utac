@@ -54,7 +54,7 @@ jobs:
       - name: Install package with the declared lower bounds of numpy/pandas/scipy/matplotlib
         run: |
           pip install -e ".[dev]"
-          pip install "numpy==1.26.*" "pandas==2.1.*" "scipy==1.11.*" "matplotlib==3.8.*"
+          pip install "numpy==1.26.*" "pandas==2.2.*" "scipy==1.11.*" "matplotlib==3.8.*"
           python -c "import numpy, pandas, scipy, matplotlib; print(numpy.__version__, pandas.__version__, scipy.__version__, matplotlib.__version__)"
       - name: Run pytest (offline, synthetic fixtures only)
         run: pytest -q

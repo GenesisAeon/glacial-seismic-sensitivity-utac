@@ -1,4 +1,6 @@
-# Zenodo-Archiv der v0.3-Rohdaten – Plan (vorbereitet, NICHT hochgeladen)
+# Zenodo-Archiv der v0.3-Rohdaten
+
+**Stand 2026-10-16:** Datensatz angelegt, DOI [10.5281/zenodo.23411367](https://doi.org/10.5281/zenodo.23411367) (Zenodo-Eintrag 23411367), Veröffentlichung zusammen mit Release v0.3.0.
 
 **Inhalt und Größe:**
 - 6 158 Rohdateien aus S1, S1b und S1c, unkomprimiert etwa 342 MB.
@@ -33,8 +35,8 @@
 | Quelle | Dateien | Status |
 |---|---|---|
 | USGS ComCat (`earthquake.usgs.gov`) | alle bis auf zwei | US-Bundesdaten, gemeinfrei; Quellenangabe |
-| KNMI RDSA FDSN (`rdsa.knmi.nl`) | `groningen_knmi.txt` | Lizenz vor dem Hochladen prüfen (KNMI-Daten offen, Bedingungen bestätigen) |
-| EMSC (`seismicportal.eu`) | `lorca_emsc.txt` | Weiterverbreitung prüfen; falls unklar, aus dem Paket nehmen und nur URL + SHA-256 angeben |
+| KNMI RDSA FDSN (`rdsa.knmi.nl`) | `groningen_knmi.txt` | Geprüft: Open Data, CC BY 4.0; nicht in unveränderter Form kommerziell weiterverwenden; Zitat KNMI (2015), doi:10.21944/ef5j-rz10 (https://rdsa.knmi.nl/fdsnws/event/1/) |
+| EMSC (`seismicportal.eu`) | `lorca_emsc.txt` | Geprüft: Daten aus den Diensten CC BY 4.0; ein Forschungsausschnitt (786 Ereignisse), kein Massenkopieren (https://www.seismicportal.eu/terms.html) |
 
 Vorgeschlagene Lizenz für den Datensatz: CC BY 4.0. Dateien, die anderen Bedingungen unterliegen, werden in der Beschreibung ausgewiesen.
 
@@ -44,3 +46,8 @@ Vorgeschlagene Lizenz für den Datensatz: CC BY 4.0. Dateien, die anderen Beding
 3. Zenodo-Entwurf manuell anlegen, Dateien und Metadaten eintragen, dann veröffentlichen. Damit ist die DOI vergeben.
 4. Die DOI in README, `docs/v03/S1_DATEN.md` und in der CITATION eintragen und committen.
 5. Das GitHub-Release v0.3.0 erstellen. Die vorhandene Zenodo-GitHub-Integration erzeugt die Software-DOI.
+
+## Lizenzbefund (2026-10-16)
+- USGS ComCat: U.S. Public Domain, Quellenangabe erbeten (https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits); Zitat USGS (2017), doi:10.5066/F7MS3QZH.
+- KNMI und EMSC: siehe Tabelle. Keine Quelle verbietet die Weitergabe; nichts ausgeschlossen.
+- Im Datensatz liegt `SOURCES_AND_LICENSES.md` mit Bedingungen und Zitierhinweisen pro Quelle.

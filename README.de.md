@@ -39,6 +39,13 @@ starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE
 unwahrscheinlich. Verzögerte viskose Antworten, einzelne große Brüche und vulkanische Effekte sind
 *nicht* ausgeschlossen.
 
+## v0.3.0 (veröffentlicht am 2026-10-16; Präregistrierung eingefroren am 2026-10-15)
+
+Präregistriertes Modul zur Quellen-Unterscheidung: [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md)
+(SHA-256 `f9d85cb0…ddba7f`; prospektiver Test M8, 2026-11-01 – 2027-10-31; bekannte Schwächen in Abschnitt 5).
+Rohdaten-Snapshots: doi:[10.5281/zenodo.23411367](https://doi.org/10.5281/zenodo.23411367)
+(ComCat gemeinfrei; KNMI und EMSC CC BY 4.0, KNMI-Datei nicht zur unveränderten kommerziellen Nutzung).
+
 ## v0.2.1 (veröffentlicht am 2026-10-16)
 
 Neu: Preprint [paper/P133_preprint.pdf](paper/P133_preprint.pdf) (nicht begutachtet) und eine explorative globale Basislinie ([docs/BASELINE_GLOBAL.md](docs/BASELINE_GLOBAL.md)). Keine eingefrorene Datei und kein präregistriertes Ergebnis wurde geändert.
@@ -105,6 +112,6 @@ python -m glacial_seismic_sensitivity_utac.confirmatory 2029-10-31
 
 ## Zitieren und Lizenz
 
-Siehe [CITATION.cff](CITATION.cff). Zenodo: v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; alle Versionen (Konzept-DOI) doi:10.5281/zenodo.23281090. MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
+Siehe [CITATION.cff](CITATION.cff). Zenodo: v0.3-Rohdaten doi:10.5281/zenodo.23411367; v0.2.1 (with preprint) doi:10.5281/zenodo.23407045; v0.2.0 doi:10.5281/zenodo.23286492; v0.1.0 doi:10.5281/zenodo.23281091; alle Versionen (Konzept-DOI) doi:10.5281/zenodo.23281090. MIT-Lizenz. Die Daten unterliegen den Bedingungen der Anbieter
 ([docs/DATA.md](docs/DATA.md)). Paket 133 ist im GenesisAeon-Register als KLIMA-KRYO-13
 eingetragen.

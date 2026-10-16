@@ -19,6 +19,8 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
 
 ### Unchanged
 
+- After release: v0.2.1 DOI 10.5281/zenodo.23407045 in `CITATION.cff` and READMEs.
+
 - No frozen file (C1, C2, M1–M7, addendum A1–A7) and no preregistered result changed.
 
 ### Added (exploratory, not preregistered)

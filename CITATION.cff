@@ -14,6 +14,9 @@ identifiers:
     value: "10.5281/zenodo.23281090"
     description: "Concept DOI (all versions)"
   - type: doi
+    value: "10.5281/zenodo.23407045"
+    description: "Version 0.2.1 (with preprint P133)"
+  - type: doi
     value: "10.5281/zenodo.23286492"
     description: "Version 0.2.0 (previous version)"
   - type: doi

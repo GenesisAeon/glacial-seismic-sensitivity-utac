@@ -4,10 +4,10 @@ type: software
 authors:
   - family-names: Römer
     given-names: Johann
-    affiliation: "MOR Research Collective"
+    affiliation: "Independent researcher, Kirchhain, Germany"
 title: "glacial-seismic-sensitivity-utac"
-version: "0.2.0"
-date-released: "2026-10-10"
+version: "0.2.1"
+date-released: "2026-10-16"
 doi: "10.5281/zenodo.23281090"
 identifiers:
   - type: doi
@@ -15,14 +15,14 @@ identifiers:
     description: "Concept DOI (all versions)"
   - type: doi
     value: "10.5281/zenodo.23286492"
-    description: "Version 0.2.0"
+    description: "Version 0.2.0 (previous version)"
   - type: doi
     value: "10.5281/zenodo.23281091"
     description: "Version 0.1.0 (previous version)"
 url: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 repository-code: "https://github.com/GenesisAeon/glacial-seismic-sensitivity-utac"
 license: MIT
-abstract: "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions (year-fixed-effect Poisson models of seasonal modulation and of the response per kPa of GRACE-derived unloading, rain-vs-load comparison with ERA5), a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately no UTAC/CREP/AFET bridge. Also: tipping-trajectory scenarios (accelerating ice loss) with a deceptive pre-tipping quiet analysis, ETAS/Habermann quiescence classification, and pre-registered GRACE/GNSS/seismicity monitoring indicators. v0.2.0 adds a temporal ETAS model with a yearly residual background (H2), body-tide phase tests (H3), catalogue-robustness checks, a lag sensitivity informed by Sasgen et al. 2026, and a preregistered prospective background test from 2027-01-01 (C2) with a dated, frozen addendum. GenesisAeon P133 (KLIMA-KRYO-13)."
+abstract: "Does the same seasonal ice/snow unloading trigger more earthquakes over time? Pre-registered 'early-stage' (Fruehstadium) sensitivity tests on national and global earthquake catalogues near shrinking mountain glaciers and ice sheets versus control regions (year-fixed-effect Poisson models of seasonal modulation and of the response per kPa of GRACE-derived unloading, rain-vs-load comparison with ERA5), a criticality/early-warning indicator battery, a simple viscoelastic GIA + rate-and-state lag/detectability model with published mantle viscosities, and a frozen confirmatory test on data from 2026-11-01 onward. Companion of glacial-seismicity-utac (P101). Deliberately no UTAC/CREP/AFET bridge. Also: tipping-trajectory scenarios (accelerating ice loss) with a deceptive pre-tipping quiet analysis, ETAS/Habermann quiescence classification, and pre-registered GRACE/GNSS/seismicity monitoring indicators. v0.2.0 adds a temporal ETAS model with a yearly residual background (H2), body-tide phase tests (H3), catalogue-robustness checks, a lag sensitivity informed by Sasgen et al. 2026, and a preregistered prospective background test from 2027-01-01 (C2) with a dated, frozen addendum. v0.2.1 adds the preprint P133 (paper/P133_preprint.pdf) and an exploratory global baseline. GenesisAeon P133 (KLIMA-KRYO-13)."
 keywords:
   - GenesisAeon
   - P133

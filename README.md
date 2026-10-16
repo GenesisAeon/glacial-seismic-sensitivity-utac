@@ -38,6 +38,10 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.2.1 (released 2026-10-16)
+
+Adds the preprint [paper/P133_preprint.pdf](paper/P133_preprint.pdf) (not peer reviewed) and an exploratory global baseline ([docs/BASELINE_GLOBAL.md](docs/BASELINE_GLOBAL.md)). No frozen file or preregistered result changed.
+
 ## v0.2.0 (released 2026-10-10)
 
 Pre-registered addendum [PREREGISTRATION_v0.2.md](PREREGISTRATION_v0.2.md) (frozen 2026-10-10,

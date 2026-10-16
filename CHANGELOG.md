@@ -17,6 +17,11 @@ test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments**
   unaltered form for commercial use); EMSC SeismicPortal data CC BY 4.0 (single research excerpt).
   Details in `docs/v03/ZENODO_ARCHIV_PLAN.md`.
 
+### Changed
+
+- Minimum pandas raised to 2.2 (the frozen v0.3 discriminator uses `groupby.apply(include_groups=False)`,
+  added in pandas 2.2); CI minimum-dependency job updated accordingly. The frozen code is unchanged.
+
 ### Unchanged
 
 - No frozen file (C1, C2, M1–M7, addendum, v0.3 preregistration) changed.

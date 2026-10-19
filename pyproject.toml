@@ -32,6 +32,8 @@ dev = [
     "pytest-cov>=5.0.0",
     "types-requests",
 ]
+# optional: pyCSEP cross-checks of the adequacy module (AP7); heavy (cartopy/obspy), never required
+csep = ["pycsep>=0.8,<0.9"]
 
 [build-system]
 requires = ["hatchling"]
@@ -56,7 +58,11 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=glacial_seismic_sensitivity_utac --cov-report=term-missing -v"
+addopts = "--cov=glacial_seismic_sensitivity_utac --cov-report=term-missing -v -m \"not slow\""
+markers = [
+    "slow: long size/power simulations (etas_adequacy); excluded by default, run with -m slow",
+    "csep: needs the optional pycsep extra",
+]
 
 [tool.hatch.build.targets.sdist]
 exclude = ["data", "logs", ".venv", "results/series"]

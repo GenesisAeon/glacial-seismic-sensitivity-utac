@@ -149,6 +149,21 @@ def test_history_after_t0_and_infinite_branching_are_rejected() -> None:
         simulate_window(_base(alpha=2.5), *NO_HIST, 0.0, 1.0, 1)
 
 
+def test_supercritical_model_is_rejected_before_simulating() -> None:
+    """n >= 1 would grow without bound (an n = 4.4 test case once exhausted the machine)."""
+    hot = _base(alpha=1.0, K=0.25, p=1.3, c_yr=1e-2)
+    assert expected_cluster_moments(hot)[0] > 1
+    with pytest.raises(ValueError, match="supercritical"):
+        simulate_window(hot, *NO_HIST, 0.0, 1.0, 1)
+
+
+def test_max_events_guard_stops_a_large_catalogue() -> None:
+    with pytest.raises(RuntimeError, match="max_events"):
+        simulate_window(_base(), *NO_HIST, 0.0, 10.0, 1, max_events=50)
+    with pytest.raises(ValueError, match="max_events"):
+        simulate_window(_base(), *NO_HIST, 0.0, 1.0, 1, max_events=0)
+
+
 def test_frozen_se_alaska_1000_windows_fast_enough() -> None:
     """Plan acceptance: 1000 one-year SE-Alaska windows in < 20 s (measured ~1 s)."""
     se = load_baselines()["SE_Alaska_AK"]

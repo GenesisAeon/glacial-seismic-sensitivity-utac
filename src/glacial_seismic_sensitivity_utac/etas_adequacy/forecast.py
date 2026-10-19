@@ -86,6 +86,7 @@ def _one_window(
     b: float,
     m_max: float,
     dm: float,
+    max_events: int,
 ) -> tuple[np.ndarray, np.ndarray]:
     c, p, tmax = base.c_yr, base.p, base.tmax_yr
     norm = float(kint(np.array([tmax]), c, p, tmax)[0])
@@ -116,10 +117,15 @@ def _one_window(
 
     # cascade of the window events (as in the frozen model; offspring >= t1 dropped)
     all_t, all_m = [gen_t], [gen_m]
+    total = len(gen_t)
     while len(gen_t):
+        if total > max_events:
+            raise RuntimeError(f"catalogue exceeds max_events = {max_events} (runaway cascade)")
         nk = rng.poisson(base.K * np.exp(base.alpha * (gen_m - base.mc_ref)) * norm)
         if nk.sum() == 0:
             break
+        if total + int(nk.sum()) > max_events:
+            raise RuntimeError(f"catalogue exceeds max_events = {max_events} (runaway cascade)")
         u = rng.uniform(0.0, 1.0, int(nk.sum()))
         n = int(nk.sum())
         dt = _kernel_inverse(u, np.zeros(n), np.full(n, tmax), c, p)
@@ -127,6 +133,7 @@ def _one_window(
         keep = ct < t1
         gen_t = ct[keep]
         gen_m = _magnitudes(rng, int(keep.sum()), base.mc_ref, b, m_max, dm)
+        total += len(gen_t)
         all_t.append(gen_t)
         all_m.append(gen_m)
     t = np.concatenate(all_t)
@@ -149,8 +156,12 @@ def simulate_window(
     m_max: float = 8.0,
     dm: float = 0.1,
     seed: int = 0,
+    max_events: int = 1_000_000,
 ) -> SimulatedWindows:
-    """Simulate ``n_sim`` catalogues of the frozen model on [t0, t1) given the history."""
+    """Simulate ``n_sim`` catalogues of the frozen model on [t0, t1) given the history.
+
+    Raises ``ValueError`` for a supercritical model (n >= 1) and ``RuntimeError`` when one
+    catalogue exceeds ``max_events`` (memory guard)."""
     if mu_mode not in MU_MODES:
         raise ValueError(f"mu_mode must be one of {MU_MODES}")
     if (mu_mode == "fixed") != (mu is not None):
@@ -161,9 +172,15 @@ def simulate_window(
         raise ValueError("need t0 < t1")
     if n_sim < 1:
         raise ValueError("n_sim must be >= 1")
+    if max_events < 1:
+        raise ValueError("max_events must be >= 1")
     beta = b * np.log(10.0)
     if not base.alpha < beta:
         raise ValueError("alpha must be < b ln 10 (finite branching ratio)")
+    n_branch, _ = expected_cluster_moments(base, b, m_max)
+    if not n_branch < 1.0:
+        # a supercritical cascade grows without bound and exhausts the machine's memory
+        raise ValueError(f"supercritical: branching ratio n = {n_branch:.3f} >= 1")
     ht = np.asarray(hist_t, float)
     hm = np.asarray(hist_m, float)
     if ht.shape != hm.shape or not (np.all(np.isfinite(ht)) and np.all(np.isfinite(hm))):
@@ -180,7 +197,7 @@ def simulate_window(
             mu_k = float(np.exp(rng.normal(base.log_mu_ref, base.sigma_year)))
         else:
             mu_k = float(mu)  # type: ignore[arg-type]
-        t, m = _one_window(rng, base, mu_k, ht, hm, t0, t1, b, m_max, dm)
+        t, m = _one_window(rng, base, mu_k, ht, hm, t0, t1, b, m_max, dm, max_events)
         times.append(t)
         mags.append(m)
         mus.append(mu_k)

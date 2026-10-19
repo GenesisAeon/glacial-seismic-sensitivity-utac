@@ -3,3 +3,14 @@
 results/frozen_*.json -text
 results/*.json -text
 PREREGISTRATION*.md -text
+# Further hash-frozen files (v0.3 preregistration lists, code bound to tag v0.2.0, global
+# snapshots): keep byte-exact on Windows autocrlf checkouts too (adequacy AP0 finding, 2026-10-19).
+results/v03/** -text
+drivers/registry.yaml -text
+drivers/verified_dois.tsv -text
+src/glacial_seismic_sensitivity_utac/v03_discriminator.py -text
+src/glacial_seismic_sensitivity_utac/v03_features.py -text
+scripts/v03_s2_validation.py -text
+src/glacial_seismic_sensitivity_utac/etas_nonstat.py -text
+src/glacial_seismic_sensitivity_utac/confirmatory_v02.py -text
+results/global/snapshots/** -text

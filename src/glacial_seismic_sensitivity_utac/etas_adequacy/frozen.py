@@ -119,3 +119,32 @@ def load_baselines(
             n_ref_years=int(vals["n_ref_years"]),
         )
     return MappingProxyType(out)
+
+
+B_VALUE_PATH = REPO_ROOT / "results" / "adequacy" / "b_value" / "b_value_2016_2025.json"
+#: SHA-256 of the b-value file, frozen on 2026-10-20 before any look at 2026 data
+#: (scripts/adequacy_b_value.py; ComCat catalog=ak, 2016-01-01 <= t < 2026-01-01).
+B_VALUE_SHA256 = "404fc555394c2f942b4e60e38ef2d6768f63e247925420230b0dad44cf28df25"
+
+
+def load_b_values(
+    path: str | Path = B_VALUE_PATH, expected_sha256: str = B_VALUE_SHA256
+) -> Mapping[str, float]:
+    """Frozen b-values of the primary pair (Aki-Utsu, 2016-2025, above Mc_ref), SHA-checked."""
+    data = Path(path).read_bytes()
+    got = sha256_bytes(data)
+    if got != expected_sha256:
+        raise FrozenFileError(f"{path}: SHA-256 {got} differs from the frozen {expected_sha256}")
+    doc = json.loads(data.decode("utf-8"))
+    if doc.get("data_2026_or_later_retrieved") is not False:
+        raise FrozenFileError(f"{path}: not marked as free of 2026 data")
+    regions = doc.get("regions")
+    if not isinstance(regions, dict) or tuple(regions) != PRIMARY_PAIR:
+        raise FrozenFileError(f"{path}: unexpected region set {list(regions or [])}")
+    out: dict[str, float] = {}
+    for name, rec in regions.items():
+        b = rec.get("b") if isinstance(rec, dict) else None
+        if not isinstance(b, float) or not math.isfinite(b) or not 0.3 < b < 2.0:
+            raise FrozenFileError(f"{path}: {name} has no plausible b")
+        out[name] = b
+    return MappingProxyType(out)

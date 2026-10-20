@@ -14,3 +14,6 @@ scripts/v03_s2_validation.py -text
 src/glacial_seismic_sensitivity_utac/etas_nonstat.py -text
 src/glacial_seismic_sensitivity_utac/confirmatory_v02.py -text
 results/global/snapshots/** -text
+
+# b-value frozen before any look at 2026 data (P133 etas_adequacy): hash-pinned in frozen.py
+results/adequacy/b_value/** -text

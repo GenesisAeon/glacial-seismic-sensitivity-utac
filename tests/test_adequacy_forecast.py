@@ -173,3 +173,29 @@ def test_frozen_se_alaska_1000_windows_fast_enough() -> None:
     )
     assert time.perf_counter() - t < 20.0
     assert len(s.times) == 1000
+
+
+def test_binned_productivity_mean_matches_the_simulated_magnitudes() -> None:
+    """dm > 0: the analytic mgf equals the mean over the magnitudes simulate_window draws."""
+    from glacial_seismic_sensitivity_utac.etas_adequacy.forecast import _magnitudes
+
+    base = _base(alpha=1.03, K=0.05)
+    m = _magnitudes(np.random.default_rng(0), 2_000_000, base.mc_ref, 0.913, 8.0, 0.1)
+    kint1 = expected_cluster_moments(base, 0.913, 8.0, 0.1)[0] / base.K
+    from glacial_seismic_sensitivity_utac.etas_nonstat import kint
+
+    norm = float(kint(np.array([1.0]), base.c_yr, base.p, 1.0)[0])
+    assert np.mean(np.exp(base.alpha * (m - base.mc_ref))) == pytest.approx(kint1 / norm, rel=3e-3)
+    n_cont = expected_cluster_moments(base, 0.913, 8.0)[0]
+    n_bin = expected_cluster_moments(base, 0.913, 8.0, 0.1)[0]
+    assert n_bin / n_cont == pytest.approx(0.952, abs=0.005)  # binning lowers the effective n
+
+
+def test_long_window_mean_with_binned_magnitudes_uses_the_binned_n() -> None:
+    base = _base(alpha=1.0)
+    n_bin, _ = expected_cluster_moments(base, 1.0, 8.0, 0.1)
+    n_cont, _ = expected_cluster_moments(base, 1.0, 8.0)
+    s = simulate_window(base, *NO_HIST, 0.0, 50.0, 300, dm=0.1, seed=21)
+    expected = base.mu_ref * 50.0 / (1 - n_bin)
+    assert s.counts.mean() == pytest.approx(expected, rel=0.03)
+    assert abs(s.counts.mean() - base.mu_ref * 50.0 / (1 - n_cont)) > 0.05 * expected

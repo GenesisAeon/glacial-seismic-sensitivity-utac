@@ -55,13 +55,13 @@ class Scenario:
     swarm_days: float = 7.0
     mc_shift: float = 0.0  # window events below mc_ref + mc_shift are lost
 
-    def data_baseline(self, base: Baseline) -> Baseline:
+    def data_baseline(self, base: Baseline, b_value: float = 1.0, n_dm: float = 0.0) -> Baseline:
         if base.region not in self.regions:
             return base
         # A shape change (p, alpha) keeps the frozen branching ratio: with the frozen c ~ 4e-5,
         # p = 1.2 at fixed K would multiply n by ~3 (supercritical). K is rescaled instead, so
         # the scenario tests the kernel shape, not a hidden productivity change.
-        n_model, _ = expected_cluster_moments(base, B_VALUE, M_MAX)
+        n_model, _ = expected_cluster_moments(base, b_value, M_MAX, n_dm)
         target = self.target_n if self.target_n is not None else n_model
         b = base
         if self.p is not None:
@@ -69,7 +69,7 @@ class Scenario:
         if self.alpha_factor != 1.0:
             b = replace(b, alpha=b.alpha * self.alpha_factor)
         if b != base or self.target_n is not None:
-            n0, _ = expected_cluster_moments(b, B_VALUE, M_MAX)
+            n0, _ = expected_cluster_moments(b, b_value, M_MAX, n_dm)
             b = replace(b, K=b.K * target / n0)
         if self.keep_rate:  # background lowered so that mu / (1 - n) stays as in the model
             b = replace(b, log_mu_ref=b.log_mu_ref + float(np.log((1 - target) / (1 - n_model))))
@@ -121,6 +121,14 @@ class SimConfig:
     n_t1: int = 1000  # frozen-model simulations for T1 (gate: 10,000)
     n_boot: int = 399  # bootstrap simulations for T2 (gate: 10,000)
     warmup_years: float = 2.0
+    b_glac: float = B_VALUE  # b of the glacier region (AP4: 1.0; AP4b: frozen 2016-2025 value)
+    b_ctrl: float = B_VALUE
+    # bin width for the analytic branching ratio used by the scenarios. AP4 used 0.0 (continuous
+    # GR), which overstates the simulator's effective n (binned magnitudes); AP4b uses DM.
+    n_dm: float = 0.0
+
+    def b_for(self, region: str) -> float:
+        return self.b_glac if region == GLACIER else self.b_ctrl
 
 
 @dataclass
@@ -141,16 +149,17 @@ def generate_region(
     model: Baseline, scenario: Scenario, cfg: SimConfig, seeds: list[int]
 ) -> RegionData:
     """Synthetic warm-up, 2025 history and 2026 window of one region under ``scenario``."""
-    data = scenario.data_baseline(model)
+    bv = cfg.b_for(model.region)
+    data = scenario.data_baseline(model, bv, cfg.n_dm)
     affected = model.region in scenario.regions
     no = np.array([])
     warm = simulate_window(
         data, no, no, -1.0 - cfg.warmup_years, -1.0, 1, mu_mode="mixture",
-        b=B_VALUE, m_max=M_MAX, dm=DM, seed=seeds[0],
+        b=bv, m_max=M_MAX, dm=DM, seed=seeds[0],
     )  # fmt: skip
     hist = simulate_window(
         data, warm.times[0], warm.mags[0], -1.0, 0.0, 1, mu_mode="mixture",
-        b=B_VALUE, m_max=M_MAX, dm=DM, seed=seeds[1],
+        b=bv, m_max=M_MAX, dm=DM, seed=seeds[1],
     )  # fmt: skip
     ht, hm = hist.times[0], hist.mags[0]
     rng = np.random.default_rng(seeds[2])
@@ -158,18 +167,18 @@ def generate_region(
         mu = scenario.mu_factor * float(np.exp(rng.normal(data.log_mu_ref, data.sigma_year)))
         win = simulate_window(
             data, ht, hm, *WINDOW, 1, mu_mode="fixed", mu=mu,
-            b=B_VALUE, m_max=M_MAX, dm=DM, seed=seeds[3],
+            b=bv, m_max=M_MAX, dm=DM, seed=seeds[3],
         )  # fmt: skip
     else:
         win = simulate_window(
             data, ht, hm, *WINDOW, 1, mu_mode="mixture",
-            b=B_VALUE, m_max=M_MAX, dm=DM, seed=seeds[3],
+            b=bv, m_max=M_MAX, dm=DM, seed=seeds[3],
         )  # fmt: skip
     wt, wm = win.times[0], win.mags[0]
     if affected and scenario.swarm_events:
         start = rng.uniform(WINDOW[0], WINDOW[1] - scenario.swarm_days / 365.25)
         st = start + rng.uniform(0.0, scenario.swarm_days / 365.25, scenario.swarm_events)
-        sm = _magnitudes(rng, scenario.swarm_events, model.mc_ref, B_VALUE, M_MAX, DM)
+        sm = _magnitudes(rng, scenario.swarm_events, model.mc_ref, bv, M_MAX, DM)
         wt, wm = np.concatenate([wt, st]), np.concatenate([wm, sm])
         o = np.argsort(wt, kind="stable")
         wt, wm = wt[o], wm[o]
@@ -177,9 +186,9 @@ def generate_region(
         keep = wm >= np.round(model.mc_ref + scenario.mc_shift, 6) - 1e-9
         wt, wm = wt[keep], wm[keep]
     # reference magnitudes 2016-2025: GR above mc_ref (scenarios never change b)
-    n_br, _ = expected_cluster_moments(data, B_VALUE, M_MAX)
+    n_br, _ = expected_cluster_moments(data, bv, M_MAX, cfg.n_dm)
     annual = np.exp(data.log_mu_ref + 0.5 * data.sigma_year**2) / (1.0 - n_br)
-    ref_m = _magnitudes(rng, int(round(REF_YEARS * annual)), model.mc_ref, B_VALUE, M_MAX, DM)
+    ref_m = _magnitudes(rng, int(round(REF_YEARS * annual)), model.mc_ref, bv, M_MAX, DM)
     return RegionData(ht, hm, wt, wm, ref_m)
 
 
@@ -194,18 +203,19 @@ def run_replicate(
     for j, region in enumerate(PRIMARY_PAIR):
         key = "glac" if region == GLACIER else "ctrl"
         model = models[region]
+        bv = cfg.b_for(region)
         d = generate_region(model, scenario, cfg, s[6 * j : 6 * j + 4])
         out[f"n_hist_{key}"] = len(d.hist_t)
         out[f"n_win_{key}"] = len(d.win_t)
         if region == CONTROL:
             sims = simulate_window(
                 model, d.hist_t, d.hist_m, *WINDOW, cfg.n_t1, mu_mode="mixture",
-                b=B_VALUE, m_max=M_MAX, dm=DM, seed=s[12],
+                b=bv, m_max=M_MAX, dm=DM, seed=s[12],
             )  # fmt: skip
             out["T1_ctrl"] = n_test_empirical(len(d.win_t), sims.counts).p_two_sided
         o = ogata_ks_bootstrap(
             d.hist_t, d.hist_m, d.win_t, d.win_m, WINDOW, model,
-            n_boot=cfg.n_boot, b=B_VALUE, seed=s[13 + j],
+            n_boot=cfg.n_boot, b=bv, seed=s[13 + j],
         )  # fmt: skip
         out[f"T2_{key}"] = float("nan") if o.p_bootstrap is None else o.p_bootstrap
         out[f"T2nom_{key}"] = o.p_nominal
@@ -226,6 +236,11 @@ def gate_strict(r: dict[str, float], level: float = 0.05) -> bool:
 def gate_lenient(r: dict[str, float], level: float = 0.005) -> bool:
     """Variant L: inconclusive only if T1 or T2 of the control region has p < 0.005."""
     return _rej(float(r["T1_ctrl"]), level) or _rej(float(r["T2_ctrl"]), level)
+
+
+def gate_lenient_t3(r: dict[str, float], level: float = 0.005) -> bool:
+    """Variant L + T3: as L, plus T3 of the control region at p < 0.005 (asked for by Aeon)."""
+    return gate_lenient(r, level) or _rej(float(r["T3_ctrl"]), level)
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:

@@ -33,6 +33,7 @@ import numpy as np  # noqa: E402
 
 from glacial_seismic_sensitivity_utac.etas_adequacy import gate_sim as G  # noqa: E402
 from glacial_seismic_sensitivity_utac.etas_adequacy import load_baselines  # noqa: E402
+from glacial_seismic_sensitivity_utac.etas_adequacy.frozen import load_b_values  # noqa: E402
 
 DEFAULT_SEED = 20261019
 PILOT_SEED = 999
@@ -117,9 +118,20 @@ def _init() -> None:
     _MODELS.update(load_baselines())
 
 
-def _work(task: tuple[str, int, int, int, int, int]) -> dict[str, float | int | str]:
-    name, idx, rep, n_t1, n_boot, seed = task
-    cfg = G.SimConfig(n_t1=n_t1, n_boot=n_boot)
+Task = tuple[str, int, int, int, int, int, float, float, float, float]
+
+
+def _cfg(
+    n_t1: int, n_boot: int, b_glac: float, b_ctrl: float, warmup: float, n_dm: float
+) -> G.SimConfig:
+    return G.SimConfig(
+        n_t1=n_t1, n_boot=n_boot, warmup_years=warmup, b_glac=b_glac, b_ctrl=b_ctrl, n_dm=n_dm
+    )
+
+
+def _work(task: Task) -> dict[str, float | int | str]:
+    name, idx, rep, n_t1, n_boot, seed, b_glac, b_ctrl, warmup, n_dm = task
+    cfg = _cfg(n_t1, n_boot, b_glac, b_ctrl, warmup, n_dm)
     return G.run_replicate(_MODELS, G.SCENARIOS[name], idx, rep, cfg, seed)
 
 
@@ -155,7 +167,16 @@ def cmd_run(a: argparse.Namespace) -> None:
         "workers": a.workers,
         "reps": reps,
         "resources": res,
-        "assumptions": {"b": G.B_VALUE, "dm": G.DM, "m_max": G.M_MAX, "ref_years": G.REF_YEARS},
+        "assumptions": {
+            "b_glac": a.b[0],
+            "b_ctrl": a.b[1],
+            "b_source": "frozen 2016-2025 (load_b_values)" if a.b_frozen else "assumed 1.0",
+            "warmup_years": a.warmup_years,
+            "n_dm": a.n_dm,
+            "dm": G.DM,
+            "m_max": G.M_MAX,
+            "ref_years": G.REF_YEARS,
+        },
         "scenarios": {n: G.SCENARIOS[n].description for n in names},
         "python": sys.version,
     }
@@ -171,7 +192,9 @@ def cmd_run(a: argparse.Namespace) -> None:
     for n in names:
         done = _done_reps(out / f"{n}.jsonl")
         tasks += [
-            (n, order.index(n), r, a.n_t1, a.n_boot, seed) for r in range(reps[n]) if r not in done
+            (n, order.index(n), r, a.n_t1, a.n_boot, seed, *a.b, a.warmup_years, a.n_dm)
+            for r in range(reps[n])
+            if r not in done
         ]
     print(f"{len(tasks)} replicates to run ({res})", flush=True)
     files = {n: open(out / f"{n}.jsonl", "a", encoding="utf-8") for n in names}  # noqa: SIM115
@@ -197,6 +220,46 @@ def cmd_run(a: argparse.Namespace) -> None:
             f.close()
 
 
+# ----------------------------------------------------------------------------- precheck
+def _count(task: Task) -> tuple[str, int, int]:
+    name, idx, rep, _, _, seed, b_glac, b_ctrl, warmup, n_dm = task
+    cfg = _cfg(10, 9, b_glac, b_ctrl, warmup, n_dm)
+    s = G._seeds(seed, idx, rep, 16)
+    n = [
+        len(G.generate_region(_MODELS[r], G.SCENARIOS[name], cfg, s[6 * j : 6 * j + 4]).win_t)
+        for j, r in enumerate(G.PRIMARY_PAIR)
+    ]
+    return name, n[0], n[1]
+
+
+def cmd_precheck(a: argparse.Namespace) -> None:
+    """Mean simulated 2026 window count vs the stationary mu e^(sigma^2/2) / (1 - n)."""
+    limit_resources(a.mem_mb)
+    models = load_baselines()
+    names = a.scenarios.split(",")
+    order = list(G.SCENARIOS)
+    tasks = [
+        (n, order.index(n), r, 0, 0, PILOT_SEED, *a.b, a.warmup_years, a.n_dm)
+        for n in names
+        for r in range(a.reps)
+    ]
+    counts: dict[str, list[tuple[int, int]]] = {n: [] for n in names}
+    with Pool(a.workers, initializer=_init) as pool:
+        for name, ng, nc in pool.imap_unordered(_count, tasks, chunksize=4):
+            counts[name].append((ng, nc))
+    print(f"warm-up {a.warmup_years} yr, b = {a.b}, {a.reps} reps per scenario")
+    for n in names:
+        arr = np.array(counts[n], float)
+        for j, r in enumerate(G.PRIMARY_PAIR):
+            cfg = _cfg(10, 9, *a.b, a.warmup_years, a.n_dm)
+            d = G.SCENARIOS[n].data_baseline(models[r], cfg.b_for(r), a.n_dm)
+            nb, _ = G.expected_cluster_moments(d, cfg.b_for(r), G.M_MAX, G.DM)
+            stat = float(np.exp(d.log_mu_ref + 0.5 * d.sigma_year**2) / (1 - nb))
+            m, se = arr[:, j].mean(), arr[:, j].std(ddof=1) / np.sqrt(len(arr))
+            print(f"{n:24s} {r:18s} n={nb:.3f}  mean {m:7.1f} +- {se:5.1f}  stationary {stat:7.1f}"
+                  f"  ratio {m / stat:.3f}")  # fmt: skip
+
+
 # ----------------------------------------------------------------------------- summary
 def _rows(path: Path) -> Iterator[dict[str, float]]:
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -214,7 +277,11 @@ def cmd_summarize(a: argparse.Namespace) -> None:
         rows = sorted(_rows(p), key=lambda r: r["rep"])
         m = len(rows)
         s: dict[str, object] = {"n_rep": m, "description": G.SCENARIOS[n].description}
-        for name, fn in (("gate_S", G.gate_strict), ("gate_L", G.gate_lenient)):
+        for name, fn in (
+            ("gate_S", G.gate_strict),
+            ("gate_L", G.gate_lenient),
+            ("gate_LT3", G.gate_lenient_t3),
+        ):
             k = sum(fn(r) for r in rows)
             s[name] = {"rate": k / m, "k": k, "ci95": G.wilson(k, m)}
         for key in (*G.TEST_KEYS, "T2nom_glac", "T2nom_ctrl"):
@@ -232,16 +299,17 @@ def cmd_summarize(a: argparse.Namespace) -> None:
         s["mean_seconds"] = float(np.mean([r["seconds"] for r in rows]))
         summary[n] = s
     (out / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    hdr = "| scenario | reps | gate S | gate L | " + " | ".join(G.TEST_KEYS) + " |"
+    hdr = "| scenario | reps | gate S | gate L | gate L+T3 | " + " | ".join(G.TEST_KEYS) + " |"
     print(hdr)
-    print("|" + "---|" * (4 + len(G.TEST_KEYS)))
+    print("|" + "---|" * (5 + len(G.TEST_KEYS)))
     for n, s in summary.items():
-        gs, gl = s["gate_S"], s["gate_L"]
+        gs, gl, g3 = s["gate_S"], s["gate_L"], s["gate_LT3"]
         cells = [f"{s[k]['rej_0.05']:.3f}" if s[k]["rej_0.05"] is not None else "-"
                  for k in G.TEST_KEYS]  # type: ignore[index]  # fmt: skip
         print(
             f"| {n} | {s['n_rep']} | {gs['rate']:.3f} [{gs['ci95'][0]:.3f}, {gs['ci95'][1]:.3f}]"  # type: ignore[index]
-            f" | {gl['rate']:.3f} [{gl['ci95'][0]:.3f}, {gl['ci95'][1]:.3f}] | "  # type: ignore[index]
+            f" | {gl['rate']:.3f} [{gl['ci95'][0]:.3f}, {gl['ci95'][1]:.3f}]"  # type: ignore[index]
+            f" | {g3['rate']:.3f} [{g3['ci95'][0]:.3f}, {g3['ci95'][1]:.3f}] | "  # type: ignore[index]
             + " | ".join(cells)
             + " |"
         )
@@ -262,10 +330,24 @@ def main() -> None:
     r.add_argument("--seed", type=int, default=DEFAULT_SEED)
     r.add_argument("--progress", type=int, default=10)
     r.add_argument("--pilot", action="store_true", help="probe run with a separate seed")
+    r.add_argument("--warmup-years", type=float, default=2.0)
+    r.add_argument("--b-frozen", action="store_true", help="use the frozen 2016-2025 b-values")
+    r.add_argument("--n-dm", type=float, default=0.0, help="bin width for analytic n (AP4b: 0.1)")
+    c = sub.add_parser("precheck", help="window counts only (no tests) vs stationary rate")
+    c.add_argument("--scenarios", default="null,cluster_plus,cluster_plus_same_rate")
+    c.add_argument("--reps", type=int, default=200)
+    c.add_argument("--warmup-years", type=float, default=20.0)
+    c.add_argument("--b-frozen", action="store_true")
+    c.add_argument("--n-dm", type=float, default=0.0)
+    c.add_argument("--workers", type=int, default=2)
+    c.add_argument("--mem-mb", type=int, default=2048)
     s = sub.add_parser("summarize")
     s.add_argument("--out", required=True)
     a = ap.parse_args()
-    cmd_run(a) if a.cmd == "run" else cmd_summarize(a)
+    if a.cmd in ("run", "precheck"):
+        b = load_b_values() if a.b_frozen else None
+        a.b = (b[G.GLACIER], b[G.CONTROL]) if b else (G.B_VALUE, G.B_VALUE)
+    {"run": cmd_run, "summarize": cmd_summarize, "precheck": cmd_precheck}[a.cmd](a)
 
 
 if __name__ == "__main__":

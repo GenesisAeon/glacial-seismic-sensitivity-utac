@@ -177,7 +177,7 @@ def simulate_window(
     beta = b * np.log(10.0)
     if not base.alpha < beta:
         raise ValueError("alpha must be < b ln 10 (finite branching ratio)")
-    n_branch, _ = expected_cluster_moments(base, b, m_max)
+    n_branch, _ = expected_cluster_moments(base, b, m_max, dm)  # n of what is simulated
     if not n_branch < 1.0:
         # a supercritical cascade grows without bound and exhausts the machine's memory
         raise ValueError(f"supercritical: branching ratio n = {n_branch:.3f} >= 1")
@@ -205,18 +205,33 @@ def simulate_window(
 
 
 def expected_cluster_moments(
-    base: Baseline, b: float = 1.0, m_max: float = 8.0
+    base: Baseline, b: float = 1.0, m_max: float = 8.0, dm: float = 0.0
 ) -> tuple[float, float]:
-    """(n, E[S^2]) of the Galton-Watson cluster for continuous GR magnitudes (dm = 0):
+    """(n, E[S^2]) of the Galton-Watson cluster:
 
     n = E[nu], nu(m) = K e^{alpha (m - mc)} kint(tmax); with n2 = E[nu^2],
     E[S] = 1/(1-n) and E[S^2] = (1 + 2n/(1-n) + n2/(1-n)^2) / (1-n).
-    For a long window (T >> tmax) and no history: E[N] ~ mu T E[S], Var[N] ~ mu T E[S^2]."""
+    For a long window (T >> tmax) and no history: E[N] ~ mu T E[S], Var[N] ~ mu T E[S^2].
+
+    ``dm = 0``: continuous GR above mc. ``dm > 0``: the binned magnitudes ``simulate_window``
+    actually draws (continuous from mc - dm/2, rounded to dm), i.e. a geometric distribution on
+    the bins. Its productivity mean is smaller, e.g. by a factor ~0.95 for alpha ~ 1, b ~ 0.9,
+    dm = 0.1, so the simulator's effective n is below the continuous one (which therefore
+    is a conservative upper bound; ``simulate_window`` checks the n of the magnitudes it draws)."""
     beta = b * np.log(10.0)
     delta = m_max - base.mc_ref
     norm = float(kint(np.array([base.tmax_yr]), base.c_yr, base.p, base.tmax_yr)[0])
 
     def mgf(k: float) -> float:  # E[e^{k alpha (m - mc)}] for GR truncated at m_max
+        if dm > 0:
+            lo = base.mc_ref - 0.5 * dm
+            nb = int(np.floor((m_max - base.mc_ref) / dm + 0.5)) + 1
+            j = np.arange(nb)
+            a = np.maximum(base.mc_ref + (j - 0.5) * dm, lo)
+            z = np.minimum(base.mc_ref + (j + 0.5) * dm, m_max)
+            w = np.exp(-beta * (a - lo)) - np.exp(-beta * (z - lo))
+            w = np.clip(w, 0.0, None) / (1 - np.exp(-beta * (m_max - lo)))
+            return float(np.sum(w * np.exp(k * base.alpha * j * dm)))
         g = beta - k * base.alpha
         if g <= 0:
             return float("inf")

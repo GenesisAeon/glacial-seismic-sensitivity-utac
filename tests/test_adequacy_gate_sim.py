@@ -83,3 +83,21 @@ def test_replicate_is_deterministic_and_complete() -> None:
     assert a == b
     assert set(G.TEST_KEYS) <= set(a)
     assert all(0.0 <= float(a[k]) <= 1.0 for k in G.TEST_KEYS)
+
+
+def test_lenient_t3_rule_adds_only_the_control_t3() -> None:
+    assert G.gate_lenient_t3(_r(T3_ctrl=0.0049))
+    assert not G.gate_lenient_t3(_r(T3_ctrl=0.005, T3_glac=0.0))
+    assert G.gate_lenient_t3(_r(T1_ctrl=0.001)) and G.gate_lenient_t3(_r(T2_ctrl=0.0025))
+
+
+def test_config_uses_the_region_specific_b() -> None:
+    cfg = G.SimConfig(b_glac=0.91, b_ctrl=0.95)
+    assert cfg.b_for(PRIMARY_PAIR[0]) == 0.91 and cfg.b_for(PRIMARY_PAIR[1]) == 0.95
+    assert G.SimConfig().b_for(PRIMARY_PAIR[0]) == 1.0  # AP4 default unchanged
+
+
+def test_binned_target_n_is_met_with_the_binned_analytics() -> None:
+    m = MODELS[PRIMARY_PAIR[1]]
+    d = G.SCENARIOS["cluster_plus"].data_baseline(m, 0.945, 0.1)
+    assert expected_cluster_moments(d, 0.945, 8.0, 0.1)[0] == pytest.approx(0.95)

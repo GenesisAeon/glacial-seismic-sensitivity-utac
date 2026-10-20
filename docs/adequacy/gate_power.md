@@ -117,3 +117,35 @@ Mean window counts (null): glacier 308, control 228.
 5. **Scenario choice** (30-event swarm, Mc + 0.3, factor 1.5) is ours, made before the run;
    other sizes give other power values. Each alternative has 100 replicates (± ≈ 0.05).
 6. Three gate tests per region pair, not the full CSEP suite; no spatial model.
+
+## Correction (2026-10-20): limitation 3 was wrongly explained
+
+Limitation 3 and footnote ¹ attributed the low window counts to a start-up transient. **That was
+wrong for the moderate branching ratios.** A count-only check with a 20-year warm-up gave the same
+counts as with 2 years.
+
+**The actual cause.** `expected_cluster_moments` computed n for *continuous* GR magnitudes. The
+simulator, like the frozen `etas_nonstat.simulate`, draws magnitudes binned to 0.1 (continuous
+from Mc − 0.05, rounded). That is a geometric distribution on the bins, and its mean productivity
+is lower. For α ≈ 1, b ≈ 0.9 the factor is ≈ 0.95. With the binned n (new argument `dm`) the
+simulated mean counts match the stationary value µ e^{σ²/2}/(1 − n): ratios 0.98–1.02 for the
+null model.
+
+Consequences for the AP4 numbers above:
+
+- **The size (null) results are unaffected.** T1 compares against model simulations of the same
+  simulator, and T2/T3 are conditional on the window.
+- **The scenarios set their target n and their µ reduction with the continuous n.** Their actual
+  (effective) branching ratios were therefore lower than stated. For example, "n = 0.95" in
+  cluster_plus was effectively ≈ 0.90 (glacier) and ≈ 0.89 (control). The null model itself was
+  effectively at 0.80 / 0.60 (b = 1). alpha_half was not exactly "same n": 0.82 / 0.62. p12 was
+  exact, because the binning does not depend on p.
+- **cluster_plus_same_rate did not keep the rate,** because µ was lowered using the wrong n. Its
+  T1 power therefore still partly measures a count deficit, as stated, but for this reason, not a
+  transient.
+- **Near criticality a transient does exist.** At an *effective* n = 0.95, a 2-year warm-up
+  reaches only 71–90 % of the stationary count; a 20-year warm-up reaches 95–111 %.
+
+The follow-up run AP4b (protocol `docs/adequacy/gate_power_ap4b_protocol.md`) uses the binned n,
+the frozen b and a 20-year warm-up. The AP4 tables above are kept unchanged as the record of that
+run.

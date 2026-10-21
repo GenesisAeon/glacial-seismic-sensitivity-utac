@@ -276,6 +276,8 @@ def cmd_summarize(a: argparse.Namespace) -> None:
             continue
         rows = sorted(_rows(p), key=lambda r: r["rep"])
         m = len(rows)
+        if m == 0:  # scenario not (yet) run, e.g. after an interrupted run
+            continue
         s: dict[str, object] = {"n_rep": m, "description": G.SCENARIOS[n].description}
         for name, fn in (
             ("gate_S", G.gate_strict),

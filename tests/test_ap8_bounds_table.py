@@ -26,3 +26,11 @@ def test_bounds_table_matches_doc_and_flags_p() -> None:
     p_rows = [r for r in t.splitlines() if "| p |" in r]
     assert len(p_rows) == 8
     assert sum("**AT**" in r for r in p_rows) == 7
+
+
+def test_regional_b_rows_only_for_primary_pair() -> None:
+    t = _mod().table()
+    rows = [r for r in t.splitlines() if "frozen regional b=" in r]
+    assert [r.split(" | ")[0] for r in rows] == ["| SE_Alaska_AK", "| Interior_AK_ctrl"]
+    n_se = float(rows[0].split(" | ")[2])
+    assert 0.90 < n_se < 0.92

@@ -16,12 +16,19 @@ C2-Verfahren noch die C2-Entscheidung. Es wird nichts neu gefittet.
   - **p:** [1,0001, 2,5].
   - **n_br:** keine Fit-Grenze, abgeleitet über `etas_nonstat.branching_ratio` mit b = 1
     (Default von `fit_nonstationary`), nur informativ.
-- **Spalten:**
+  - **n_br mit regionalem b (nur Primärpaar):** zusätzlich mit dem eingefrorenen b-Wert aus
+    `results/adequacy/b_value/b_value_2016_2025.json` (SHA-256
+    `404fc555394c2f942b4e60e38ef2d6768f63e247925420230b0dad44cf28df25`, geprüft über
+    `etas_adequacy.frozen.load_b_values`; Aki-Utsu, ComCat catalog=ak, 2016–2025, eingefroren
+    vor jedem Blick auf 2026, Commit a930c5a): SE_Alaska_AK b = 0,9130, Interior_AK_ctrl
+    b = 0,9450. Nur lesend; die Werte mit b = 1 bleiben bestehen.
+- **Spalten** (die Schwellen für AT/NEAR sind eine **Konvention, keine statistische Schwelle**):
   - **abs. dist.:** |Wert − nächste Grenze|.
   - **rel. dist.:** abs. dist. / |Grenze|. Bei Grenze 0 ist der Wert n/a.
   - **Flag:**
-    - **AT:** Abstand < 1e-6 der Boxbreite.
-    - **NEAR:** Abstand < 5 % der Boxbreite. Bei c wird die Breite in log10 gemessen.
+    - **AT:** Abstand < 1e-6 der Boxbreite (Konvention, keine statistische Schwelle).
+    - **NEAR:** Abstand < 5 % der Boxbreite. Bei c wird die Breite in log10 gemessen
+      (Konvention, keine statistische Schwelle).
     - **ok:** sonst.
 - **Regenerieren:** `python scripts/ap8_bounds_table.py --write`. Das Skript ist deterministisch
   und liest nur die JSON-Datei und `BOUNDS_TRIG`.
@@ -34,11 +41,13 @@ C2-Verfahren noch die C2-Entscheidung. Es wird nichts neu gefittet.
 | SE_Alaska_AK | c_yr | 3.69027e-05 | 1e-06 (lower) | 3.59e-05 | 35.9 | ok |
 | SE_Alaska_AK | p | 1.0001 | 1.0001 (lower) | 0 | 0 | **AT** |
 | SE_Alaska_AK | n_br (derived, b=1) | 0.8407 | none (not a fit bound) | - | - | - |
+| SE_Alaska_AK | n_br (derived, frozen regional b=0.9130) | 0.9115 | none (not a fit bound) | - | - | - |
 | Interior_AK_ctrl | K | 0.0273989 | none (unbounded) | - | - | - |
 | Interior_AK_ctrl | alpha | 1.37348 | 0 (lower) | 1.37 | n/a (bound 0) | ok |
 | Interior_AK_ctrl | c_yr | 8.03351e-05 | 1e-06 (lower) | 7.93e-05 | 79.3 | ok |
 | Interior_AK_ctrl | p | 1.0001 | 1.0001 (lower) | 0 | 0 | **AT** |
 | Interior_AK_ctrl | n_br (derived, b=1) | 0.6406 | none (not a fit bound) | - | - | - |
+| Interior_AK_ctrl | n_br (derived, frozen regional b=0.9450) | 0.7009 | none (not a fit bound) | - | - | - |
 | NZ_Southern_Alps | K | 0.0247946 | none (unbounded) | - | - | - |
 | NZ_Southern_Alps | alpha | 1.66022 | 3 (upper) | 1.34 | 0.447 | ok |
 | NZ_Southern_Alps | c_yr | 5.47156e-05 | 1e-06 (lower) | 5.37e-05 | 53.7 | ok |
@@ -80,12 +89,18 @@ C2-Verfahren noch die C2-Entscheidung. Es wird nichts neu gefittet.
   - Folge 1: Die Normalapproximation der Stage-1-Unsicherheit ist dort nicht gültig.
   - Folge 2: Der Omori-Schwanz ist innerhalb von tmax = 1 Jahr sehr lang. Ein p ≤ 1 ist durch
     die Box ausgeschlossen.
+  - Folge 3: Dieses p an der Untergrenze ist der Mechanismus hinter der Überschätzung nach
+    großen Sequenzen, siehe AP6, Abweichung D1 (`docs/adequacy/sequence_term_deviation.md`,
+    Branch `v0.3-sequence-term`). Dort sagte das eingefrorene Modell 2026, bedingt auf die
+    beobachteten Nachbeben, mehr Ereignisse vorher als eintraten (z. B. Juni 84 vs. 43).
 - **Iceland_Vatnajokull_IMO** ist nicht am Rand, aber nahe:
   - alpha = 0,019 liegt nahe der Untergrenze 0. Die Magnitudenabhängigkeit der Produktivität
     ist damit praktisch null.
   - p = 1,065 ist NEAR zur Untergrenze.
 - **c, K und n_br:** c liegt überall deutlich im Inneren (≥ 2× Untergrenze). K ist
-  unbeschränkt. n_br liegt zwischen 0,24 und 0,90, also überall < 1.
+  unbeschränkt. n_br (b = 1) liegt zwischen 0,24 und 0,90, also überall < 1.
+  Mit regionalem b steigt n_br im Primärpaar: SE_Alaska_AK 0,84 → 0,91, Interior_AK_ctrl
+  0,64 → 0,70 (weiterhin < 1).
 - **Keine Auswirkung auf C2:** Die eingefrorenen Werte bleiben, wie sie sind. Dies ist eine
   Dokumentation der Adäquatheit (vgl. Szenario `p12` in `etas_adequacy/gate_sim.py`) und kein
   Änderungs- oder Umentscheidungsgrund.

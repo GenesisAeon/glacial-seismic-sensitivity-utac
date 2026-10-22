@@ -1,7 +1,9 @@
 """AP8: descriptive table of the frozen stage-1 ETAS parameters vs. their fit bounds.
 
-Reads ONLY ``results/frozen_v02_baselines.json`` (SHA-256 checked via ``etas_adequacy``) and the
-optimiser box ``etas_nonstat.BOUNDS_TRIG``; nothing is refitted, no frozen file is written.
+Reads ONLY ``results/frozen_v02_baselines.json`` (SHA-256 checked via ``etas_adequacy``),
+the frozen primary-pair b-values ``results/adequacy/b_value/b_value_2016_2025.json``
+(SHA-256 checked via ``etas_adequacy.frozen.load_b_values``) and the optimiser box
+``etas_nonstat.BOUNDS_TRIG``; nothing is refitted, no frozen file is written.
 Usage: ``python scripts/ap8_bounds_table.py [--write]`` (``--write`` updates the table block in
 ``docs/adequacy/BOUNDS.md`` between the AP8 markers; otherwise prints the table).
 """
@@ -18,9 +20,11 @@ from glacial_seismic_sensitivity_utac.etas_adequacy import frozen, load_baseline
 ROOT = Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs" / "adequacy" / "BOUNDS.md"
 BEGIN, END = "<!-- AP8-TABLE-BEGIN -->", "<!-- AP8-TABLE-END -->"
-#: distance as fraction of the box width below which a value counts as AT the bound
+#: CONVENTION (not a statistical threshold): distance as fraction of the box width
+#: below which a value counts as AT the bound
 AT_TOL = 1e-6
-#: distance as fraction of the box width (log10 width for c) below which a value is NEAR the bound
+#: CONVENTION (not a statistical threshold): distance as fraction of the box width
+#: (log10 width for c) below which a value is NEAR the bound
 NEAR_FRAC = 0.05
 
 
@@ -60,6 +64,7 @@ def classify(name: str, v: float, lo: float | None, hi: float | None) -> tuple[s
 def table() -> str:
     bl = load_baselines()
     bd = bounds()
+    b_reg = frozen.load_b_values()
     rows = [
         "| Region | Param | Value | Bound (nearest) | abs. dist. | rel. dist. | Flag |",
         "|---|---|---:|---|---:|---:|---|",
@@ -75,6 +80,13 @@ def table() -> str:
         rows.append(
             f"| {reg} | n_br (derived, b=1) | {n:.4g} | none (not a fit bound) | - | - | - |"
         )
+        if reg in b_reg:
+            bv = b_reg[reg]
+            n_r = etas_nonstat.branching_ratio(b.K, b.alpha, b.c_yr, b.p, b.tmax_yr, bv)
+            rows.append(
+                f"| {reg} | n_br (derived, frozen regional b={bv:.4f}) | {n_r:.4g} "
+                "| none (not a fit bound) | - | - | - |"
+            )
     return "\n".join(rows) + "\n"
 
 

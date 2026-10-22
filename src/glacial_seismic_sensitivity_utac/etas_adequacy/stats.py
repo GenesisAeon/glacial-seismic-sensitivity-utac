@@ -33,7 +33,7 @@ import numpy as np
 from scipy import special, stats
 
 from ..etas_nonstat import mu_window_mle, pairs
-from .forecast import simulate_window
+from .forecast import iter_window
 from .frozen import Baseline
 from .intensity import transformed_times, weights
 
@@ -249,7 +249,7 @@ def ogata_ks_bootstrap(
     obs = ogata_ks(hist_t, hist_m, win_t, win_m, window, base)
     if not np.isfinite(obs.ks_stat):
         return obs
-    sims = simulate_window(
+    sims = iter_window(
         base,
         hist_t,
         hist_m,
@@ -262,7 +262,7 @@ def ogata_ks_bootstrap(
         seed=seed,
     )
     d_b = np.zeros(n_boot)
-    for k, (st, sm) in enumerate(zip(sims.times, sims.mags, strict=True)):
+    for k, (st, sm, _) in enumerate(sims):  # streamed: one catalogue in memory at a time
         _, n, d, _ = _ks_window(
             np.concatenate([hist_t, st]), np.concatenate([hist_m, sm]), window, base, None
         )

@@ -26,6 +26,7 @@ catalogue does not depend on how many others are drawn.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
 
 import numpy as np
@@ -142,7 +143,7 @@ def _one_window(
     return t[o], m[o]
 
 
-def simulate_window(
+def iter_window(
     base: Baseline,
     hist_t: np.ndarray,
     hist_m: np.ndarray,
@@ -157,11 +158,31 @@ def simulate_window(
     dm: float = 0.1,
     seed: int = 0,
     max_events: int = 1_000_000,
-) -> SimulatedWindows:
-    """Simulate ``n_sim`` catalogues of the frozen model on [t0, t1) given the history.
+) -> Iterator[tuple[np.ndarray, np.ndarray, float]]:
+    """Yield the ``n_sim`` catalogues of ``simulate_window`` one at a time as (times, mags, mu).
 
-    Raises ``ValueError`` for a supercritical model (n >= 1) and ``RuntimeError`` when one
-    catalogue exceeds ``max_events`` (memory guard)."""
+    Same arguments, checks and seed streams as ``simulate_window`` (catalogue k is bit-identical),
+    but only one catalogue is held in memory, so callers that reduce each catalogue to a number
+    (bootstrap statistics, counts) need memory independent of ``n_sim``. The checks run when the
+    generator is created, not at the first ``next``."""
+    ht, hm = _check(base, hist_t, hist_m, t0, t1, n_sim, mu_mode, mu, b, m_max, dm, max_events)
+    return _iter(base, ht, hm, t0, t1, n_sim, mu_mode, mu, b, m_max, dm, seed, max_events)
+
+
+def _check(
+    base: Baseline,
+    hist_t: np.ndarray,
+    hist_m: np.ndarray,
+    t0: float,
+    t1: float,
+    n_sim: int,
+    mu_mode: str,
+    mu: float | None,
+    b: float,
+    m_max: float,
+    dm: float,
+    max_events: int,
+) -> tuple[np.ndarray, np.ndarray]:
     if mu_mode not in MU_MODES:
         raise ValueError(f"mu_mode must be one of {MU_MODES}")
     if (mu_mode == "fixed") != (mu is not None):
@@ -187,9 +208,25 @@ def simulate_window(
         raise ValueError("history t and m must be finite arrays of equal length")
     if np.any(ht >= t0):
         raise ValueError("history must lie strictly before t0")
-    streams = np.random.SeedSequence(seed).spawn(n_sim)
-    times, mags, mus = [], [], []
-    for ss in streams:
+    return ht, hm
+
+
+def _iter(
+    base: Baseline,
+    ht: np.ndarray,
+    hm: np.ndarray,
+    t0: float,
+    t1: float,
+    n_sim: int,
+    mu_mode: str,
+    mu: float | None,
+    b: float,
+    m_max: float,
+    dm: float,
+    seed: int,
+    max_events: int,
+) -> Iterator[tuple[np.ndarray, np.ndarray, float]]:
+    for ss in np.random.SeedSequence(seed).spawn(n_sim):
         rng = np.random.default_rng(ss)
         if mu_mode == "ref":
             mu_k = base.mu_ref
@@ -198,10 +235,53 @@ def simulate_window(
         else:
             mu_k = float(mu)  # type: ignore[arg-type]
         t, m = _one_window(rng, base, mu_k, ht, hm, t0, t1, b, m_max, dm, max_events)
+        yield t, m, mu_k
+
+
+def simulate_window(
+    base: Baseline,
+    hist_t: np.ndarray,
+    hist_m: np.ndarray,
+    t0: float,
+    t1: float,
+    n_sim: int,
+    *,
+    mu_mode: str = "ref",
+    mu: float | None = None,
+    b: float = 1.0,
+    m_max: float = 8.0,
+    dm: float = 0.1,
+    seed: int = 0,
+    max_events: int = 1_000_000,
+) -> SimulatedWindows:
+    """Simulate ``n_sim`` catalogues of the frozen model on [t0, t1) given the history.
+
+    Raises ``ValueError`` for a supercritical model (n >= 1) and ``RuntimeError`` when one
+    catalogue exceeds ``max_events`` (memory guard). Keeps all catalogues; see ``iter_window``
+    for the streaming form."""
+    times, mags, mus = [], [], []
+    for t, m, mu_k in iter_window(
+        base, hist_t, hist_m, t0, t1, n_sim, mu_mode=mu_mode, mu=mu,
+        b=b, m_max=m_max, dm=dm, seed=seed, max_events=max_events,
+    ):  # fmt: skip
         times.append(t)
         mags.append(m)
         mus.append(mu_k)
     return SimulatedWindows(t0, t1, tuple(times), tuple(mags), np.array(mus))
+
+
+def simulate_counts(
+    base: Baseline,
+    hist_t: np.ndarray,
+    hist_m: np.ndarray,
+    t0: float,
+    t1: float,
+    n_sim: int,
+    **kwargs: object,
+) -> np.ndarray:
+    """Window counts of ``n_sim`` catalogues (= ``simulate_window(...).counts``), streamed."""
+    it = iter_window(base, hist_t, hist_m, t0, t1, n_sim, **kwargs)  # type: ignore[arg-type]
+    return np.array([len(t) for t, _, _ in it])
 
 
 def expected_cluster_moments(

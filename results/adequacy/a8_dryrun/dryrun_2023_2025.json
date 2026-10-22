@@ -1,0 +1,50 @@
+{
+ "label": "FUNCTIONAL TEST ONLY - no statement about C2",
+ "seed": 20261022,
+ "n_sim": 10000,
+ "window": "2023-01-01..2025-12-31",
+ "history": "2022",
+ "reference": "2016-01-01..2022-12-31",
+ "regions": {
+  "SE_Alaska_AK": {
+   "n_ref": 2259,
+   "n_hist": 225,
+   "n_win": 3183,
+   "b": 0.9129797081614315,
+   "mc_ref": 2.1,
+   "T2_mu_hat": 77.08760307539349,
+   "T2_ks": 0.1325436666739589,
+   "T2_p_nominal": 3.1942085244328772e-49,
+   "T2_seconds": 423.4,
+   "peak_rss_mb_after": 761.9
+  },
+  "Interior_AK_ctrl": {
+   "n_ref": 1406,
+   "n_hist": 174,
+   "n_win": 692,
+   "b": 0.9449801110070761,
+   "mc_ref": 2.1,
+   "T1_sim_count_median": 741.0,
+   "T1_seconds": 5.5,
+   "T2_mu_hat": 90.19974494001178,
+   "T2_ks": 0.03713210168837089,
+   "T2_p_nominal": 0.2885601500947048,
+   "T2_seconds": 146.6,
+   "peak_rss_mb_after": 761.9
+  }
+ },
+ "p": {
+  "T2_glac": 9.999000099990002e-05,
+  "T3_glac": 3.9155235999796397e-10,
+  "T1_ctrl": 0.7646,
+  "T2_ctrl": 0.17018298170182983,
+  "T3_ctrl": 0.9885532495547169
+ },
+ "gate": {
+  "L+T3": false,
+  "L": false,
+  "S": true
+ },
+ "seconds_total": 575.5,
+ "peak_rss_mb": 761.9
+}

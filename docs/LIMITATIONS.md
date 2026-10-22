@@ -72,3 +72,8 @@
 * C2 ist ein bedingter Test unter dem eingefrorenen ETAS-Modell (Unsicherheit von K, α, c, p nicht
   enthalten; p an der Untergrenze). Er schützt nicht gegen differentielle Netzänderungen ab 2027.
 * Die Gemini-Recherche, die v0.2 anregte, ist keine Quelle; zitiert werden nur Originalarbeiten.
+* Fit-Grenzen (AP8, deskriptiv): Die eingefrorenen Stage-1-Werte haben p = 1,0001, also genau die
+  Untergrenze der Optimierungsbox. Das gilt in 7 von 8 Regionen, außer Island (p ≈ 1,065, nahe der
+  Grenze; dort liegt auch α ≈ 0,02 nahe 0). Die Unsicherheit dieser Parameter ist daher nicht
+  normalapproximierbar. Tabelle: [`adequacy/BOUNDS.md`](adequacy/BOUNDS.md). Die C2-Entscheidung
+  ändert sich dadurch nicht.

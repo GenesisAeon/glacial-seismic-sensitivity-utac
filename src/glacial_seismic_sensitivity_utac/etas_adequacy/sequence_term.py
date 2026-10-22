@@ -328,3 +328,91 @@ def run_term_replicate(
             row[f"reject_{name}_{tag}"] = bool(r["reject"])
     row["seconds"] = round(time.time() - t0, 2)
     return row
+
+
+# ---------------------------------------------------------------------------
+# AP6b: bias of the preregistered C2 under a truth calibrated to the 2026 data
+# ---------------------------------------------------------------------------
+@dataclass(frozen=True)
+class LevelScenario:
+    """Excess level E(t) = e0 * ((t - t_ms) / 0.5)^(-r) per yr on top of the frozen model."""
+
+    name: str
+    e0: float
+    r: float = 1.0
+    mu_factor: float = 1.0  # glacier background x factor from 2027 on (the sought signal)
+
+
+LEVEL_SCENARIOS: dict[str, LevelScenario] = {
+    s.name: s
+    for s in (
+        LevelScenario("e0", 0.0),
+        LevelScenario("e75_r10", 75.0, 1.0),
+        LevelScenario("e75_r05", 75.0, 0.5),
+        LevelScenario("e150_r10", 150.0, 1.0),
+        LevelScenario("e150_r05", 150.0, 0.5),
+        LevelScenario("signal_e0", 0.0, mu_factor=1.5),
+    )
+}
+
+
+def run_level_replicate(
+    models: dict[str, Baseline],
+    b_values: dict[str, float],
+    ctx: dict[str, Any],
+    scenario: LevelScenario,
+    idx: int,
+    rep: int,
+    seed: int,
+    warmup_years: float = 20.0,
+) -> dict[str, Any]:
+    """One AP6b replicate. Glacier catalogue = **real** events 2026-01-01..cutoff (``real_t``,
+    ``real_m``) + synthetic truth from the cutoff on: frozen model (from a synthetic history, so
+    without frozen offspring of the real sequence) + fast spike A_s (t - t_ms)^(-q_s) + excess
+    level E(t), the last two without offspring. Control: frozen model. C2 as preregistered."""
+    import time
+
+    from .sequence_tail import inject_tail
+
+    t0 = time.time()
+    n_s = 2 + len(YEARS_SIM)
+    s = _term_seeds(seed, idx, rep, 2 * n_s + 2)
+    gl, ct = "SE_Alaska_AK", "Interior_AK_ctrl"
+    cut, t_ms = float(ctx["cutoff"]), float(ctx["t_ms"])
+    tg, mg = _frozen_catalogue(s[:n_s], models[gl], b_values[gl], warmup_years,
+                               scenario.mu_factor)  # fmt: skip
+    keep = tg >= cut
+    tg, mg = tg[keep], mg[keep]
+    tc, mc = _frozen_catalogue(s[n_s : 2 * n_s], models[ct], b_values[ct], warmup_years, 1.0)
+    vals = np.asarray(ctx["mag_values"], float)
+    wts = np.asarray(ctx["mag_counts"], float)
+    st, sm = inject_tail(np.random.default_rng(s[-2]), float(ctx["spike_A"]),
+                         float(ctx["spike_q"]), t_ms, cut, 2037.0, vals, wts)  # fmt: skip
+    n_level = 0
+    parts_t = [tg, st, np.asarray(ctx["real_t"], float)]
+    parts_m = [mg, sm, np.asarray(ctx["real_m"], float)]
+    if scenario.e0 > 0:
+        amp = scenario.e0 * 0.5**scenario.r  # e0 at t - t_ms = 0.5 yr
+        lt, lm = inject_tail(np.random.default_rng(s[-1]), amp, scenario.r, t_ms, cut, 2037.0,
+                             vals, wts)  # fmt: skip
+        n_level = int(((lt >= 2027.0) & (lt < 2030.0)).sum())
+        parts_t.append(lt)
+        parts_m.append(lm)
+    tg, mg = np.concatenate(parts_t), np.concatenate(parts_m)
+    o = np.argsort(tg, kind="stable")
+    cg = pd.DataFrame({"t": tg[o], "mag": mg[o]})
+    cg = cg[cg.t >= 2026.0]
+    cc = pd.DataFrame({"t": tc, "mag": mc})
+    cc = cc[cc.t >= 2026.0]
+    row: dict[str, Any] = {"scenario": scenario.name, "rep": rep, "n_level_2029": n_level,
+                           "n_spike_2029": int(((st >= 2027.0) & (st < 2030.0)).sum())}  # fmt: skip
+    for end, _ in LOOKS:
+        tag = f"{int(end) - 1}"
+        r = evaluate_pair_with_term(cg, cc, models, end, None)
+        row[f"D_{tag}"] = float(r["D"])
+        row[f"z_{tag}"] = float(r["z"])
+        row[f"reject_{tag}"] = bool(r["reject"])
+        row[f"dlog_glac_{tag}"] = float(r["glacier"]["delta_log_mu"])
+        row[f"n_glac_{tag}"] = int(r["glacier"]["n_new"])
+    row["seconds"] = round(time.time() - t0, 2)
+    return row

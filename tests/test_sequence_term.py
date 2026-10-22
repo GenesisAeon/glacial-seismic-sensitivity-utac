@@ -129,3 +129,21 @@ def test_term_replicate_runs_and_is_reproducible() -> None:
     n = Q.run_term_replicate(dict(MODELS), b, _ctx(), Q.TERM_SCENARIOS["signal_notail"], 6, 0,
                              11, warmup_years=2.0)  # fmt: skip
     assert n["n_injected_2029"] == 0
+
+
+def test_level_replicate_uses_real_2026_and_adds_level() -> None:
+    from glacial_seismic_sensitivity_utac.etas_adequacy.frozen import load_b_values
+
+    b = load_b_values()
+    real_t = list(np.linspace(2026.0, 2026.79, 300))
+    ctx = {"t_ms": 2025.93113, "cutoff": 2026.8, "spike_A": 15.0, "spike_q": 2.8,
+           "real_t": real_t, "real_m": [2.3] * 300, "mag_values": [2.1, 2.3],
+           "mag_counts": [3, 1]}  # fmt: skip
+    e0 = Q.run_level_replicate(dict(MODELS), b, ctx, Q.LEVEL_SCENARIOS["e0"], 0, 1, 5,
+                               warmup_years=2.0)  # fmt: skip
+    e1 = Q.run_level_replicate(dict(MODELS), b, ctx, Q.LEVEL_SCENARIOS["e150_r05"], 0, 1, 5,
+                               warmup_years=2.0)  # fmt: skip
+    assert e0["n_level_2029"] == 0 and e1["n_level_2029"] > 0
+    # same seeds for the frozen part: the level only adds glacier events
+    assert e1["n_glac_2029"] == e0["n_glac_2029"] + e1["n_level_2029"]
+    assert e1["D_2029"] > e0["D_2029"]

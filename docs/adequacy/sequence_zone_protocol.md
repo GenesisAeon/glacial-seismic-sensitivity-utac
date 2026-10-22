@@ -91,3 +91,24 @@ rule (signal_e0, signal_e150_r05_l05); there is no threshold for it.
   random across the zone border.
 - The signal is assumed uniform in space.
 - The zone is a disc around the mainshock epicentre, not the actual rupture geometry.
+
+## Amendment 1 (2026-10-22, after run 1, before run 2): generator "separate"
+
+Reason: deviation D1 (`sequence_zone_run1.md`). Independent zone labels orphan triggered events,
+which biases the reduced statistic upward (e0: D_red +0.096 instead of ≈ 0).
+
+Run 2 uses `run_zone_replicate(..., generator="separate")`:
+- **Two frozen-model processes**, outside the zone (background µ_red = e^3.998) and inside it
+  (µ_full − µ_red), each with the frozen K, α, c, p.
+- A common annual draw z_y; µ_y = exp(log µ + σ_y,full·z_y), × 1.5 from 2027 in the signal
+  scenarios.
+- No triggering across the zone border.
+
+Everything else is **unchanged**: scenarios, criterion, the order of the B → A choice, the real
+2026 events with their real labels, spike and excess (leak). Run 2 uses its own seed
+**20261027** (pilot 994) so it is not a re-draw of run 1. Both runs are reported. The decision
+rule is applied to **run 2**, because run 1 is known to be biased. If run 2 fails as well, the
+result stands as such.
+
+Check before the run: run-1 replicates still reproduce bit-identically with
+`generator="labels"` (checked for e0 rep 5 and e150_r05_l05 rep 5).

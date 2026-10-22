@@ -78,6 +78,35 @@ def reduced_baseline(
     return red, {"ly_full": ly_full.tolist(), "ly_red": ly_red.tolist()}
 
 
+def _fixed_mu_catalogue(
+    seeds: list[int],
+    base: Baseline,
+    log_mu: float,
+    z: np.ndarray,
+    b: float,
+    warmup_years: float,
+    mu_factor: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Frozen triggering with background exp(log_mu + sigma_y z_y) in year y of ``YEARS_SIM``
+    (x mu_factor from 2027), after a warm-up with the mixture around ``log_mu``."""
+    from .forecast import simulate_window
+
+    sub = dataclasses.replace(base, log_mu_ref=log_mu)
+    no = np.array([])
+    w = simulate_window(sub, no, no, 2025.0 - warmup_years, 2025.0, 1, mu_mode="mixture",
+                        b=b, m_max=8.0, dm=0.1, seed=seeds[0])  # fmt: skip
+    ht, hm = w.times[0], w.mags[0]
+    out_t, out_m = [], []
+    for k, y in enumerate(YEARS_SIM):
+        mu = float(np.exp(log_mu + base.sigma_year * z[k])) * (mu_factor if y >= 2027 else 1.0)
+        w = simulate_window(sub, ht, hm, float(y), float(y + 1), 1, mu_mode="fixed", mu=mu,
+                            b=b, m_max=8.0, dm=0.1, seed=seeds[1 + k])  # fmt: skip
+        ht, hm = w.times[0], w.mags[0]
+        out_t.append(ht)
+        out_m.append(hm)
+    return np.concatenate(out_t), np.concatenate(out_m)
+
+
 @dataclass(frozen=True)
 class ZoneScenario:
     name: str
@@ -111,8 +140,14 @@ def run_zone_replicate(
     rep: int,
     seed: int,
     warmup_years: float = 20.0,
+    generator: str = "labels",
 ) -> dict[str, Any]:
     """One AP6c replicate (AP6b truth + zone labels).
+
+    ``generator="labels"`` (run 1): one frozen-model process for the whole region, zone labels
+    drawn independently per event. ``generator="separate"`` (run 2, deviation D1): two frozen-model
+    processes, outside (background mu_red) and inside the zone (mu_full - mu_red), with a common
+    annual draw z_y and no cross-zone triggering, so no triggered event loses its parent.
 
     Real 2026 events keep their real zone label. Synthetic frozen-model events are in the zone
     with probability ``pi_zone`` = 1 - exp(log mu_ref_reduced - log mu_ref_full) (so the thinned
@@ -129,10 +164,29 @@ def run_zone_replicate(
     cut, t_ms = float(ctx["cutoff"]), float(ctx["t_ms"])
     pi_zone = 1.0 - float(np.exp(reduced.log_mu_ref - models[gl].log_mu_ref))
     lab = np.random.default_rng(s[-4])
-    tg, mg = _frozen_catalogue(s[:n_s], models[gl], b_values[gl], warmup_years, scenario.mu_factor)
-    keep = tg >= cut
-    tg, mg = tg[keep], mg[keep]
-    zg = lab.uniform(size=len(tg)) < pi_zone
+    if generator == "labels":
+        tg, mg = _frozen_catalogue(s[:n_s], models[gl], b_values[gl], warmup_years,
+                                   scenario.mu_factor)  # fmt: skip
+        keep = tg >= cut
+        tg, mg = tg[keep], mg[keep]
+        zg = lab.uniform(size=len(tg)) < pi_zone
+    elif generator == "separate":
+        s2 = _term_seeds(seed, idx + 100, rep, n_s + 1)
+        z = np.random.default_rng(s2[-1]).normal(size=len(YEARS_SIM))
+        fb = models[gl]
+        log_zone = float(np.log(np.exp(fb.log_mu_ref) - np.exp(reduced.log_mu_ref)))
+        bg, mf = b_values[gl], scenario.mu_factor
+        out_t, out_m = _fixed_mu_catalogue(s[:n_s], fb, reduced.log_mu_ref, z, bg,
+                                           warmup_years, mf)  # fmt: skip
+        in_t, in_m = _fixed_mu_catalogue(s2[:n_s], fb, log_zone, z, b_values[gl],
+                                         warmup_years, scenario.mu_factor)  # fmt: skip
+        tg = np.concatenate([out_t, in_t])
+        mg = np.concatenate([out_m, in_m])
+        zg = np.concatenate([np.zeros(len(out_t), bool), np.ones(len(in_t), bool)])
+        keep = tg >= cut
+        tg, mg, zg = tg[keep], mg[keep], zg[keep]
+    else:
+        raise ValueError("generator must be 'labels' or 'separate'")
     tc, mc = _frozen_catalogue(s[n_s : 2 * n_s], models[ct], b_values[ct], warmup_years, 1.0)
     vals, wts = np.asarray(ctx["mag_values"], float), np.asarray(ctx["mag_counts"], float)
     st, sm = inject_tail(np.random.default_rng(s[-3]), float(ctx["spike_A"]),
@@ -150,11 +204,12 @@ def run_zone_replicate(
         parts.append((lt, lm, lab.uniform(size=len(lt)) >= scenario.leak))
     t = np.concatenate([p[0] for p in parts])
     m = np.concatenate([p[1] for p in parts])
-    z = np.concatenate([p[2] for p in parts])
+    z = np.concatenate([p[2] for p in parts]).astype(bool)
     o = np.argsort(t, kind="stable")
     t, m, z = t[o], m[o], z[o]
     full = pd.DataFrame({"t": t, "mag": m})
-    red = pd.DataFrame({"t": t[~z], "mag": m[~z]})
+    keep_out = np.flatnonzero(np.logical_not(z))
+    red = pd.DataFrame({"t": t[keep_out], "mag": m[keep_out]})
     full, red = full[full.t >= 2026.0], red[red.t >= 2026.0]
     cc = pd.DataFrame({"t": tc, "mag": mc})
     cc = cc[cc.t >= 2026.0]

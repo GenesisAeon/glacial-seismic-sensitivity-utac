@@ -123,11 +123,11 @@ def _init() -> None:
     _CTX["ctx"] = z
 
 
-def _work(task: tuple[str, int, int, int, float]) -> dict[str, object]:
-    name, idx, rep, seed, warmup = task
+def _work(task: tuple[str, int, int, int, float, str]) -> dict[str, object]:
+    name, idx, rep, seed, warmup, gen = task
     return Z.run_zone_replicate(
         _CTX["models"], _CTX["reduced"], _CTX["b"], _CTX["ctx"],  # type: ignore[arg-type]
-        Z.ZONE_SCENARIOS[name], idx, rep, seed, warmup_years=warmup,
+        Z.ZONE_SCENARIOS[name], idx, rep, seed, warmup_years=warmup, generator=gen,
     )  # fmt: skip
 
 
@@ -139,7 +139,8 @@ def cmd_run(a: argparse.Namespace) -> None:
     names = a.scenarios.split(",")
     meta = {"started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "commit": _git_commit(),
             "pilot": a.pilot, "seed": seed, "reps": a.reps, "workers": a.workers,
-            "warmup_years": a.warmup_years, "resources": res, "python": sys.version}  # fmt: skip
+            "warmup_years": a.warmup_years, "generator": a.generator, "resources": res,
+            "python": sys.version}  # fmt: skip
     (out / f"run_{time.strftime('%Y%m%dT%H%M%S')}.json").write_text(
         json.dumps(meta, indent=2), encoding="utf-8"
     )
@@ -147,7 +148,7 @@ def cmd_run(a: argparse.Namespace) -> None:
     tasks = []
     for n in names:
         done = _done_reps(out / f"{n}.jsonl")
-        tasks += [(n, order.index(n), r, seed, a.warmup_years)
+        tasks += [(n, order.index(n), r, seed, a.warmup_years, a.generator)
                   for r in range(a.reps) if r not in done]  # fmt: skip
     print(f"{len(tasks)} replicates to run ({res})", flush=True)
     files = {n: open(out / f"{n}.jsonl", "a", encoding="utf-8") for n in names}  # noqa: SIM115
@@ -219,6 +220,7 @@ def main() -> None:
     r.add_argument("--warmup-years", type=float, default=20.0)
     r.add_argument("--progress", type=int, default=200)
     r.add_argument("--pilot", action="store_true")
+    r.add_argument("--generator", choices=("labels", "separate"), default="labels")
     s = sub.add_parser("summarize")
     s.add_argument("--out", required=True)
     a = ap.parse_args()

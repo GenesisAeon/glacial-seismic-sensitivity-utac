@@ -67,3 +67,28 @@ def test_zone_replicate_excess_mostly_in_zone() -> None:
     assert e1["n_level_2029"] > 0
     # the excess raises the full statistic much more than the reduced one (95 % in the zone)
     assert e1["D_full_2029"] - e0["D_full_2029"] > 3 * (e1["D_red_2029"] - e0["D_red_2029"])
+
+
+def test_separate_generator_zone_events_and_reproducible() -> None:
+    import dataclasses
+
+    b = load_b_values()
+    red = dataclasses.replace(GL, log_mu_ref=GL.log_mu_ref - 0.05)
+    sc = Z.ZONE_SCENARIOS["e0"]
+    r1 = Z.run_zone_replicate(MODELS, red, b, _ctx(), sc, 0, 7, 9, 2.0, generator="separate")
+    r2 = Z.run_zone_replicate(MODELS, red, b, _ctx(), sc, 0, 7, 9, 2.0, generator="separate")
+    r1.pop("seconds"), r2.pop("seconds")
+    assert r1 == r2 and np.isfinite(r1["D_red_2029"])
+    with pytest.raises(ValueError, match="generator"):
+        Z.run_zone_replicate(MODELS, red, b, _ctx(), sc, 0, 7, 9, 2.0, generator="x")
+
+
+def test_fixed_mu_catalogue_rate_hand_value() -> None:
+    # without triggering the yearly count is Poisson(exp(log_mu + sigma z)); z = 0 -> e^log_mu
+    import dataclasses
+
+    quiet = dataclasses.replace(GL, K=1e-15)
+    t, _ = Z._fixed_mu_catalogue(list(range(20)), quiet, np.log(500.0),
+                                 np.zeros(len(Z.YEARS_SIM)), 1.0, 1.0, 1.0)  # fmt: skip
+    n_years = len(Z.YEARS_SIM)
+    assert abs(len(t) / n_years - 500.0) < 3 * np.sqrt(500.0 / n_years)

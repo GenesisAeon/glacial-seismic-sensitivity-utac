@@ -1,0 +1,42 @@
+{
+  "started": "2026-10-21T13:22:24+0200",
+  "commit": "7e7a37b05d13715827e6a34a7edd7a2527d2f3c9",
+  "pilot": false,
+  "seed": 20261020,
+  "n_t1": 1000,
+  "n_boot": 399,
+  "workers": 2,
+  "reps": {
+    "null": 1000,
+    "cluster_plus_same_rate": 100,
+    "swarm_ctrl": 100,
+    "swarm_glac": 100,
+    "mc_jump": 100,
+    "signal_glac": 100
+  },
+  "resources": {
+    "logical_cpus": 8,
+    "affinity_cpus": 4,
+    "mem_mb": 3072,
+    "job_object": true
+  },
+  "assumptions": {
+    "b_glac": 0.9129797081614315,
+    "b_ctrl": 0.9449801110070761,
+    "b_source": "frozen 2016-2025 (load_b_values)",
+    "warmup_years": 20.0,
+    "n_dm": 0.1,
+    "dm": 0.1,
+    "m_max": 8.0,
+    "ref_years": 10
+  },
+  "scenarios": {
+    "null": "true frozen model (size of the gate)",
+    "cluster_plus_same_rate": "stronger clustering (n = 0.95) at the model's annual count: background lowered",
+    "swarm_ctrl": "30 extra events within 7 days in the control region (2026)",
+    "swarm_glac": "30 extra events within 7 days in the glacier region (2026)",
+    "mc_jump": "completeness worsens by +0.3 in 2026 (both regions)",
+    "signal_glac": "the sought signal: glacier-region background x 1.5 in 2026, model otherwise true"
+  },
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+}

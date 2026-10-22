@@ -68,3 +68,25 @@ def synthetic_catalog(
 @pytest.fixture
 def make_catalog():
     return synthetic_catalog
+
+
+# ---------------------------------------------------------------------------
+# AP0 (etas_adequacy) guard: no test session may change a frozen file
+# ---------------------------------------------------------------------------
+def pytest_sessionstart(session: pytest.Session) -> None:
+    from .adequacy_frozen_inventory import current_digests, frozen_inventory
+
+    session.config._gss_frozen_before = current_digests(sorted(frozen_inventory()))  # type: ignore[attr-defined]
+
+
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
+    from .adequacy_frozen_inventory import current_digests
+
+    before = getattr(session.config, "_gss_frozen_before", None)
+    if before is None:
+        return
+    after = current_digests(sorted(before))
+    changed = [rel for rel in before if before[rel] != after[rel]]
+    if changed:
+        print(f"\nFROZEN FILES CHANGED DURING THE TEST SESSION: {changed}")
+        session.exitstatus = 1

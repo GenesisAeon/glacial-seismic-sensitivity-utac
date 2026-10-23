@@ -4,7 +4,8 @@ Status: **ENTWURF, nicht eingefroren.** This is a draft for Claude's review. Joh
 freeze. Nothing in this file is binding until the freeze steps at the end have been completed
 (before 2027-01-01, the start of the C2 window, `PREREGISTRATION_v0.2.md` sec. 5). The variant
 was chosen in `gate_decision.md` (Johann Römer, 2026-10-22), based on AP4b (`gate_power_ap4b.md`,
-commit `7fb8e66`). Merge commit of the work: `4c25596`.
+commit `7fb8e66`). Merge commit of the work: `4c25596`. A8 is frozen together with A9 (`A9_c2_zone_confirmation_draft.md`,
+C2 confirmation without the 2025 epicentral zone) in one dated addendum.
 
 ## A8.1 Rule (variant L + T3)
 
@@ -14,7 +15,9 @@ commit `7fb8e66`). Merge commit of the work: `4c25596`.
 > qualifications alongside the C2 result, which keeps its confirmatory status.
 
 Code: `etas_adequacy/gate_sim.py`, `gate_lenient_t3` (= `gate_lenient` on T1_ctrl, T2_ctrl, plus
-T3_ctrl, all at `level = 0.005`). The gate only applies to the primary pair. C1, C2's statistic,
+T3_ctrl, all at `level = 0.005`). The gate is evaluated at **each** C2 look (2029-12-31 and
+2036-12-31), each time on the **whole** window [2027-01-01, end of the look); the combined
+false-gate rate over both looks is at most ≈ 0.026 (see "False alarms over both looks"). The gate only applies to the primary pair. C1, C2's statistic,
 the looks and the α levels (A1–A7) stay as they are.
 
 A µ increase in the glacier region is the sought signal, not a model error. This is why only the
@@ -70,10 +73,17 @@ docstring line 11, call at line 222). It is not new in A8.
    look the gate (T1, T2, T3) is evaluated on the **full** window up to that look. Events of the
    year before only enter T1/T2 as triggers; they are not in the T3 window sample.
 
-### Resolution and seed
+### Resolution and seed (closed, Johann 2026-10-22)
 
-T1 and T2 each use **10,000 simulations** with **one fixed seed**, frozen with A8. There is no
-rerun with another seed.
+- T1 uses **10,000** simulated catalogues, T2 a parametric bootstrap with **B = 10,000**, at both
+  looks and in both regions.
+- **One** fixed integer seed is used for the whole gate. It is chosen before 2027-01-01 and
+  recorded in the dated addendum JSON together with A8 (the value is set in the addendum, not in
+  this text). The per-test streams are derived from it with
+  `np.random.SeedSequence(seed).generate_state(...)` as in `scripts/a8_dryrun_2023_2025.py`.
+- There is **no rerun with another seed** and no increase of the number of simulations after
+  data are seen. If a p-value lies close to 0.005, the result stands as computed.
+- With B = 10,000 the smallest possible T2 p is 1/10,001 ≈ 0.0001, far below the level 0.005.
 
 ### False alarms over both looks
 
@@ -108,10 +118,30 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
 - L + T3 was proposed after AP4's results had been seen (`gate_power_ap4b_protocol.md`); its
   size and power were estimated on fresh replicates (seed 20261020).
 
+- **The 2025-12-06 M6.8 sequence (glacier region) is not handled by the gate; it is handled by
+  A9.** The frozen ETAS cannot describe this sequence (AP5 `sequence_tail.md`; AP6 deviation D1
+  `sequence_term_deviation.md`: an extra Omori term is not identifiable from the 2026 data). Its
+  remaining excess in 2027+ lies in SE_Alaska_AK, so under A8 it can at most make glacier T2/T3
+  fail, which are qualifications only; it cannot make C2 inconclusive. The gate therefore does
+  **not** protect C2 against a false rejection caused by that excess. This risk is caught by the
+  C2 zone confirmation of A9 (rejection counts only if the reduced statistic without the 55 km
+  zone also rejects; AP6c `sequence_zone.md`). A8 and A9 are complementary and frozen together.
+- The T3 reference sample of the glacier region (5,442 events, 2016–2025) contains the first
+  weeks of that sequence (A9.2: 2,415 events ≥ Mc in its first 25 days, i.e. most of December
+  2025). The glacier reference magnitude distribution is therefore strongly weighted by one
+  aftershock sequence. This only affects glacier T3, which is a qualification; the control
+  reference (2,098 events) is not affected. Kept as decided (reference = frozen b-value sample).
+- Memory and runtime were **measured** for the projected 2036 look with the streaming code path
+  (`forecast.iter_window` / `simulate_counts`, streamed `ogata_ks_bootstrap`, merged with #7):
+  see `a8_dryrun_2036_projection.md`. Memory does not grow with the number of simulations.
+
 ## A8.5 Open points
 
-- None of content. A functional dry run of the real code path on legacy data (2023–2025 pseudo
-  window) is documented in `a8_dryrun_2023_2025.md`; it is a test of the pipeline only.
+- None of content. Seed rule and simulation count are closed (see "Resolution and seed"); the
+  T3 reference sample is fixed in A8.2. A functional dry run of the real code path on legacy data (2023–2025 pseudo
+  window) is documented in `a8_dryrun_2023_2025.md`, and a measured dry run of the projected
+  2036 look (10-year synthetic window, streaming path) in `a8_dryrun_2036_projection.md`; both
+  are tests of the pipeline only.
 
 ## Still needed for the freeze (to do, only after Johann's decision)
 
@@ -119,5 +149,5 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
       (`B_VALUE_SHA256`) and referenced in the addendum JSON.
 - [ ] Code tag of `etas_adequacy`.
 - [ ] Dated addendum JSON with SHA-256 values, following `results/frozen_v02_addendum_2026-10-10.json`.
-- [ ] Freeze the T1/T2 seed (one value, recorded in the addendum JSON).
+- [ ] Record the value of the one T1/T2 seed in the addendum JSON (rule fixed above; Claude).
 - [ ] Final A8 text (this file without the status ENTWURF).

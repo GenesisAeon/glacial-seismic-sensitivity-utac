@@ -133,7 +133,11 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
   reference (2,098 events) is not affected. Kept as decided (reference = frozen b-value sample).
 - Memory and runtime were **measured** for the projected 2036 look with the streaming code path
   (`forecast.iter_window` / `simulate_counts`, streamed `ogata_ks_bootstrap`, merged with #7):
-  see `a8_dryrun_2036_projection.md`. Memory does not grow with the number of simulations.
+  see `a8_dryrun_2036_projection.md`. Measured peak 2,079 MB (tracemalloc) / 2,241 MB RSS for a
+  10-year synthetic window (glacier T2 with B = 500; control T1/T2 with 10,000). Memory no longer
+  grows with the number of simulations; it is set by the largest single catalogue (Ogata KS pairs
+  within tmax), so with B = 10,000 the peak can be higher. Glacier T2 with B = 10,000 takes about
+  4.6 h on one core (extrapolated). Plan ≥ 8 GB free RAM for the real evaluation.
 
 ## A8.5 Open points
 

@@ -1,0 +1,58 @@
+{
+ "label": "FUNCTIONAL TEST ONLY - synthetic window, no statement about C2",
+ "seed": 20261023,
+ "n_sim": 10000,
+ "n_boot_glac": 500,
+ "window_years": 10.001368925393566,
+ "code_path": "streaming (simulate_counts, streamed ogata_ks_bootstrap)",
+ "regions": {
+  "SE_Alaska_AK": {
+   "n_ref": 5442,
+   "n_hist": 2608,
+   "n_win_synthetic": 7581,
+   "b": 0.9129797081614315,
+   "T2_B": 500,
+   "T2_seconds": 892.7,
+   "tracemalloc_peak_mb_so_far": 2079.4,
+   "peak_rss_mb_so_far": 2240.5
+  },
+  "Interior_AK_ctrl": {
+   "n_ref": 2098,
+   "n_hist": 287,
+   "n_win_synthetic": 2726,
+   "b": 0.9449801110070761,
+   "T1_sim_count_median": 2582.0,
+   "T1_sim_count_max": 6740,
+   "T1_seconds": 32.6,
+   "T2_B": 10000,
+   "T2_seconds": 1955.0,
+   "tracemalloc_peak_mb_so_far": 2079.4,
+   "peak_rss_mb_so_far": 2240.5
+  }
+ },
+ "p": {
+  "T2_glac": 0.9560878243512974,
+  "T3_glac": 2.9004481070882384e-32,
+  "T1_ctrl": 0.7852,
+  "T2_ctrl": 0.7914208579142086,
+  "T3_ctrl": 5.784126625113557e-25
+ },
+ "gate": {
+  "L+T3": true,
+  "L": false,
+  "S": true
+ },
+ "seconds_total": 2880.4,
+ "tracemalloc_peak_mb": 2079.4,
+ "peak_rss_mb": 2240.5,
+ "post_check_2026_10_23": {
+  "note": "Raw T3 p above are an artefact of float representation (catalog.prepare (m/0.1).round()*0.1 vs simulator np.round(.,6)); recomputed with the reference rounded to 6 decimals (same seeds, same synthetic windows). The script now does this rounding. T1/T2 unaffected.",
+  "T3_glac": 0.004086603562704552,
+  "T3_ctrl": 0.3254792350373388,
+  "gate": {
+   "L+T3": false,
+   "L": false,
+   "S": true
+  }
+ }
+}

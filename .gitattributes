@@ -17,3 +17,6 @@ results/global/snapshots/** -text
 
 # b-value frozen before any look at 2026 data (P133 etas_adequacy): hash-pinned in frozen.py
 results/adequacy/b_value/** -text
+
+# AP6: 2026 glacier snapshot (hash recorded in snapshot_2026.json) and its fit
+results/adequacy/sequence_term/** -text

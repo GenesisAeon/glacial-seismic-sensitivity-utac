@@ -1,0 +1,16 @@
+{
+  "started": "2026-10-22T12:20:44+0200",
+  "commit": "6bc41db0f14f418b232100b9f862647ea4c4f932",
+  "pilot": true,
+  "seed": 998,
+  "reps": 10,
+  "workers": 2,
+  "warmup_years": 20.0,
+  "resources": {
+    "logical_cpus": 8,
+    "affinity_cpus": 4,
+    "mem_mb": 2500,
+    "job_object": true
+  },
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+}

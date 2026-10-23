@@ -25,7 +25,7 @@ from dataclasses import dataclass, field, replace
 
 import numpy as np
 
-from .forecast import _magnitudes, expected_cluster_moments, simulate_window
+from .forecast import _magnitudes, expected_cluster_moments, simulate_counts, simulate_window
 from .frozen import PRIMARY_PAIR, Baseline
 from .stats import m_test_ks2, n_test_empirical, ogata_ks_bootstrap
 
@@ -208,11 +208,12 @@ def run_replicate(
         out[f"n_hist_{key}"] = len(d.hist_t)
         out[f"n_win_{key}"] = len(d.win_t)
         if region == CONTROL:
-            sims = simulate_window(
+            # streamed: memory independent of n_t1
+            counts = simulate_counts(
                 model, d.hist_t, d.hist_m, *WINDOW, cfg.n_t1, mu_mode="mixture",
                 b=bv, m_max=M_MAX, dm=DM, seed=s[12],
             )  # fmt: skip
-            out["T1_ctrl"] = n_test_empirical(len(d.win_t), sims.counts).p_two_sided
+            out["T1_ctrl"] = n_test_empirical(len(d.win_t), counts).p_two_sided
         o = ogata_ks_bootstrap(
             d.hist_t, d.hist_m, d.win_t, d.win_m, WINDOW, model,
             n_boot=cfg.n_boot, b=bv, seed=s[13 + j],

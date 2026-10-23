@@ -1,0 +1,28 @@
+{
+ "status": "DRAFT (not frozen)",
+ "item": "A9: C2 confirmation without the epicentral zone of the 2025-12-06 M6.8",
+ "decision": "Johann Roemer, 2026-10-23 (chat), after AP6c run 2 (99ef046)",
+ "epicentre_lat": 60.350273132324,
+ "epicentre_lon": -139.35913085938,
+ "epicentre_event": {
+  "time": "2025-12-06 20:41:51.022000+00:00",
+  "mag": 6.800000000000001,
+  "catalog": "ComCat ak"
+ },
+ "radius_km": 55.0,
+ "radius_rule": "95 % quantile of epicentral distances of sequence events >= Mc, day 2 to 2025-12-31, rounded up to 5 km (51.44 km -> 55 km)",
+ "distance": "great circle, catalog.haversine_km (R = 6371 km)",
+ "glacier_region": "SE_Alaska_AK",
+ "log_mu_ref_reduced": 3.99830628010454,
+ "sigma_year_reduced": 0.3889646881587444,
+ "reduced_baseline_rule": "relative to the frozen baseline: log mu_ref + mean(ly_red) - mean(ly_full); sigma_y * sd(ly_red) / sd(ly_full); ly = yearly log mu 2016-2025 (zone_check.yearly_log_mu) on the frozen 2016-2025 snapshot",
+ "confirmation": "p_reduced_below_alpha",
+ "confirmation_text": "a C2 rejection at a look counts as confirmed only if the reduced statistic (glacier region outside the zone, reduced baseline, control unchanged) has a one-sided p below the alpha of that look (0.01 / 0.04)",
+ "source_zone_json_sha256": "90419244749ddea1c690354e5cfe127e1674f46799c28ffe8ef98b79f09dce37",
+ "evidence": [
+  "docs/adequacy/sequence_tail.md",
+  "docs/adequacy/sequence_term_deviation.md",
+  "docs/adequacy/sequence_level.md",
+  "docs/adequacy/sequence_zone.md"
+ ]
+}

@@ -225,3 +225,42 @@ def run_zone_replicate(
         row[f"D_red_{tag}"], row[f"p_red_{tag}"] = float(rr["D"]), float(rr["p_one"])
     row["seconds"] = round(time.time() - t0, 2)
     return row
+
+
+# ---------------------------------------------------------------------------
+# Application at a look (draft addendum A9)
+# ---------------------------------------------------------------------------
+SPEC_KEYS = ("epicentre_lat", "epicentre_lon", "radius_km", "log_mu_ref_reduced",
+             "sigma_year_reduced", "confirmation")  # fmt: skip
+
+
+def confirm_c2(
+    cat_g: pd.DataFrame,
+    cat_c: pd.DataFrame,
+    models: dict[str, Baseline],
+    look_end: float | str,
+    spec: dict[str, Any],
+    glacier: str = "SE_Alaska_AK",
+) -> dict[str, Any]:
+    """C2 at a look plus the A9 confirmation without the epicentral zone.
+
+    ``cat_g`` needs columns t, mag, latitude, longitude (events from 2026-01-01 on, as for C2).
+    Returns the preregistered C2 result (``c2``), the reduced statistic (``reduced``) and
+    ``confirmed`` = C2 rejects **and** the reduced one-sided p < alpha of the look."""
+    missing = [k for k in SPEC_KEYS if k not in spec]
+    if missing:
+        raise ValueError(f"spec lacks {missing}")
+    if spec["confirmation"] != "p_reduced_below_alpha":
+        raise ValueError("only the confirmation rule 'p_reduced_below_alpha' is defined")
+    out = outside_zone(cat_g.latitude.to_numpy(), cat_g.longitude.to_numpy(),
+                       float(spec["epicentre_lat"]), float(spec["epicentre_lon"]),
+                       float(spec["radius_km"]))  # fmt: skip
+    red_base = dataclasses.replace(
+        models[glacier],
+        log_mu_ref=float(spec["log_mu_ref_reduced"]),
+        sigma_year=float(spec["sigma_year_reduced"]),
+    )
+    c2 = evaluate_pair_with_term(cat_g, cat_c, models, look_end, None)
+    red = evaluate_pair_with_term(cat_g[out], cat_c, {**models, glacier: red_base}, look_end, None)
+    confirmed = bool(c2["reject"] and red["p_one"] < c2["alpha"])
+    return {"c2": c2, "reduced": red, "confirmed": confirmed}

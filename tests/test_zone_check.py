@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 import pytest
 
 from glacial_seismic_sensitivity_utac.etas_adequacy import load_baselines
@@ -92,3 +93,51 @@ def test_fixed_mu_catalogue_rate_hand_value() -> None:
                                  np.zeros(len(Z.YEARS_SIM)), 1.0, 1.0, 1.0)  # fmt: skip
     n_years = len(Z.YEARS_SIM)
     assert abs(len(t) / n_years - 500.0) < 3 * np.sqrt(500.0 / n_years)
+
+
+SPEC = {"epicentre_lat": 60.35, "epicentre_lon": -139.36, "radius_km": 55.0,
+        "log_mu_ref_reduced": GL.log_mu_ref, "sigma_year_reduced": GL.sigma_year,
+        "confirmation": "p_reduced_below_alpha"}  # fmt: skip
+
+
+def _cats_geo(extra_in_zone: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+    rng = np.random.default_rng(8)
+    n = 1500
+    g = pd.DataFrame({"t": np.sort(rng.uniform(2026.0, 2030.0, n)),
+                      "mag": np.round(rng.exponential(0.47, n) + 2.1, 1),
+                      "latitude": rng.uniform(57.5, 59.0, n),  # > 150 km from the epicentre
+                      "longitude": rng.uniform(-137.0, -134.0, n)})  # fmt: skip
+    if extra_in_zone:
+        x = pd.DataFrame({"t": rng.uniform(2027.0, 2030.0, extra_in_zone),
+                          "mag": np.full(extra_in_zone, 2.2),
+                          "latitude": np.full(extra_in_zone, 60.36),
+                          "longitude": np.full(extra_in_zone, -139.30)})  # fmt: skip
+        g = pd.concat([g, x]).sort_values("t", kind="stable").reset_index(drop=True)
+    c = pd.DataFrame({"t": np.sort(rng.uniform(2026.0, 2030.0, 500)),
+                      "mag": np.round(rng.exponential(0.46, 500) + 2.1, 1)})  # fmt: skip
+    return g, c
+
+
+def test_confirm_c2_without_zone_events_mirrors_c2() -> None:
+    g, c = _cats_geo(0)
+    r = Z.confirm_c2(g, c, MODELS, "2029-12-31", SPEC)
+    assert r["reduced"]["D"] == pytest.approx(r["c2"]["D"], rel=1e-12)
+    assert r["confirmed"] == r["c2"]["reject"]
+
+
+def test_confirm_c2_zone_cluster_moves_c2_but_not_reduced() -> None:
+    g0, c = _cats_geo(0)
+    g1, _ = _cats_geo(3000)
+    r0 = Z.confirm_c2(g0, c, MODELS, "2029-12-31", SPEC)
+    r1 = Z.confirm_c2(g1, c, MODELS, "2029-12-31", SPEC)
+    assert r1["c2"]["D"] > r0["c2"]["D"] + 0.5 and r1["c2"]["reject"]
+    assert r1["reduced"]["D"] == pytest.approx(r0["reduced"]["D"], rel=1e-12)
+    assert r1["confirmed"] == (r1["reduced"]["p_one"] < 0.01)
+
+
+def test_confirm_c2_rejects_incomplete_or_unknown_spec() -> None:
+    g, c = _cats_geo(0)
+    with pytest.raises(ValueError, match="lacks"):
+        Z.confirm_c2(g, c, MODELS, "2029-12-31", {"radius_km": 55.0})
+    with pytest.raises(ValueError, match="confirmation rule"):
+        Z.confirm_c2(g, c, MODELS, "2029-12-31", {**SPEC, "confirmation": "p<0.05"})

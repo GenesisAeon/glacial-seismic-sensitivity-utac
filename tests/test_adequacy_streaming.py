@@ -53,7 +53,9 @@ def test_gate_replicate_pinned_values() -> None:
     assert r["T1_ctrl"] == pytest.approx(0.5133333333333333, abs=0)
     assert r["T2_glac"] == pytest.approx(0.73, abs=0)
     assert r["T2_ctrl"] == pytest.approx(0.44, abs=0)
-    assert r["T3_ctrl"] == pytest.approx(0.17175453871705915, abs=0)
+    # T3 is an analytic scipy p-value: last-digit differences across scipy versions (CI minimum
+    # versions: ...892 vs ...915), so a relative tolerance; the simulated values above are exact
+    assert r["T3_ctrl"] == pytest.approx(0.17175453871705915, rel=1e-12)
 
 
 def _held_at_first_bootstrap_catalogue(n_boot: int, monkeypatch: pytest.MonkeyPatch) -> int:

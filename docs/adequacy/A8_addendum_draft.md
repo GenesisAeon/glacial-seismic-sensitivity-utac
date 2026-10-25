@@ -139,6 +139,34 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
   within tmax), so with B = 10,000 the peak can be higher. Glacier T2 with B = 10,000 takes about
   4.6 h on one core (extrapolated). Plan ≥ 8 GB free RAM for the real evaluation.
 
+### Addendum 2026-10-25: measured glacier T2 with B = 10,000 (ENTWURF)
+
+**FUNCTIONAL TEST ONLY, synthetic window. Not a C2 result; says nothing about C2 or the glacier
+hypothesis.** Same streaming code path, data and seed as `a8_dryrun_2036_projection.md`
+(seed 20261023, 10-year synthetic window, run on commit `da4fe11`), but now with glacier T2 at
+B = 10,000 as the gate uses it (control T1/T2 again 10,000). Result:
+`results/adequacy/a8_dryrun/dryrun_2036_projection_B10000.json` (exit status 0).
+
+- Runtime, measured: in-script total 27,173.5 s (≈ 7.55 h); glacier T2 (SE_Alaska_AK,
+  7,581 synthetic window events) 24,255.1 s (≈ 6.7 h), control T2 (Interior_AK_ctrl) 2,882.0 s,
+  control T1 36.2 s. CPU time of the process: 20,729.3 s user + 6,370.6 s sys ≈ 27,100 s
+  (≈ 7.5 h), consistent with the in-script total. Glacier T2 took about 45 % longer than the earlier
+  extrapolation (≈ 4.6 h). The wall time of the wrapper (124,705 s, 2026-10-24 08:19 +0200
+  to 2026-10-25 17:57 +0100) is **not** the runtime: it includes earlier interrupted attempts,
+  box sleep and a box reboot; the final process ran about 7.5 h.
+- Memory, measured: peak 2,409.6 MB (tracemalloc) / 2,549.1 MB RSS (process maximum, also
+  reported by the wrapper), i.e. about 0.3 GB more than with B = 500 (2,079 / 2,241 MB). The
+  recommendation of ≥ 8 GB free RAM for the real evaluation stands.
+- p-values (synthetic window, functional only): glacier T2 0.9544, glacier T3 0.00409;
+  control T1 0.7852, T2 0.7914, T3 0.3255. Gate flags: L + T3 false, L false, S true. These
+  numbers only show that the full B = 10,000 path runs end to end; they carry **no statement
+  about C2**.
+- b-values: with the 2025 sequence b 0.913 (binned n 0.865); without the sequence from
+  2025-12-06 (3,027 events) b 0.887 (n 0.889). Information only; the frozen b-value sample
+  (A8.2) is unchanged.
+- Nothing frozen changes: `frozen.py`, checksums, the addendum JSON, tags and version are
+  untouched. The B = 500 result `dryrun_2036_projection.json` is kept as it was.
+
 ## A8.5 Open points
 
 - None of content. Seed rule and simulation count are closed (see "Resolution and seed"); the

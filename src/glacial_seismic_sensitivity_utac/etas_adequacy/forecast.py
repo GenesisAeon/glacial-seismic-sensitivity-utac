@@ -158,15 +158,21 @@ def iter_window(
     dm: float = 0.1,
     seed: int = 0,
     max_events: int = 1_000_000,
+    start: int = 0,
 ) -> Iterator[tuple[np.ndarray, np.ndarray, float]]:
     """Yield the ``n_sim`` catalogues of ``simulate_window`` one at a time as (times, mags, mu).
 
     Same arguments, checks and seed streams as ``simulate_window`` (catalogue k is bit-identical),
     but only one catalogue is held in memory, so callers that reduce each catalogue to a number
     (bootstrap statistics, counts) need memory independent of ``n_sim``. The checks run when the
-    generator is created, not at the first ``next``."""
+    generator is created, not at the first ``next``.
+
+    ``start`` skips catalogues 0 .. start-1 without simulating them (catalogue k is still the k-th
+    of ``n_sim``), so a checkpointed caller can resume a block of catalogues bit-identically."""
+    if not 0 <= start <= n_sim:
+        raise ValueError("need 0 <= start <= n_sim")
     ht, hm = _check(base, hist_t, hist_m, t0, t1, n_sim, mu_mode, mu, b, m_max, dm, max_events)
-    return _iter(base, ht, hm, t0, t1, n_sim, mu_mode, mu, b, m_max, dm, seed, max_events)
+    return _iter(base, ht, hm, t0, t1, n_sim, mu_mode, mu, b, m_max, dm, seed, max_events, start)
 
 
 def _check(
@@ -225,8 +231,9 @@ def _iter(
     dm: float,
     seed: int,
     max_events: int,
+    start: int = 0,
 ) -> Iterator[tuple[np.ndarray, np.ndarray, float]]:
-    for ss in np.random.SeedSequence(seed).spawn(n_sim):
+    for ss in np.random.SeedSequence(seed).spawn(n_sim)[start:]:
         rng = np.random.default_rng(ss)
         if mu_mode == "ref":
             mu_k = base.mu_ref

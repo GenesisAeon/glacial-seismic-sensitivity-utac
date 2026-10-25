@@ -16,37 +16,49 @@ box). With streaming, memory does not grow with B (only the float array D_b, 80 
 so the memory peak is representative; runtime for B = 10,000 is extrapolated, not measured.
 One fixed dry-run seed (not the A8 seed).
 Memory: tracemalloc peak (Python + NumPy heap) and ru_maxrss (process peak RSS).
+
+Checkpoints (added 2026-10-25 after two unexplained reboots of the run box restarted a B = 10,000
+run from zero): each T2 bootstrap appends one JSONL line per 100 catalogues to --checkpoint-dir;
+a restarted run with the same arguments skips the finished blocks. Catalogue k has its own seed
+stream, so the result is bit-identical to an uninterrupted run (tests/test_adequacy_checkpoint.py).
+Seconds measured after a resume cover only the resumed part. --cpus pins the process to that many
+cores (default: half), and BLAS/OpenMP thread pools are capped before NumPy is imported.
 """
 
 from __future__ import annotations
 
-import argparse
-import json
-import resource
-import time
-import tracemalloc
-from pathlib import Path
+import os
 
-import numpy as np
-import pandas as pd
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
 
-from glacial_seismic_sensitivity_utac import config as C
-from glacial_seismic_sensitivity_utac.catalog import prepare
-from glacial_seismic_sensitivity_utac.etas_adequacy.forecast import (
+import argparse  # noqa: E402
+import json  # noqa: E402
+import resource  # noqa: E402
+import time  # noqa: E402
+import tracemalloc  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+import numpy as np  # noqa: E402
+import pandas as pd  # noqa: E402
+
+from glacial_seismic_sensitivity_utac import config as C  # noqa: E402
+from glacial_seismic_sensitivity_utac.catalog import prepare  # noqa: E402
+from glacial_seismic_sensitivity_utac.etas_adequacy.forecast import (  # noqa: E402
     simulate_counts,
     simulate_window,
 )
-from glacial_seismic_sensitivity_utac.etas_adequacy.frozen import (
+from glacial_seismic_sensitivity_utac.etas_adequacy.frozen import (  # noqa: E402
     PRIMARY_PAIR,
     load_b_values,
     load_baselines,
 )
-from glacial_seismic_sensitivity_utac.etas_adequacy.gate_sim import (
+from glacial_seismic_sensitivity_utac.etas_adequacy.gate_sim import (  # noqa: E402
     gate_lenient,
     gate_lenient_t3,
     gate_strict,
 )
-from glacial_seismic_sensitivity_utac.etas_adequacy.stats import (
+from glacial_seismic_sensitivity_utac.etas_adequacy.stats import (  # noqa: E402
     m_test_ks2,
     n_test_empirical,
     ogata_ks_bootstrap,
@@ -71,7 +83,12 @@ def rss_mb() -> float:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-boot-glac", type=int, default=500)
+    ap.add_argument("--checkpoint-dir", type=Path, default=OUT / "checkpoints")
+    ap.add_argument("--cpus", type=int, default=max(1, (os.cpu_count() or 2) // 2))
     a = ap.parse_args()
+    if hasattr(os, "sched_setaffinity"):  # Linux run box; not available on Windows/macOS
+        os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[: a.cpus])
+    a.checkpoint_dir.mkdir(parents=True, exist_ok=True)
     tracemalloc.start()
     t_all = time.perf_counter()
     models, bvals = load_baselines(), load_b_values()
@@ -80,6 +97,7 @@ def main() -> None:
                  "seed": SEED, "n_sim": N_SIM, "n_boot_glac": a.n_boot_glac,
                  "window_years": WINDOW[1],
                  "code_path": "streaming (simulate_counts, streamed ogata_ks_bootstrap)",
+                 "checkpoint_dir": str(a.checkpoint_dir), "cpus": a.cpus,
                  "regions": {}}  # fmt: skip
     p: dict[str, float] = {}
     for j, name in enumerate(PRIMARY_PAIR):
@@ -121,6 +139,8 @@ def main() -> None:
             n_boot=N_SIM if j else a.n_boot_glac,
             b=b,
             seed=int(ss[1 + j]),
+            checkpoint=a.checkpoint_dir / f"T2_{key}_B{N_SIM if j else a.n_boot_glac}.jsonl",
+            block=100,
         )
         p[f"T2_{key}"] = float("nan") if o.p_bootstrap is None else o.p_bootstrap
         r.update(T2_B=N_SIM if j else a.n_boot_glac, T2_seconds=round(time.perf_counter() - t0, 1))

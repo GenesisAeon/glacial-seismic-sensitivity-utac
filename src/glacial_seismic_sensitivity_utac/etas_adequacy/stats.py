@@ -134,8 +134,13 @@ def m_test_catalog(
 def m_test_ks2(window_m: np.ndarray, reference_m: np.ndarray) -> float:
     """Two-sample KS p-value of window vs. reference magnitudes (draft addendum T3).
 
-    Binned magnitudes create ties; scipy's asymptotic p is then conservative (size <= alpha)."""
-    a, b = np.asarray(window_m, float), np.asarray(reference_m, float)
+    Binned magnitudes create ties; scipy's asymptotic p is then conservative (size <= alpha).
+
+    Both samples are rounded to 6 decimals first: the same binned magnitude can arrive in two
+    float representations (``catalog.prepare`` gives 2.3000000000000003, the simulator 2.3), and
+    KS would then break every tie in the same direction (A8 dry run 2036, freeze v0.4.0 F1)."""
+    a = np.round(np.asarray(window_m, float), 6)
+    b = np.round(np.asarray(reference_m, float), 6)
     if len(a) == 0 or len(b) == 0:
         raise ValueError("both samples must be non-empty")
     return float(stats.ks_2samp(a, b, method="asymp").pvalue)

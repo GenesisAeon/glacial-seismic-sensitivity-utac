@@ -227,3 +227,17 @@ def test_paired_t_test_matches_scipy() -> None:
     t, p = S.paired_t_test(g)
     ref = stats.ttest_1samp(g, 0.0)
     assert (t, p) == pytest.approx((ref.statistic, ref.pvalue))
+
+
+def test_m_test_ks2_ignores_float_representation_of_binned_magnitudes() -> None:
+    # F1 (freeze v0.4.0): the same binned magnitudes in two float representations, as produced
+    # by catalog.prepare ((m / 0.1).round() * 0.1 -> 2.3000000000000003) and by the simulator
+    # (np.round(..., 6) -> 2.3). Identical distributions must give p = 1. Before the guard the
+    # KS statistic broke every tie in one direction and returned a tiny p.
+    grid = np.arange(20, 45) / 10.0
+    rng = np.random.default_rng(7)
+    m = rng.choice(grid, size=2_000, p=np.r_[np.full(24, 0.04), 0.04])
+    as_prepared = (m / 0.1).round() * 0.1
+    as_simulated = np.round(m, 6)
+    assert not np.array_equal(as_prepared, as_simulated)  # the representations really differ
+    assert S.m_test_ks2(as_simulated, as_prepared) == pytest.approx(1.0)

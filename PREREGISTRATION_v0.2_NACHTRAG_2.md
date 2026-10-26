@@ -1,8 +1,8 @@
 # Zweiter Nachtrag zur Präregistrierung v0.2 – A8 (Adäquanz-Gate) und A9 (C2-Bestätigung ohne Epizentralzone)
 
-**Status: ENTWURF – noch nicht in Kraft.** Wird in Kraft gesetzt und eingefroren am **[Datum]**, **vor** dem Beginn des C2-Fensters (2027-01-01) und vor jedem Datum ab 2027. Maschinenlesbare, verbindliche Fassung: `results/frozen_v04_addendum_[Datum].json`, SHA-256 **[wird beim Einfrieren eingetragen]**. Entscheidung: J. Römer (GenesisAeon). Inhaltliche Entscheidungen: Gate-Variante L + T3 am 2026-10-22 (`docs/adequacy/gate_decision.md`), Simulationszahl und Seed-Regel am 2026-10-22, A9 am 2026-10-23.
+**Status:** in Kraft gesetzt und eingefroren am **2026-10-26**, **vor** dem Beginn des C2-Fensters (2027-01-01) und vor jedem Datum ab 2027. Maschinenlesbare, verbindliche Fassung: `results/frozen_v04_addendum_2026-10-26.json`, SHA-256 `80525c057a5fc4949d7aa4f57cfc703fdd6daddcce79afc2d08b82157007409c`. Entscheidung: J. Römer (GenesisAeon), Freigabe des Wortlauts und des Einfrierens am 2026-10-26. Inhaltliche Entscheidungen: Gate-Variante L + T3 am 2026-10-22 (`docs/adequacy/gate_decision.md`), Simulationszahl und Seed-Regel am 2026-10-22, A9 am 2026-10-23.
 
-Dieser Nachtrag folgt Abschnitt 8 der Präregistrierung v0.2 („jede spätere Änderung ist ein neuer, datierter Nachtrag mit neuem Hash“). **Unverändert** bleiben (SHA-256 in der JSON-Datei, geprüft von `tests/test_v04_addendum.py`): `PREREGISTRATION_v0.2.md`, `results/frozen_v02_preregistration.json`, `results/frozen_v02_baselines.json`, der erste Nachtrag (`results/frozen_v02_addendum_2026-10-10.json`) mit A1–A7, die b-Werte `results/adequacy/b_value/b_value_2016_2025.json` sowie die eingefrorenen Dateien von v0.1.0 und v0.3. Die **C2-Statistik, ihre Blicke und α-Niveaus ändern sich nicht.** A8 und A9 fügen nur hinzu, wann ein C2-Ergebnis als unentschieden gilt (A8) und wann eine Ablehnung als bestätigt gilt (A9). Ausführliche Begründung und Belege: `docs/adequacy/A8_addendum_draft.md` und `docs/adequacy/A9_c2_zone_confirmation_draft.md` (beide mit den Hashes in der JSON festgehalten).
+Dieser Nachtrag folgt Abschnitt 8 der Präregistrierung v0.2 („jede spätere Änderung ist ein neuer, datierter Nachtrag mit neuem Hash“). **Unverändert** bleiben (SHA-256 in der JSON-Datei, geprüft von `tests/test_v04_addendum.py`): `PREREGISTRATION_v0.2.md`, `results/frozen_v02_preregistration.json`, `results/frozen_v02_baselines.json`, der erste Nachtrag (`results/frozen_v02_addendum_2026-10-10.json`) mit A1–A7, die b-Werte `results/adequacy/b_value/b_value_2016_2025.json` sowie die eingefrorenen Dateien von v0.1.0 und v0.3. Die **C2-Statistik, ihre Blicke und α-Niveaus ändern sich nicht.** A8 und A9 fügen nur hinzu, wann ein C2-Ergebnis als unentschieden gilt (A8) und wann eine Ablehnung als bestätigt gilt (A9). Ausführliche Begründung und Belege: `docs/adequacy/A8_addendum_draft.md` und `docs/adequacy/A9_c2_zone_confirmation_draft.md` (beide eingefroren, mit ihren Hashes in der JSON).
 
 ## A8 – Adäquanz-Gate für C2 (Variante L + T3)
 
@@ -15,7 +15,7 @@ Dieser Nachtrag folgt Abschnitt 8 der Präregistrierung v0.2 („jede spätere �
 
 **Fenster und Blicke.** Das Gate wird an **jedem** C2-Blick ausgewertet (2029-12-31 und 2036-12-31), jeweils auf dem **ganzen** Fenster [2027-01-01, Ende des Blicks). Die Falsch-Gate-Rate über beide Blicke liegt nach oben abgeschätzt bei höchstens ≈ 0,026.
 
-**Seed und Simulationen.** **Ein** fester ganzzahliger Seed für das ganze Gate: **[Seed – siehe Entscheidungspunkt unten]**. Die Ströme je Test werden mit `np.random.SeedSequence(seed).generate_state(...)` abgeleitet. Es gibt **keinen** zweiten Lauf mit anderem Seed und keine Erhöhung der Simulationszahl, nachdem Daten gesehen wurden. Liegt ein p nahe 0,005, gilt das Ergebnis wie berechnet. Die echte Auswertung läuft mit dem fortsetzbaren Bootstrap (Checkpoints, bitgenau gleich einem ununterbrochenen Lauf).
+**Seed und Simulationen.** **Ein** fester ganzzahliger Seed für das ganze Gate: **3698837152** (mechanisch abgeleitet, siehe „Seed-Ableitung“). Die Ströme je Test werden mit `np.random.SeedSequence(seed).generate_state(...)` abgeleitet. Es gibt **keinen** zweiten Lauf mit anderem Seed und keine Erhöhung der Simulationszahl, nachdem Daten gesehen wurden. Liegt ein p nahe 0,005, gilt das Ergebnis wie berechnet. Die echte Auswertung läuft mit dem fortsetzbaren Bootstrap (Checkpoints, bitgenau gleich einem ununterbrochenen Lauf).
 
 **Bekannte Grenze.** Die Sequenz des M6,8 vom 2025-12-06 in der Gletscherregion erfasst das Gate nicht; sie kann dort höchstens T2/T3 als Einschränkung auslösen. Den Schutz gegen eine falsche C2-Ablehnung durch diese Sequenz übernimmt A9.
 
@@ -38,5 +38,9 @@ Die Auswertung an den Blicken nutzt den Code des Tags **v0.4.0** (A4.6: Reproduk
 
 ---
 
-### Entscheidungspunkt für Johann vor dem Einfrieren: der Gate-Seed
-Die Seed-Regel ist beschlossen, der **Wert** fehlt noch. Vorschlag (Claude): Der Seed wird **nicht frei gewählt**, sondern **mechanisch abgeleitet**, z. B. als die ersten 8 Hex-Ziffern des SHA-256 dieses Nachtrags ohne die Seed-Zeile, als Ganzzahl. Er hängt damit an einem Text, der vor 2027 eingefroren wird, und niemand kann ihn nach Ergebnissen „aussuchen“. Alternative: Johann nennt eine Zahl, die in den Nachtrag geschrieben wird. Beides ist mit A8 vereinbar.
+### Seed-Ableitung (Entscheidung J. Römer, 2026-10-26)
+Der Gate-Seed ist **nicht frei gewählt**. Er wird mechanisch aus diesem Text abgeleitet:
+1. Man nimmt diese Datei und ersetzt den eingesetzten Seed-Wert wieder durch `SEED_PLATZHALTER` und den eingetragenen JSON-Hash wieder durch `JSON_SHA256_PLATZHALTER`. Das ergibt die Seed-Basis.
+2. Seed = die ersten 8 Hexadezimalziffern des SHA-256 der Seed-Basis (UTF-8-Bytes), als Ganzzahl.
+
+Der SHA-256 der Seed-Basis steht in der Addendum-JSON (`document_sha256_seed_basis`); `tests/test_v04_addendum.py` rechnet beides nach.

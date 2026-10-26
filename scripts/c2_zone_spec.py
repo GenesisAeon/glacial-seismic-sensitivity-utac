@@ -51,7 +51,7 @@ def main() -> None:
         "evidence": ["docs/adequacy/sequence_tail.md", "docs/adequacy/sequence_term_deviation.md",
                      "docs/adequacy/sequence_level.md", "docs/adequacy/sequence_zone.md"],
     }  # fmt: skip
-    OUT.write_text(json.dumps(spec, indent=1) + "\n", encoding="utf-8")
+    OUT.write_bytes((json.dumps(spec, indent=1) + "\n").encode("utf-8"))  # LF on every OS
     print(OUT, hashlib.sha256(OUT.read_bytes()).hexdigest())
 
 

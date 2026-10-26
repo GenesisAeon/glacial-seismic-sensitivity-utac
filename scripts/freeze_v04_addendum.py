@@ -32,7 +32,6 @@ UNCHANGED = [
     "results/adequacy/b_value/comcat_ak_Interior_AK_ctrl_2016_2025.csv.gz",
 ]
 NEW_FROZEN = [
-    "PREREGISTRATION_v0.2_NACHTRAG_2.md",
     "docs/adequacy/A8_addendum_draft.md",
     "docs/adequacy/A9_c2_zone_confirmation_draft.md",
     "results/adequacy/c2_zone_spec.json",
@@ -52,7 +51,21 @@ def sha(rel: str) -> str:
     return hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
 
 
-def build(freeze_date: str | None, seed: int | None) -> dict[str, object]:
+DOCUMENT = "PREREGISTRATION_v0.2_NACHTRAG_2.md"
+SEED_TOKEN, JSON_TOKEN = "SEED_PLATZHALTER", "JSON_SHA256_PLATZHALTER"
+
+
+def seed_basis_sha256() -> str:
+    """SHA-256 of the Nachtrag with both tokens still in place (its section "Seed-Ableitung")."""
+    text = (ROOT / DOCUMENT).read_bytes()
+    seed_ok = b"**" + SEED_TOKEN.encode() + b"**" in text
+    json_ok = b"`" + JSON_TOKEN.encode() + b"`." in text
+    if not (seed_ok and json_ok):
+        raise SystemExit("the Nachtrag must still contain both tokens when the seed is derived")
+    return hashlib.sha256(text).hexdigest()
+
+
+def build(freeze_date: str | None, seed: int | None, basis: str | None) -> dict[str, object]:
     spec = json.loads((ROOT / "results/adequacy/c2_zone_spec.json").read_text(encoding="utf-8"))
     bval = json.loads((ROOT / UNCHANGED[7]).read_text(encoding="utf-8"))
     looks = json.loads((ROOT / UNCHANGED[1]).read_text(encoding="utf-8"))["C2"]["looks"]
@@ -62,7 +75,8 @@ def build(freeze_date: str | None, seed: int | None) -> dict[str, object]:
         "frozen_on": freeze_date,
         "type": "second dated addendum to the v0.2 preregistration "
         "(PREREGISTRATION_v0.2.md sec. 8)",
-        "document": "PREREGISTRATION_v0.2_NACHTRAG_2.md",
+        "document": DOCUMENT,
+        "document_sha256_seed_basis": basis,
         "decided_by": "J. Roemer (GenesisAeon); gate variant 2026-10-22, A9 2026-10-23",
         "package_version": "0.4.0",
         "code_tag": "v0.4.0",
@@ -104,12 +118,21 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--freeze", metavar="YYYY-MM-DD")
     ap.add_argument("--seed", type=int)
+    ap.add_argument("--basis", help="SHA-256 of the seed basis (printed by --derive-seed)")
+    ap.add_argument("--derive-seed", action="store_true")
     a = ap.parse_args()
-    if bool(a.freeze) != (a.seed is not None):
-        raise SystemExit("--freeze and --seed go together (Johann's decision)")
+    if a.derive_seed:
+        b = seed_basis_sha256()
+        print("basis", b, "seed", int(b[:8], 16))
+        return
+    if bool(a.freeze) != (a.seed is not None) or bool(a.freeze) != bool(a.basis):
+        raise SystemExit("--freeze, --seed and --basis go together (Johann's decision)")
+    if a.freeze and int(a.basis[:8], 16) != a.seed:
+        raise SystemExit("seed must be the first 8 hex digits of the basis hash")
     out = ROOT / "results" / (f"frozen_v04_addendum_{a.freeze}.json" if a.freeze
                               else "frozen_v04_addendum_draft.json")  # fmt: skip
-    out.write_text(json.dumps(build(a.freeze, a.seed), indent=1) + "\n", encoding="utf-8")
+    payload = json.dumps(build(a.freeze, a.seed, a.basis), indent=1) + "\n"
+    out.write_bytes(payload.encode("utf-8"))  # LF on every OS
     print(out, hashlib.sha256(out.read_bytes()).hexdigest())
 
 

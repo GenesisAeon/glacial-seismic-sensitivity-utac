@@ -58,3 +58,16 @@ def test_a9_is_the_zone_spec(add: dict) -> None:  # type: ignore[type-arg]
     assert spec["radius_km"] == 55.0
     assert spec["log_mu_ref_reduced"] == pytest.approx(3.99831, abs=5e-6)
     assert spec["sigma_year_reduced"] == pytest.approx(0.38896, abs=5e-6)
+
+
+def test_gate_seed_is_derived_from_the_nachtrag(add: dict) -> None:  # type: ignore[type-arg]
+    if add["status"] != "FROZEN":
+        pytest.skip("draft: no seed yet")
+    seed = add["A8_gate"]["seed"]
+    doc = (ROOT / add["document"]).read_bytes()
+    basis = doc.replace(f"**{seed}**".encode(), b"**SEED_PLATZHALTER**").replace(
+        _sha(ADDENDUM).encode(), b"JSON_SHA256_PLATZHALTER"
+    )
+    h = hashlib.sha256(basis).hexdigest()
+    assert h == add["document_sha256_seed_basis"]
+    assert seed == int(h[:8], 16)

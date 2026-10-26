@@ -2,7 +2,8 @@
 
 Usage (from the repository root):
 
-    python scripts/c2_zone_spec.py      # -> results/adequacy/c2_zone_spec.json
+    python scripts/c2_zone_spec.py                      # DRAFT -> c2_zone_spec.json
+    python scripts/c2_zone_spec.py --freeze YYYY-MM-DD  # FROZEN (Johann's decision, F3)
 
 Draft until frozen by a dated addendum; the values are copied from
 ``results/adequacy/sequence_zone/zone.json`` (AP6c, protocol 5c1ecb1) with their provenance.
@@ -10,6 +11,7 @@ Draft until frozen by a dated addendum; the values are copied from
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -19,9 +21,12 @@ OUT = Path("results/adequacy/c2_zone_spec.json")
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--freeze", metavar="YYYY-MM-DD")
+    a = ap.parse_args()
     z = json.loads(ZONE.read_text(encoding="utf-8"))
     spec = {
-        "status": "DRAFT (not frozen)",
+        "status": f"FROZEN {a.freeze}" if a.freeze else "DRAFT (not frozen)",
         "item": "A9: C2 confirmation without the epicentral zone of the 2025-12-06 M6.8",
         "decision": "Johann Roemer, 2026-10-23 (chat), after AP6c run 2 (99ef046)",
         "epicentre_lat": z["epicentre"]["lat"],

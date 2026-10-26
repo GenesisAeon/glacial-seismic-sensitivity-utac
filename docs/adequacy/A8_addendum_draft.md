@@ -137,7 +137,18 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
   10-year synthetic window (glacier T2 with B = 500; control T1/T2 with 10,000). Memory no longer
   grows with the number of simulations; it is set by the largest single catalogue (Ogata KS pairs
   within tmax), so with B = 10,000 the peak can be higher. Glacier T2 with B = 10,000 takes about
-  4.6 h on one core (extrapolated). Plan ≥ 8 GB free RAM for the real evaluation.
+  4.6 h on one core (extrapolated from B = 500); **measured on the run box: 6.7 h (24,255 s), see
+  the addendum below.** Runtime depends on the hardware. Plan ≥ 8 GB free RAM for the real
+  evaluation.
+- **The real evaluation runs only with the resumable bootstrap** (`ogata_ks_bootstrap(...,
+  checkpoint=...)`, merged with PR #11): JSONL checkpoint every 100 catalogues, bit-identical to
+  an uninterrupted run because every catalogue has its own seed stream. Reason: the run box
+  restarted three times during the B = 10,000 dry run (2026-10-24/25), and without checkpoints
+  each restart began again from zero.
+- **T3 rounding guard** (freeze v0.4.0, F1): `m_test_ks2` rounds both magnitude samples to
+  6 decimals before the KS test, so the same binned magnitude in two float representations
+  (2.3000000000000003 vs 2.3) cannot create a systematic tie break. Real-data paths share one
+  representation; all pinned values are unchanged.
 
 ### Addendum 2026-10-25: measured glacier T2 with B = 10,000 (ENTWURF)
 
@@ -164,6 +175,11 @@ B = 10,000 as the gate uses it (control T1/T2 again 10,000). Result:
 - b-values: with the 2025 sequence b 0.913 (binned n 0.865); without the sequence from
   2025-12-06 (3,027 events) b 0.887 (n 0.889). Information only; the frozen b-value sample
   (A8.2) is unchanged.
+- Reproducibility: control T1 and T2 reproduce the B = 500 run exactly (same seeds: T1_ctrl
+  0.7852, T2_ctrl 0.7914208…), and T3 equals that run's post-check values (0.0041 / 0.325) after
+  the reference rounding; only glacier T2 changes (0.956 → 0.954), as expected for B = 500 →
+  10,000. The longer runtime per catalogue (≈ 2.43 s vs ≈ 1.79 s for the identical first 500
+  catalogues) points to the machine, not to the model.
 - Nothing frozen changes: `frozen.py`, checksums, the addendum JSON, tags and version are
   untouched. The B = 500 result `dryrun_2036_projection.json` is kept as it was.
 

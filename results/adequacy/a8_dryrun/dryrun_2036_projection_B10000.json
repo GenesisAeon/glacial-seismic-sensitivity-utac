@@ -1,0 +1,48 @@
+{
+ "label": "FUNCTIONAL TEST ONLY - synthetic window, no statement about C2",
+ "seed": 20261023,
+ "n_sim": 10000,
+ "n_boot_glac": 10000,
+ "window_years": 10.001368925393566,
+ "code_path": "streaming (simulate_counts, streamed ogata_ks_bootstrap)",
+ "regions": {
+  "SE_Alaska_AK": {
+   "n_ref": 5442,
+   "n_hist": 2608,
+   "n_win_synthetic": 7581,
+   "b": 0.9129797081614315,
+   "T2_B": 10000,
+   "T2_seconds": 24255.1,
+   "tracemalloc_peak_mb_so_far": 2409.6,
+   "peak_rss_mb_so_far": 2549.1
+  },
+  "Interior_AK_ctrl": {
+   "n_ref": 2098,
+   "n_hist": 287,
+   "n_win_synthetic": 2726,
+   "b": 0.9449801110070761,
+   "T1_sim_count_median": 2582.0,
+   "T1_sim_count_max": 6740,
+   "T1_seconds": 36.2,
+   "T2_B": 10000,
+   "T2_seconds": 2882.0,
+   "tracemalloc_peak_mb_so_far": 2409.6,
+   "peak_rss_mb_so_far": 2549.1
+  }
+ },
+ "p": {
+  "T2_glac": 0.9544045595440456,
+  "T3_glac": 0.004086603562704552,
+  "T1_ctrl": 0.7852,
+  "T2_ctrl": 0.7914208579142086,
+  "T3_ctrl": 0.3254792350373388
+ },
+ "gate": {
+  "L+T3": false,
+  "L": false,
+  "S": true
+ },
+ "seconds_total": 27173.5,
+ "tracemalloc_peak_mb": 2409.6,
+ "peak_rss_mb": 2549.1
+}

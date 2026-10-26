@@ -34,3 +34,6 @@ fetch.log
 
 # v0.2 run log (local)
 results/v02/v02_run.log
+
+# A8 bootstrap checkpoints (run artefacts, resumable; the result JSON is what gets committed)
+results/adequacy/a8_dryrun/checkpoints/

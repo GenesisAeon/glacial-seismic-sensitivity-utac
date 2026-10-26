@@ -27,7 +27,11 @@ decided by the addendum, with sizes established by simulation in AP4.
 
 from __future__ import annotations
 
+import json
+import os
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, TextIO
 
 import numpy as np
 from scipy import special, stats
@@ -240,35 +244,91 @@ def ogata_ks_bootstrap(
     n_boot: int = 200,
     b: float = 1.0,
     seed: int = 0,
+    checkpoint: str | Path | None = None,
+    block: int = 100,
 ) -> OgataKS:
     """Parametric-bootstrap calibrated Ogata KS with mu re-estimated (Lilliefors-correct).
 
     Simulates ``n_boot`` window catalogues from the fitted model (frozen triggering, mu = mu_hat,
     same history), re-estimates mu in each exactly like for the data, and returns
-    p = (1 + #{D_b >= D_obs}) / (1 + B). Catalogues with < 2 events are counted as D_b = 0."""
+    p = (1 + #{D_b >= D_obs}) / (1 + B). Catalogues with < 2 events are counted as D_b = 0.
+
+    ``checkpoint``: optional JSONL file. After every ``block`` catalogues one line with their D_b is
+    appended (flushed and fsynced); a restarted call skips the blocks already there. Catalogue k
+    uses its own seed stream, so the result is bit-identical to an uninterrupted run without a
+    checkpoint. The first line records the run's identity; a file written for other inputs
+    (seed, B, history, window, observed D, mu_hat, b) is refused, never mixed."""
     obs = ogata_ks(hist_t, hist_m, win_t, win_m, window, base)
     if not np.isfinite(obs.ks_stat):
         return obs
-    sims = iter_window(
-        base,
-        hist_t,
-        hist_m,
-        window[0],
-        window[1],
-        n_boot,
-        mu_mode="fixed",
-        mu=obs.mu_hat,
-        b=b,
-        seed=seed,
-    )
+    ht, hm = np.asarray(hist_t, float), np.asarray(hist_m, float)
     d_b = np.zeros(n_boot)
-    for k, (st, sm, _) in enumerate(sims):  # streamed: one catalogue in memory at a time
-        _, n, d, _ = _ks_window(
-            np.concatenate([hist_t, st]), np.concatenate([hist_m, sm]), window, base, None
-        )
-        d_b[k] = d if n >= 2 else 0.0
+
+    def run(k0: int, k1: int) -> None:
+        sims = iter_window(
+            base, ht, hm, window[0], window[1], k1, mu_mode="fixed", mu=obs.mu_hat, b=b,
+            seed=seed, start=k0,
+        )  # fmt: skip
+        # n_sim = k1 keeps catalogue k on the k-th stream (SeedSequence.spawn(n)[k] is free of n)
+        for k, (st, sm, _) in enumerate(sims, start=k0):  # streamed: one catalogue at a time
+            _, n, d, _ = _ks_window(np.concatenate([ht, st]), np.concatenate([hm, sm]), window,
+                                    base, None)  # fmt: skip
+            d_b[k] = d if n >= 2 else 0.0
+
+    if checkpoint is None:
+        run(0, n_boot)
+    else:
+        if block < 1:
+            raise ValueError("block must be >= 1")
+        ident: dict[str, Any] = {"kind": "ogata_ks_bootstrap", "seed": int(seed),
+                 "n_boot": int(n_boot),
+                 "block": int(block), "window": [float(window[0]), float(window[1])],
+                 "n_hist": int(len(ht)), "hist_t_sum": float(ht.sum()),
+                 "hist_m_sum": float(hm.sum()), "n_win": int(obs.n),
+                 "ks_stat": float(obs.ks_stat), "mu_hat": float(obs.mu_hat),
+                 "b": float(b)}  # fmt: skip
+        done = _read_checkpoint(Path(checkpoint), ident, d_b)
+        with open(checkpoint, "a", encoding="utf-8") as fh:
+            if not done and fh.tell() == 0:
+                _write_line(fh, ident)
+            for k0 in range(0, n_boot, block):
+                if k0 in done:
+                    continue
+                k1 = min(k0 + block, n_boot)
+                run(k0, k1)
+                _write_line(fh, {"k0": k0, "k1": k1, "d_b": d_b[k0:k1].tolist()})
     p = (1.0 + float(np.sum(d_b >= obs.ks_stat))) / (1.0 + n_boot)
     return OgataKS(obs.mu_hat, obs.n, obs.ks_stat, obs.p_nominal, p, n_boot)
+
+
+def _write_line(fh: TextIO, obj: dict[str, Any]) -> None:
+    fh.write(json.dumps(obj) + "\n")
+    fh.flush()
+    os.fsync(fh.fileno())
+
+
+def _read_checkpoint(path: Path, ident: dict[str, Any], d_b: np.ndarray) -> set[int]:
+    """Fill ``d_b`` from the finished blocks in ``path``; return their start indices.
+
+    A last line cut off by a crash is ignored (and overwritten by appending after it is dropped)."""
+    if not path.exists() or path.stat().st_size == 0:
+        return set()
+    lines = path.read_text(encoding="utf-8").split("\n")
+    if lines and lines[-1] != "":  # incomplete last line: drop it so appending stays valid JSONL
+        lines = lines[:-1]
+        path.write_text("".join(x + "\n" for x in lines if x), encoding="utf-8")
+    rows = [json.loads(x) for x in lines if x]
+    if not rows or rows[0] != ident:
+        raise ValueError(f"checkpoint {path} belongs to a different run; refusing to mix")
+    done: set[int] = set()
+    for r in rows[1:]:
+        k0, k1 = int(r["k0"]), int(r["k1"])
+        bad = k0 % ident["block"] or k1 != min(k0 + ident["block"], ident["n_boot"])
+        if bad or len(r["d_b"]) != k1 - k0:
+            raise ValueError(f"checkpoint {path}: malformed block {k0}..{k1}")
+        d_b[k0:k1] = r["d_b"]
+        done.add(k0)
+    return done
 
 
 # ---------------------------------------------------------------------------

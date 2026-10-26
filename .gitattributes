@@ -29,3 +29,4 @@ src/glacial_seismic_sensitivity_utac/etas_adequacy/forecast.py -text
 src/glacial_seismic_sensitivity_utac/etas_adequacy/stats.py -text
 src/glacial_seismic_sensitivity_utac/etas_adequacy/gate_sim.py -text
 src/glacial_seismic_sensitivity_utac/etas_adequacy/zone_check.py -text
+results/adequacy/c2_zone_spec.json -text

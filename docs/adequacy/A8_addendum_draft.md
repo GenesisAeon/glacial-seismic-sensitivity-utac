@@ -1,8 +1,7 @@
 # A8 – C2 adequacy gate (draft addendum, P133 etas_adequacy)
 
-Status: **ENTWURF, nicht eingefroren.** This is a draft for Claude's review. Johann decides the
-freeze. Nothing in this file is binding until the freeze steps at the end have been completed
-(before 2027-01-01, the start of the C2 window, `PREREGISTRATION_v0.2.md` sec. 5). The variant
+Status: **eingefroren am 2026-10-26** mit dem zweiten Nachtrag (`PREREGISTRATION_v0.2_NACHTRAG_2.md`, `results/frozen_v04_addendum_2026-10-26.json`). Verbindlich sind der Nachtrag und die JSON; diese Datei ist die eingefrorene Begründung.
+Frozen before 2027-01-01, the start of the C2 window (`PREREGISTRATION_v0.2.md` sec. 5). The variant
 was chosen in `gate_decision.md` (Johann Römer, 2026-10-22), based on AP4b (`gate_power_ap4b.md`,
 commit `7fb8e66`). Merge commit of the work: `4c25596`. A8 is frozen together with A9 (`A9_c2_zone_confirmation_draft.md`,
 C2 confirmation without the 2025 epicentral zone) in one dated addendum.
@@ -137,9 +136,20 @@ Source: `gate_power_ap4b.md` (complete 2026-10-21), protocol `gate_power_ap4b_pr
   10-year synthetic window (glacier T2 with B = 500; control T1/T2 with 10,000). Memory no longer
   grows with the number of simulations; it is set by the largest single catalogue (Ogata KS pairs
   within tmax), so with B = 10,000 the peak can be higher. Glacier T2 with B = 10,000 takes about
-  4.6 h on one core (extrapolated). Plan ≥ 8 GB free RAM for the real evaluation.
+  4.6 h on one core (extrapolated from B = 500); **measured on the run box: 6.7 h (24,255 s), see
+  the addendum below.** Runtime depends on the hardware. Plan ≥ 8 GB free RAM for the real
+  evaluation.
+- **The real evaluation runs only with the resumable bootstrap** (`ogata_ks_bootstrap(...,
+  checkpoint=...)`, merged with PR #11): JSONL checkpoint every 100 catalogues, bit-identical to
+  an uninterrupted run because every catalogue has its own seed stream. Reason: the run box
+  restarted three times during the B = 10,000 dry run (2026-10-24/25), and without checkpoints
+  each restart began again from zero.
+- **T3 rounding guard** (freeze v0.4.0, F1): `m_test_ks2` rounds both magnitude samples to
+  6 decimals before the KS test, so the same binned magnitude in two float representations
+  (2.3000000000000003 vs 2.3) cannot create a systematic tie break. Real-data paths share one
+  representation; all pinned values are unchanged.
 
-### Addendum 2026-10-25: measured glacier T2 with B = 10,000 (ENTWURF)
+### Addendum 2026-10-25: measured glacier T2 with B = 10,000
 
 **FUNCTIONAL TEST ONLY, synthetic window. Not a C2 result; says nothing about C2 or the glacier
 hypothesis.** Same streaming code path, data and seed as `a8_dryrun_2036_projection.md`
@@ -164,6 +174,11 @@ B = 10,000 as the gate uses it (control T1/T2 again 10,000). Result:
 - b-values: with the 2025 sequence b 0.913 (binned n 0.865); without the sequence from
   2025-12-06 (3,027 events) b 0.887 (n 0.889). Information only; the frozen b-value sample
   (A8.2) is unchanged.
+- Reproducibility: control T1 and T2 reproduce the B = 500 run exactly (same seeds: T1_ctrl
+  0.7852, T2_ctrl 0.7914208…), and T3 equals that run's post-check values (0.0041 / 0.325) after
+  the reference rounding; only glacier T2 changes (0.956 → 0.954), as expected for B = 500 →
+  10,000. The longer runtime per catalogue (≈ 2.43 s vs ≈ 1.79 s for the identical first 500
+  catalogues) points to the machine, not to the model.
 - Nothing frozen changes: `frozen.py`, checksums, the addendum JSON, tags and version are
   untouched. The B = 500 result `dryrun_2036_projection.json` is kept as it was.
 
@@ -177,9 +192,9 @@ B = 10,000 as the gate uses it (control T1/T2 again 10,000). Result:
 
 ## Still needed for the freeze (to do, only after Johann's decision)
 
-- [ ] Freeze the b-values: SHA-256 of `b_value_2016_2025.json` confirmed in `frozen.py`
+- [x] Freeze the b-values: SHA-256 of `b_value_2016_2025.json` confirmed in `frozen.py`
       (`B_VALUE_SHA256`) and referenced in the addendum JSON.
-- [ ] Code tag of `etas_adequacy`.
-- [ ] Dated addendum JSON with SHA-256 values, following `results/frozen_v02_addendum_2026-10-10.json`.
-- [ ] Record the value of the one T1/T2 seed in the addendum JSON (rule fixed above; Claude).
-- [ ] Final A8 text (this file without the status ENTWURF).
+- [x] Code tag of `etas_adequacy`: v0.4.0 (set with the release; code SHA-256 in the addendum JSON).
+- [x] Dated addendum JSON with SHA-256 values, following `results/frozen_v02_addendum_2026-10-10.json`.
+- [x] Record the value of the one T1/T2 seed in the addendum JSON (rule fixed above; derived mechanically from the hash of the Nachtrag, see there).
+- [x] Final A8 text (this file without the status ENTWURF).

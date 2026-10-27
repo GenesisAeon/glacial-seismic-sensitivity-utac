@@ -20,3 +20,13 @@ results/adequacy/b_value/** -text
 
 # AP6: 2026 glacier snapshot (hash recorded in snapshot_2026.json) and its fit
 results/adequacy/sequence_term/** -text
+
+# Second Nachtrag (A8 + A9, frozen 2026-10-26): hashed texts and code, byte-exact (LF) everywhere
+docs/adequacy/A8_addendum_draft.md -text
+docs/adequacy/A9_c2_zone_confirmation_draft.md -text
+src/glacial_seismic_sensitivity_utac/etas_adequacy/frozen.py -text
+src/glacial_seismic_sensitivity_utac/etas_adequacy/forecast.py -text
+src/glacial_seismic_sensitivity_utac/etas_adequacy/stats.py -text
+src/glacial_seismic_sensitivity_utac/etas_adequacy/gate_sim.py -text
+src/glacial_seismic_sensitivity_utac/etas_adequacy/zone_check.py -text
+results/adequacy/c2_zone_spec.json -text

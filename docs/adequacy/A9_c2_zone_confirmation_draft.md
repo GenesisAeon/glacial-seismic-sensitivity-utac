@@ -1,6 +1,6 @@
 # A9 – C2: confirmation without the epicentral zone of the 2025-12-06 M6.8 (draft addendum)
 
-Status: **ENTWURF, nicht eingefroren.**
+Status: **eingefroren am 2026-10-26** mit dem zweiten Nachtrag (`PREREGISTRATION_v0.2_NACHTRAG_2.md`, `results/frozen_v04_addendum_2026-10-26.json`). Verbindlich sind der Nachtrag und die JSON; diese Datei ist die eingefrorene Begründung.
 
 - Decision on the content: Johann Römer, 2026-10-23 (chat), after AP6c run 2 (`99ef046`).
 - The freeze happens together with A8 in one dated addendum (second Nachtrag to
@@ -75,9 +75,9 @@ frozen ETAS cannot describe this sequence.
 - The A4 operating rules apply unchanged to the reduced statistic: snapshot archiving, Mc
   homogeneity, the 2026 lead-in as triggers only, and numerics.
 
-## Still needed for the freeze (together with A8, only after Johann's decision)
+## Freeze steps (done 2026-10-26, Johann's decision)
 
-- [ ] Final text (A8 + A9 in one second Nachtrag), without the status ENTWURF.
-- [ ] `results/adequacy/c2_zone_spec.json` with status "frozen" and its SHA-256 in the addendum
+- [x] Final text (A8 + A9 in one second Nachtrag), without the status ENTWURF.
+- [x] `results/adequacy/c2_zone_spec.json` with status "frozen" and its SHA-256 in the addendum
       JSON.
-- [ ] A code tag that includes `zone_check.confirm_c2` (A4.6: reproduction of the released code).
+- [x] A code tag that includes `zone_check.confirm_c2` (A4.6: reproduction of the released code).

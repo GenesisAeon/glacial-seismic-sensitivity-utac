@@ -38,6 +38,15 @@ and ERA5 precipitation, and pre-registers a confirmatory test on data from **Nov
 a strong increase of seasonal sensitivity of small earthquakes since 1990 is unlikely in SE Alaska;
 delayed viscous responses, single large ruptures and volcanic effects are *not* excluded.
 
+## v0.4.0 (released 2026-10-27; second addendum frozen 2026-10-26)
+
+Second Nachtrag to the prospective C2 test (window from 2027-01-01):
+[PREREGISTRATION_v0.2_NACHTRAG_2.md](PREREGISTRATION_v0.2_NACHTRAG_2.md), frozen JSON
+`results/frozen_v04_addendum_2026-10-26.json` (SHA-256 `80525c05…07409c`). **A8:** an ETAS adequacy gate
+(L+T3) decides whether C2 is read at all; one fixed seed, 3698837152, derived from the document hash.
+**A9:** C2 is confirmed without the 55 km zone around the 2025-12-06 M6.8 sequence. Background and power
+studies: [docs/adequacy/](docs/adequacy/).
+
 ## v0.3.0 (released 2026-10-16; preregistration frozen 2026-10-15)
 
 Pre-registered source-discriminator module: [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md)

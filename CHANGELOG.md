@@ -3,6 +3,39 @@
 All notable changes to this project are documented here. Changes to the pre-registered confirmatory
 test (see `PREREGISTRATION.md`) are listed under **Pre-registration amendments** with date and reason.
 
+## [0.4.0] – 2026-10-27
+
+### Pre-registration amendments
+
+- **Second Nachtrag (A8 + A9) frozen on 2026-10-26**, before the C2 window opens (2027-01-01):
+  [PREREGISTRATION_v0.2_NACHTRAG_2.md](PREREGISTRATION_v0.2_NACHTRAG_2.md), machine-readable
+  `results/frozen_v04_addendum_2026-10-26.json` (SHA-256 `80525c05…07409c`).
+  - **A8 – ETAS adequacy gate L+T3** (decision 2026-10-22, `docs/adequacy/gate_decision.md`): control
+    region T1/T2/T3 at p < 0.005, glacier T2/T3 as qualifications; T1 10,000 simulations, T2 bootstrap
+    B = 10,000 (resumable, bit-identical checkpoints), T3 two-sample KS on magnitudes rounded to 6 decimals.
+    One gate seed **3698837152**, derived mechanically from the SHA-256 of the Nachtrag (a test recomputes it).
+  - **A9 – C2 confirmation without the 55 km epicentral zone** of the 2025-12-06 M6.8 sequence
+    (`results/adequacy/c2_zone_spec.json`, frozen; reduced baseline log µ 3.99831, σ 0.38896).
+
+### Added
+
+- `etas_adequacy` package (AP0–AP6c): loader with SHA checks, N/M/L/LL tests, Ogata-KS with bootstrap,
+  gate simulation, power/false-alarm study (AP4/AP4b), sequence-tail analysis (AP5/AP6), resumable
+  checkpoints. Reports in `docs/adequacy/`.
+- `tests/test_v04_addendum.py`: unchanged-file hashes, frozen new files and code, A8 vs. code, A9 vs. spec,
+  seed derivation; a one-byte change to any frozen file fails the suite.
+
+### Fixed
+
+- `stats.m_test_ks2` rounds both magnitude samples to 6 decimals, so binned magnitudes no longer differ by
+  floating-point representation (regression test fails on the old code).
+- `.gitattributes`: frozen texts and code are byte-exact (`-text`, LF) on every checkout, including Windows.
+
+### Unchanged
+
+- No previously frozen file (C1, C2, M1–M7, first addendum, v0.3 preregistration) changed.
+- After release: v0.4.0 DOI in `CITATION.cff` and READMEs.
+
 ## [0.3.0] – 2026-10-16
 
 ### Added

@@ -39,6 +39,15 @@ starker Anstieg der saisonalen Empfindlichkeit kleiner Beben seit 1990 ist in SE
 unwahrscheinlich. Verzögerte viskose Antworten, einzelne große Brüche und vulkanische Effekte sind
 *nicht* ausgeschlossen.
 
+## v0.4.0 (veröffentlicht am 2026-10-27; zweiter Nachtrag eingefroren am 2026-10-26)
+
+Zweiter Nachtrag zum prospektiven C2-Test (Fenster ab 2027-01-01):
+[PREREGISTRATION_v0.2_NACHTRAG_2.md](PREREGISTRATION_v0.2_NACHTRAG_2.md), eingefrorene JSON
+`results/frozen_v04_addendum_2026-10-26.json` (SHA-256 `80525c05…07409c`). **A8:** Ein ETAS-Eignungs-Gate
+(L+T3) entscheidet, ob C2 überhaupt gelesen wird; ein fester Seed, 3698837152, mechanisch aus dem
+Dokument-Hash abgeleitet. **A9:** C2 wird ohne die 55-km-Zone um die M6,8-Sequenz vom 2025-12-06 bestätigt.
+Hintergrund und Trennschärfe: [docs/adequacy/](docs/adequacy/).
+
 ## v0.3.0 (veröffentlicht am 2026-10-16; Präregistrierung eingefroren am 2026-10-15)
 
 Präregistriertes Modul zur Quellen-Unterscheidung: [PREREGISTRATION_v0.3.md](PREREGISTRATION_v0.3.md)
